@@ -77,25 +77,25 @@ Vel geom::size() const
 }
 
 // Kolekcijski metod za pocetak matrice
-Tip::const_iterator geom::begin() const noexcept
+Iter geom::begin() const noexcept
 {
     return std::begin(this->_mat);
 }
 
 // Kolekcijski metod za const pocetak matrice
-Tip::const_iterator geom::cbegin() const noexcept
+Iter geom::cbegin() const noexcept
 {
     return std::cbegin(this->_mat);
 }
 
 // Kolekcijski metod za kraj matrice
-Tip::const_iterator geom::end() const noexcept
+Iter geom::end() const noexcept
 {
     return std::end(this->_mat);
 }
 
 // Kolekcijski metod za const kraj matrice
-Tip::const_iterator geom::cend() const noexcept
+Iter geom::cend() const noexcept
 {
     return std::cend(this->_mat);
 }

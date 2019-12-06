@@ -151,7 +151,7 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
 
         WHEN("Stepenovanje neutrala"){
             for (auto i = 0; i <= 10; i++){
-                REQUIRE((g^=i) == g);
+                REQUIRE((g^i) == g);
             }
         }
 
