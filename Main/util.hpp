@@ -24,7 +24,7 @@ bool jednakost(const Objekat&, const Objekat&,
                const Tolerancija& = nullptr);
 
 // Sablonska fja za jednakost dva objekta
-// koji su [rekurzivne] kolekcije (vektori,
+// koji su kolekcije iz vise nivoa (vektori,
 // vektori vektora ili cak vektori vektora
 // vektora vektora...) sablonskih vrednosti
 // sa prosledjenom tolerancijom na gresku;
@@ -35,7 +35,7 @@ template <typename Kolekcija, typename Tolerancija,
 inline bool jednakost(const Kolekcija& a,
                       const Kolekcija& b,
                       const Tolerancija& tol,
-                      B*)
+                      const B* const)
 {
     // Kolekcije su jednake ukoliko su jednake
     // duzine i skalarni proizvod im je true
@@ -64,7 +64,8 @@ template <typename Objekat,
           typename Tolerancija = Objekat>
 inline bool jednakost(const Objekat& a,
                       const Objekat& b,
-                      const Tolerancija& tol, A*)
+                      const Tolerancija& tol,
+                      const A* const)
 {
   return std::abs(a-b) < tol;
 }
@@ -75,7 +76,8 @@ template <typename Objekat>
 inline bool jednakost(const Objekat& a,
                       const Objekat& b,
                       // Tolerancija == nullptr
-                      std::nullptr_t, A*)
+                      const std::nullptr_t,
+                      const A* const)
 {
   return a == b;
 }
@@ -95,7 +97,7 @@ inline bool jednakost(const Objekat& a,
                       const Objekat& b,
                       const Tolerancija& tol)
 {
-  return jednakost(a, b, tol, static_cast<B*>(nullptr));
+  return jednakost(a, b, tol, static_cast<const B* const>(nullptr));
 }
 
 // Verzija sablona bez tolerancije; ona se zamenjuje
@@ -104,7 +106,7 @@ inline bool jednakost(const Objekat& a,
 template <typename Objekat>
 inline bool jednakost(const Objekat& a, const Objekat& b)
 {
-  return jednakost(a, b, nullptr, static_cast<B*>(nullptr));
+  return jednakost(a, b, nullptr, static_cast<const B* const>(nullptr));
 }
 
 // Sablonska fja za mnozenje ovde bitnih
@@ -157,7 +159,7 @@ MatNeConst mult(Matrica&& a, Matrica&& b)
 template <typename Matrica,
           typename MatNeRef = typename std::remove_reference<Matrica>::type,
           typename MatNeConst = typename std::remove_const<MatNeRef>::type>
-MatNeConst pow(Matrica&& baza, int exp)
+MatNeConst pow(Matrica&& baza, const int exp)
 {
     // Jedinicna transformacija
     MatNeConst rez;
@@ -166,7 +168,7 @@ MatNeConst pow(Matrica&& baza, int exp)
     MatNeConst arg = std::forward<Matrica>(baza);
 
     // Pozitivan stepen
-    int j = std::abs(exp);
+    auto j = std::abs(exp);
 
     // Dok se ne iscrpi stepen
     while (j > 0){
@@ -177,10 +179,10 @@ MatNeConst pow(Matrica&& baza, int exp)
         }
 
         // Deljenje stepena sa dva
-        j = j >> 1;
+        j >>= 1;
 
         // Kvadriranje argumenta
-        arg = arg * arg;
+        arg *= arg;
     }
 
     // Vracanje rezultata; inverzija u

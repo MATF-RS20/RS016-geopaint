@@ -4,7 +4,7 @@
 
 int main()
 {
-    geom::geom g;
+    const geom::geom g;
 
-    std::cout << g << std::endl;
+    std::cout << 2*g << std::endl;
 }

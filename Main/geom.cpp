@@ -275,7 +275,7 @@ geom::Citac::Citac(geom& g, const Vel i)
 {}
 
 // Upisivanje brojeva po zapeti
-geom::Citac geom::Citac::operator,(const Elem x)
+geom::Citac geom::Citac::operator,(const Elem x) const
 {
     // Provera indeksa
     if (i >= g._size*g._size){

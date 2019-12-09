@@ -289,9 +289,9 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
     GIVEN("Preslikavanje i niz indeksa"){
         geom::geom g;
 
-        auto i = GENERATE_COPY(0ull, std::size(g)/2, std::size(g)-1);
+        auto i = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
             WHEN("Postoji par indeksa"){
-                auto j = GENERATE_COPY(0ull, std::size(g)/2, std::size(g)-1);
+                auto j = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
                 CHECK_NOTHROW(g[i]);
 
                 SECTION("Mora biti konstantna vrednost"){
@@ -304,8 +304,8 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
             }
 
         auto niz = {std::size(g), std::size(g)+1, std::size(g)+100};
-        for (auto i : niz){
-            for (auto j : niz){
+        for (const auto& i : niz){
+            for (const auto& j : niz){
                 CHECK_THROWS_AS(g[i], std::out_of_range);
                 CHECK_THROWS_AS(g[i][i], std::out_of_range);
                 REQUIRE_THROWS_AS(g[i][j], std::out_of_range);

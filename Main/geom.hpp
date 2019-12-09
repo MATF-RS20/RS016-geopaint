@@ -92,9 +92,9 @@ public:
     // Mnozenje numerickom vrednoscu zdesna
     template <typename Num,
               std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    geom operator*(Num broj)
+    geom operator*(Num&& broj) const
     {
-        return broj * *this;
+        return std::forward<Num>(broj) * *this;
     }
 
     // Operator mnozenja sa dodelom
@@ -103,9 +103,9 @@ public:
     // Mnozenje numerickom vrednoscu zdesna sa dodelom
     template <typename Num,
               std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    geom& operator*=(Num broj)
+    geom& operator*=(Num&& broj)
     {
-        return *this = broj * *this;
+        return *this = std::forward<Num>(broj) * *this;
     }
 
     // Operator stepenovanja
@@ -151,7 +151,7 @@ public:
         Citac(geom&, Vel);
 
         // Zapeta za upis
-        Citac operator,(const Elem);
+        Citac operator,(const Elem) const;
     };
 
     // Pocetni upis
@@ -183,7 +183,7 @@ private:
 };
 
 // Staticka verzija fje za inverz
-geom inv(geom& g, const bool = false);
+geom inv(geom&, const bool = false);
 
 // Operator ispisa na izlazni tok
 std::ostream& operator<<(std::ostream&, const geom&);
@@ -196,7 +196,7 @@ std::istream& operator>>(std::istream&, geom&);
 // vrednost (is_arithmetic): integralne i realne
 template <typename Num,
           std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-geom operator*(Num a, const geom& b)
+geom operator*(Num&& a, const geom& b)
 {
     // Inicijalizacija rezultata;
     // on je matrica transformacije
@@ -209,7 +209,8 @@ geom operator*(Num a, const geom& b)
                        // Red = rezultat
                        std::begin(rez[i]),
                        // Mnozenje sleva
-                       std::bind(std::multiplies<>(), a,
+                       std::bind(std::multiplies<>(),
+                                 std::forward<Num>(a),
                                  std::placeholders::_1));
     }
 

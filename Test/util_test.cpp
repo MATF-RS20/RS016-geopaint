@@ -3,7 +3,7 @@
 #include "../Main/util.hpp"
 #include "../Main/geom.hpp"
 
-static auto tol = 1e-5;
+static const auto tol = 1e-5;
 
 SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     GIVEN("Popunjene kolekcije"){
@@ -152,6 +152,7 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
         WHEN("Stepenovanje neutrala"){
             for (auto i = 0; i <= 10; i++){
                 REQUIRE((g^i) == g);
+                REQUIRE((g.pow(i)) == g);
             }
         }
 
@@ -161,10 +162,12 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
 
         WHEN("Stepenovanje nulom"){
             REQUIRE((k^0) == g);
+            REQUIRE((k.pow(0)) == g);
         }
 
         WHEN("Stepenovanje jedinicom"){
             REQUIRE((k^1) == k);
+            REQUIRE((k.pow(1)) == k);
         }
 
         CHECK((k^2) == geom::geom{{1, 0, 2},
@@ -173,6 +176,8 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
 
         g = k;
         k ^= 2;
+        k.pow(-1, true);
+        k.pow(-1, true);
 
         CHECK(g*k == geom::geom{{1, 0, 3},
                                 {0, 1, 3},
