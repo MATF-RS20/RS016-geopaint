@@ -5,8 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
         geom.cpp \
-        main.cpp
+        main.cpp \
+        tacka.cpp
 
 HEADERS += \
         geom.hpp \
+        tacka.hpp \
         util.hpp

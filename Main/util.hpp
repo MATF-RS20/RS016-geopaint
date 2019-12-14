@@ -10,6 +10,39 @@
 namespace util
 {
 
+// Struktura koja od == i <, prateci princip potpunog
+// uredjenja (total ordering), implementira preostale
+// relacione operatore: !=, <=, >, >=
+template <typename T>
+struct total_order
+{
+    // Razlicitost je negacija jednakosti
+    bool operator!=(const T& dr) const
+    {
+        return !(static_cast<const T&>(*this) == dr);
+    }
+
+    // Manje ili jednako se proverava disjunkcijom
+    bool operator<=(const T& dr) const
+    {
+        return static_cast<const T&>(*this) < dr ||
+               static_cast<const T&>(*this) == dr;
+    }
+
+    // Vece se proverava konjunkcijom negacija
+    bool operator>(const T& dr) const
+    {
+        return !(static_cast<const T&>(*this) < dr) &&
+               !(static_cast<const T&>(*this) == dr);
+    }
+
+    // Vece ili jednako je negacija manjeg
+    bool operator>=(const T& dr) const
+    {
+        return !(static_cast<const T&>(*this) < dr);
+    }
+};
+
 // Dve prazne strukture, za koje je
 // bitno da su u odnosu nasledjivanja
 struct A {};
@@ -188,6 +221,45 @@ MatNeConst pow(Matrica&& baza, const int exp)
     // Vracanje rezultata; inverzija u
     // slucaju negativnog polaznog stepena
     return exp >= 0 ? rez : rez.inv();
+}
+
+// Sablonska fja za primenu binarne operacije
+// nad ovde bitnim objektima poput tacaka
+template <typename Levo,
+          typename Desno,
+          typename DesnoNeRef = typename std::remove_reference<Desno>::type,
+          typename DesnoNeConst = typename std::remove_const<DesnoNeRef>::type,
+          typename BinOp>
+DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
+{
+    // Odredjivanje tipa elemenata tacke;
+    // nama je podrazumevano double, ali lepo
+    // je da funkcija bude sto generickija;
+    // dakle, uzima se tip prvog elementa
+    // i skidaju mu se referenca i const
+    using Tip = typename std::remove_const<typename std::remove_reference
+                                  <decltype(b[0])>::type>::type;
+
+    // Isto tako odredjivanje velicine
+    auto vel = std::size(b);
+
+    // Inicijalizacija rezultata;
+    // on je vektor polazne tacke
+    auto rez = std::vector<Tip>(vel, 1);
+
+    // Operacija nad prvim elementima
+    std::transform(std::cbegin(b),
+                   std::cend(b)-1,
+                   // Upis u rezultat
+                   std::begin(rez),
+                   // Operacija sleva
+                   std::bind(std::forward<BinOp>(operacija),
+                             std::forward<Levo>(a),
+                             std::placeholders::_1));
+
+    // Vracanje rezultata; eksplicitno pomeranje
+    // kako bi se isforsirala optimizacija (RVO)
+    return std::move(rez);
 }
 
 }

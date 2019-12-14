@@ -16,6 +16,7 @@ namespace geom
 using Tip = std::vector<std::vector<double>>;
 using Iter = Tip::const_iterator;
 using PodTip = Tip::value_type;
+using PodIter = PodTip::const_iterator;
 using Elem = PodTip::value_type;
 using Vel = Tip::size_type;
 
