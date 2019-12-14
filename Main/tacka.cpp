@@ -2,10 +2,11 @@
 #include <iterator>
 #include "tacka.hpp"
 
-// Imenski prostor tacke
+// Imenski prostor za geometriju
 namespace geom
 {
 
+// Konstruktor od dve vrednosti
 tacka::tacka(Elem x, Elem y)
     : _mat({x, y, 1})
 {
@@ -13,6 +14,7 @@ tacka::tacka(Elem x, Elem y)
     proveri();
 }
 
+// Konstruktor od tri vrednosti
 tacka::tacka(Elem x, Elem y, Elem z)
     : _mat({x, y, z})
 {
@@ -402,6 +404,5 @@ inline void proverim(const Tip& v)
         throw Exc("Matrica nije ranga 1!");
     }
 }
-
 
 }

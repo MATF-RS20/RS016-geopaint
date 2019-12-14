@@ -6,7 +6,7 @@
 #include <numeric>
 #include <functional>
 
-// Imenski prostor preslikavanja
+// Imenski prostor za geometriju
 namespace geom{
 
 // Konstruktor posebnog izuzetka

@@ -4,7 +4,7 @@
 #include "geom.hpp"
 #include "util.hpp"
 
-// Imenski prostor preslikavanja
+// Imenski prostor za geometriju
 namespace geom
 {
 

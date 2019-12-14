@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <functional>
 
-// Imenski prostor preslikavanja; namenjen je
-// za implementaciju klase i povezanih metoda
+// Imenski prostor za geometriju; namenjen je
+// za implementaciju klasa i povezanih metoda
 namespace geom
 {
 
