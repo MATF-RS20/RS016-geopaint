@@ -195,11 +195,23 @@ geom geom::operator*(const geom& dr) const
     return util::mult(*this, dr);
 }
 
+// Mnozenje numerickom vrednoscu zdesna
+geom geom::operator*(const double broj) const
+{
+    return broj * *this;
+}
+
 // Operator mnozenja sa dodelom; ne cini
 // mi se da je moguca ikakva optimizacija
 geom& geom::operator*=(const geom& dr)
 {
     return *this = *this * dr;
+}
+
+// Mnozenje numerickom vrednoscu zdesna sa dodelom
+geom& geom::operator*=(const double broj)
+{
+    return *this = broj * *this;
 }
 
 // Operator stepenovanja; koristi se logaritamski
@@ -370,6 +382,30 @@ std::istream& operator>>(std::istream& in, geom& g)
 geom inv(geom& g, const bool inplace)
 {
     return g.inv(inplace);
+}
+
+// Mmnozenje numerickom vrednoscu sleva;
+geom operator*(const double broj, const geom& g)
+{
+    // Inicijalizacija rezultata;
+    // on je matrica transformacije
+    auto rez = static_cast<Tip>(g.mat());
+
+    // Mnozenje prvih redova
+    for (Vel i = 0; i < std::size(rez)-1; i++){
+        std::transform(std::cbegin(rez[i]),
+                       std::cend(rez[i]),
+                       // Red = rezultat
+                       std::begin(rez[i]),
+                       // Mnozenje sleva
+                       std::bind(std::multiplies<>(),
+                                 broj,
+                                 std::placeholders::_1));
+    }
+
+    // Vracanje rezultata; eksplicitno pomeranje
+    // kako bi se isforsirala optimizacija (RVO)
+    return std::move(rez);
 }
 
 }

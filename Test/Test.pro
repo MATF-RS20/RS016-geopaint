@@ -7,7 +7,8 @@ SOURCES += \
         geom_test.cpp \
         main.cpp \
         util_test.cpp \
-        "../Main/geom.cpp"
+        "../Main/geom.cpp" \
+        "../Main/tacka.cpp"
 
 HEADERS += \
         catch.hpp

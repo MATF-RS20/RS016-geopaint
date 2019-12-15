@@ -2,8 +2,47 @@
 
 #include "../Main/util.hpp"
 #include "../Main/geom.hpp"
+#include "../Main/tacka.hpp"
 
 static const auto tol = 1e-5;
+
+SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
+    GIVEN("Neke uredjene tacke"){
+        std::vector<geom::tacka> v{{1, 1},
+                                   {1, 1},
+                                   {1, 2},
+                                   {2, 1},
+                                   {2, 2}};
+
+        for (geom::Vel i = 0; i < std::size(v); i++){
+            CHECK(v[i] == v[i]);
+            CHECK(v[i] <= v[i]);
+            CHECK(v[i] >= v[i]);
+
+            CHECK_FALSE(v[i] != v[i]);
+            CHECK_FALSE(v[i] < v[i]);
+            CHECK_FALSE(v[i] > v[i]);
+        }
+
+        for (geom::Vel i = std::size(v)-1; i > 1; i--){
+            CHECK(v[i] != v[i-1]);
+            CHECK(v[i] > v[i-1]);
+            CHECK(v[i] >= v[i-1]);
+
+            CHECK_FALSE(v[i] == v[i-1]);
+            CHECK_FALSE(v[i] < v[i-1]);
+            CHECK_FALSE(v[i] <= v[i-1]);
+        }
+
+        CHECK(v[0] == v[1]);
+        CHECK(v[0] <= v[1]);
+        CHECK(v[0] >= v[1]);
+
+        CHECK_FALSE(v[0] != v[1]);
+        CHECK_FALSE(v[0] < v[1]);
+        REQUIRE_FALSE(v[0] > v[1]);
+    }
+}
 
 SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     GIVEN("Popunjene kolekcije"){
@@ -194,5 +233,23 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
             CHECK_THROWS_AS(m.inv(), geom::Exc);
             REQUIRE_THROWS_AS(m^-5, geom::Exc);
         }
+    }
+}
+
+SCENARIO("Moguce je primenjivati binarne operacije na tacke", "[primeni]"){
+    GIVEN("Neka tacka i operacija"){
+        geom::tacka t{1, 2};
+
+        CHECK(2+t == geom::tacka{3, 4});
+        CHECK(t+2 == geom::tacka{3, 4});
+
+        CHECK(2-t == geom::tacka{1, 0});
+        CHECK(t-2 == geom::tacka{-1, 0});
+
+        CHECK(2*t == geom::tacka{2, 4});
+        CHECK(t*2 == geom::tacka{2, 4});
+
+        CHECK(2/t == geom::tacka{2, 1});
+        CHECK(t/2 == geom::tacka{0.5, 1});
     }
 }

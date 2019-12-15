@@ -91,23 +91,13 @@ public:
     geom operator*(const geom&) const;
 
     // Mnozenje numerickom vrednoscu zdesna
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    geom operator*(Num&& broj) const
-    {
-        return std::forward<Num>(broj) * *this;
-    }
+    geom operator*(const double) const;
 
     // Operator mnozenja sa dodelom
     geom& operator*=(const geom&);
 
     // Mnozenje numerickom vrednoscu zdesna sa dodelom
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    geom& operator*=(Num&& broj)
-    {
-        return *this = std::forward<Num>(broj) * *this;
-    }
+    geom& operator*=(const double);
 
     // Operator stepenovanja
     geom operator^(const int) const;
@@ -192,33 +182,8 @@ std::ostream& operator<<(std::ostream&, const geom&);
 // Operator citanja sa ulaznog toka
 std::istream& operator>>(std::istream&, geom&);
 
-// Operator za mnozenje numerickom vrednoscu sleva;
-// ukljucen je (enable_if_t) samo za aritmeticke
-// vrednost (is_arithmetic): integralne i realne
-template <typename Num,
-          std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-geom operator*(Num&& a, const geom& b)
-{
-    // Inicijalizacija rezultata;
-    // on je matrica transformacije
-    auto rez = static_cast<Tip>(b.mat());
-
-    // Mnozenje prvih redova
-    for (Vel i = 0; i < std::size(rez)-1; i++){
-        std::transform(std::cbegin(rez[i]),
-                       std::cend(rez[i]),
-                       // Red = rezultat
-                       std::begin(rez[i]),
-                       // Mnozenje sleva
-                       std::bind(std::multiplies<>(),
-                                 std::forward<Num>(a),
-                                 std::placeholders::_1));
-    }
-
-    // Vracanje rezultata; eksplicitno pomeranje
-    // kako bi se isforsirala optimizacija (RVO)
-    return std::move(rez);
-}
+// Mnozenje numerickom vrednoscu sleva
+geom operator*(const double, const geom&);
 
 }
 

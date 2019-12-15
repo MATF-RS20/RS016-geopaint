@@ -61,24 +61,14 @@ public:
     // Operator sabiranja
     tacka operator+(const tacka&) const;
 
-    // Sabiranje sa numerickom vrednoscu zdesna
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka operator+(Num&& broj) const
-    {
-        return std::forward<Num>(broj) + *this;
-    }
+    // Sabiranje sa numerickom vrednoscu
+    tacka operator+(const double) const;
 
     // Operator sabiranja sa dodelom
     tacka& operator+=(const tacka&);
 
-    // Sabiranje sa numerickom vrednoscu zdesna sa dodelom
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka& operator+=(Num&& broj)
-    {
-        return *this = std::forward<Num>(broj) + *this;
-    }
+    // Sabiranje sa numerickom vrednoscu sa dodelom
+    tacka& operator+=(const double);
 
     // Unarna negacija
     tacka operator-() const;
@@ -87,55 +77,25 @@ public:
     tacka operator-(const tacka&) const;
 
     // Oduzimanje numericke vrednosti
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka operator-(Num&& broj) const
-    {
-        return -std::forward<Num>(broj) + *this;
-    }
+    tacka operator-(const double) const;
 
     // Operator oduzimanja sa dodelom
     tacka& operator-=(const tacka&);
 
     // Oduzimanje numericke vrednosti sa dodelom
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka& operator-=(Num&& broj)
-    {
-        return *this = -std::forward<Num>(broj) + *this;
-    }
+    tacka& operator-=(const double);
 
-    // Mnozenje numerickom vrednoscu zdesna
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka operator*(Num&& broj) const
-    {
-        return std::forward<Num>(broj) * *this;
-    }
+    // Mnozenje numerickom vrednoscu
+    tacka operator*(const double) const;
 
-    // Mnozenje numerickom vrednoscu zdesna sa dodelom
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka& operator*=(Num&& broj)
-    {
-        return *this = std::forward<Num>(broj) * *this;
-    }
+    // Mnozenje numerickom vrednoscu sa dodelom
+    tacka& operator*=(const double);
 
     // Deljenje numerickom vrednoscu
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka operator/(Num&& broj) const
-    {
-        return 1/std::forward<Num>(broj) * *this;
-    }
+    tacka operator/(const double) const;
 
     // Deljenje numerickom vrednoscu sa dodelom
-    template <typename Num,
-              std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-    tacka& operator/=(Num&& broj)
-    {
-        return *this = 1/std::forward<Num>(broj) * *this;
-    }
+    tacka& operator/=(const double);
 
     // Operator jednakosti
     bool operator==(const tacka&) const;
@@ -214,47 +174,17 @@ std::istream& operator>>(std::istream&, tacka&);
 // Operator za mnozenje matrice i tacke
 tacka operator*(const geom&, const tacka&);
 
-// Operator za sabiranje sa numerickom vrednoscu;
-// ukljucen je (enable_if_t) samo za aritmeticke
-// vrednost (is_arithmetic): integralne i realne
-template <typename Num,
-          std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-tacka operator+(Num&& a, const tacka& b)
-{
-    return std::move(util::primeni(std::forward<Num>(a),
-                                   b,
-                                   std::plus<>()));
-}
+// Operator za sabiranje sa numerickom vrednoscu
+tacka operator+(const double, const tacka&);
 
 // Operator za oduzimanje numericke vrednosti
-template <typename Num,
-          std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-tacka operator-(Num&& a, const tacka& b)
-{
-    return std::move(util::primeni(std::forward<Num>(a),
-                                   -b,
-                                   std::plus<>()));
-}
+tacka operator-(const double, const tacka&);
 
 // Operator za mnozenje numerickom vrednoscu
-template <typename Num,
-          std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-tacka operator*(Num&& a, const tacka& b)
-{
-    return std::move(util::primeni(std::forward<Num>(a),
-                                   b,
-                                   std::multiplies<>()));
-}
+tacka operator*(const double, const tacka&);
 
 // Operator za deljenje numerickom vrednoscu
-template <typename Num,
-          std::enable_if_t<std::is_arithmetic<Num>::value, Num> = 0>
-tacka operator/(Num&& a, const tacka& b)
-{
-    return std::move(util::primeni(std::forward<Num>(a),
-                                   tacka(1/b[0], 1/b[1], 1),
-                                   std::multiplies<>()));
-}
+tacka operator/(const double, const tacka&);
 
 // Provera korektnosti matrice
 void proverim(const Tip&);

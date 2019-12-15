@@ -148,11 +148,27 @@ tacka tacka::operator+(const tacka& dr) const
     return t;
 }
 
+// Sabiranje sa numerickom vrednoscu
+tacka tacka::operator+(const double broj) const
+{
+    return broj + *this;
+}
+
 // Operator sabiranja sa dodelom
 tacka& tacka::operator+=(const tacka& dr)
 {
     for (Vel i = 0; i < _size-1; i++){
         this->_mat[i] += dr._mat[i];
+    }
+
+    return *this;
+}
+
+// Sabiranje sa numerickom vrednoscu sa dodelom
+tacka& tacka::operator+=(const double broj)
+{
+    for (Vel i = 0; i < _size-1; i++){
+        this->_mat[i] += broj;
     }
 
     return *this;
@@ -182,11 +198,59 @@ tacka tacka::operator-(const tacka& dr) const
     return t;
 }
 
+// Oduzimanje numericke vrednosti
+tacka tacka::operator-(const double broj) const
+{
+    return -broj + *this;
+}
+
 // Operator oduzimanja sa dodelom
 tacka& tacka::operator-=(const tacka& dr)
 {
     for (Vel i = 0; i < _size-1; i++){
         this->_mat[i] -= dr._mat[i];
+    }
+
+    return *this;
+}
+
+// Oduzimanje numericke vrednosti sa dodelom
+tacka& tacka::operator-=(const double broj)
+{
+    for (Vel i = 0; i < _size-1; i++){
+        this->_mat[i] -= broj;
+    }
+
+    return *this;
+}
+
+// Mnozenje numerickom vrednoscu
+tacka tacka::operator*(const double broj) const
+{
+    return broj * *this;
+}
+
+// Mnozenje numerickom vrednoscu sa dodelom
+tacka& tacka::operator*=(const double broj)
+{
+    for (Vel i = 0; i < _size-1; i++){
+        this->_mat[i] *= broj;
+    }
+
+    return *this;
+}
+
+// Deljenje numerickom vrednoscu
+tacka tacka::operator/(const double broj) const
+{
+    return 1/broj * *this;
+}
+
+// Deljenje numerickom vrednoscu sa dodelom
+tacka& tacka::operator/=(const double broj)
+{
+    for (Vel i = 0; i < _size-1; i++){
+        this->_mat[i] /= broj;
     }
 
     return *this;
@@ -394,6 +458,38 @@ tacka operator*(const geom& g, const tacka& t)
     // Vracanje rezultata; eksplicitno pomeranje
     // kako bi se isforsirala optimizacija (RVO)
     return std::move(rez);
+}
+
+// Operator za sabiranje sa numerickom vrednoscu
+tacka operator+(const double broj, const tacka& t)
+{
+    return util::primeni(broj,
+                         t,
+                         std::plus<>());
+}
+
+// Operator za oduzimanje numericke vrednosti
+tacka operator-(const double broj, const tacka& t)
+{
+    return util::primeni(broj,
+                         -t,
+                         std::plus<>());
+}
+
+// Operator za mnozenje numerickom vrednoscu
+tacka operator*(const double broj, const tacka& t)
+{
+    return util::primeni(broj,
+                         t,
+                         std::multiplies<>());
+}
+
+// Operator za deljenje numerickom vrednoscu
+tacka operator/(const double broj, const tacka& t)
+{
+    return util::primeni(broj,
+                         tacka(1/t[0], 1/t[1], 1),
+                         std::multiplies<>());
 }
 
 // Provera korektnosti matrice

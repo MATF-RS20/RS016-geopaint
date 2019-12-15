@@ -48,9 +48,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
         }
 
         WHEN("R-value"){
-            REQUIRE_NOTHROW((geom::geom{{1, 1, 1},
-                                        {1, 1, 1},
-                                        {0, 0, 1}}));
+            REQUIRE_NOTHROW((geom::geom(geom::Tip{{1, 1, 1},
+                                                  {1, 1, 1},
+                                                  {0, 0, 1}})));
         }
 
         WHEN("Move ctor"){
@@ -65,22 +65,45 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                       {1, 1, 1},
                       {0, 0, 0}};
 
+        geom::Tip mat1{{1, 1, 1},
+                       {1, 1},
+                       {0, 0, 1}};
+
+        geom::Tip mat2{{1, 1, 1},
+                       {1, 1, 1}};
+
         WHEN("L-value"){
-            REQUIRE_THROWS_AS(geom::geom(mat), geom::Exc);
+            CHECK_THROWS_AS(geom::geom(mat), geom::Exc);
+            CHECK_THROWS_AS(geom::geom(mat1), geom::Exc);
+            REQUIRE_THROWS_AS(geom::geom(mat2), geom::Exc);
         }
 
         WHEN("R-value"){
-            REQUIRE_THROWS_AS((geom::geom{{1, 1, 1},
-                                          {1, 1, 1},
-                                          {0, 0, 0}}),
+            CHECK_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
+                                                  {1, 1, 1},
+                                                  {0, 0, 0}})),
+                            geom::Exc);
+            CHECK_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
+                                                  {1, 1},
+                                                  {0, 0, 1}})),
+                            geom::Exc);
+            REQUIRE_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
+                                                    {1, 1, 1}})),
                               geom::Exc);
         }
 
         WHEN("Move ctor"){
             REQUIRE_THROWS_AS(geom::geom(std::move(mat)),
                               geom::Exc);
+            CHECK(mat.empty());
 
-            REQUIRE(mat.empty());
+            REQUIRE_THROWS_AS(geom::geom(std::move(mat1)),
+                              geom::Exc);
+            CHECK(mat1.empty());
+
+            REQUIRE_THROWS_AS(geom::geom(std::move(mat2)),
+                              geom::Exc);
+            REQUIRE(mat2.empty());
         }
     }
 
@@ -102,15 +125,15 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
         }
 
         WHEN("R-value"){
-            REQUIRE_NOTHROW((geom::geom({1, 1, 1},
+            REQUIRE_NOTHROW((geom::geom{{1, 1, 1},
                                         {1, 1, 1},
-                                        {0, 0, 1})));
+                                        {0, 0, 1}}));
         }
 
         WHEN("Move ctor"){
-            geom::geom g(std::move(mat[0]),
+            geom::geom g{std::move(mat[0]),
                          std::move(mat[1]),
-                         std::move(mat[2]));
+                         std::move(mat[2])};
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
                 REQUIRE(mat[i].empty());
@@ -124,23 +147,23 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                       {1, 0, 1}};
 
         WHEN("L-value"){
-            REQUIRE_THROWS_AS(geom::geom(mat[0],
-                                         mat[1],
-                                         mat[2]),
+            REQUIRE_THROWS_AS((geom::geom{mat[0],
+                                          mat[1],
+                                          mat[2]}),
                               geom::Exc);
         }
 
         WHEN("R-value"){
-            REQUIRE_THROWS_AS((geom::geom({1, 1, 1},
+            REQUIRE_THROWS_AS((geom::geom{{1, 1, 1},
                                           {1, 1, 1},
-                                          {1, 0, 1})),
+                                          {1, 0, 1}}),
                               geom::Exc);
         }
 
         WHEN("Move ctor"){
-            REQUIRE_THROWS_AS(geom::geom(std::move(mat[0]),
-                                         std::move(mat[1]),
-                                         std::move(mat[2])),
+            REQUIRE_THROWS_AS((geom::geom{std::move(mat[0]),
+                                          std::move(mat[1]),
+                                          std::move(mat[2])}),
                               geom::Exc);
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
@@ -278,9 +301,14 @@ SCENARIO("Moguce je dodeljivati preslikavanja", "[dodela]"){
             CHECK_THROWS_AS(g = b, geom::Exc);
             CHECK_THROWS_AS(g = c, geom::Exc);
 
-            CHECK_THROWS_AS(g = std::move(a), geom::Exc);
-            CHECK_THROWS_AS(g = std::move(b), geom::Exc);
+            REQUIRE_THROWS_AS(g = std::move(a), geom::Exc);
+            CHECK(a.empty());
+
+            REQUIRE_THROWS_AS(g = std::move(b), geom::Exc);
+            CHECK(b.empty());
+
             REQUIRE_THROWS_AS(g = std::move(c), geom::Exc);
+            REQUIRE(c.empty());
         }
     }
 }
@@ -400,9 +428,9 @@ SCENARIO("Moguce je mnozenje numerickom vrednoscu", "[mult]"){
 
     CHECK(2*g == g*2);
 
-    CHECK(2*g == geom::geom{{2, 0, 0},
-                            {0, 2, 0},
-                            {0, 0, 1}});
+    CHECK(2.5*g == geom::geom{{2.5,  0,   0},
+                              { 0,  2.5,  0},
+                              { 0,   0,   1}});
 
     g *= 2;
 
