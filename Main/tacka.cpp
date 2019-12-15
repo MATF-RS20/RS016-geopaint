@@ -283,23 +283,19 @@ bool tacka::operator<(const tacka& dr) const
     }
 
     // Ukoliko se stiglo do kraja kolekcija,
-    // jednake su odnosno nije prva manja
-    if (i == _size-1){
-        return false;
-    // U suprotnom se celokupan rezultat dobija
+    // jednake su odnosno nije prva manja, a
+    // u suprotnom se celokupan rezultat dobija
     // poredjenjem prvog nejednakog para
-    } else {
-        return this->_mat[i] < dr._mat[i];
-    }
+    return i != _size-1 && this->_mat[i] < dr._mat[i];
 }
 
 // Operator dodele l-matrice
 tacka& tacka::operator=(const Tip& v)
 {
+    _mat = v[0];
+
     // Provera korektnosti matrice
     proverim(v);
-
-    _mat = v[0];
 
     // Provera korektnosti tacke
     proveri();
@@ -310,10 +306,10 @@ tacka& tacka::operator=(const Tip& v)
 // Operator dodele d-matrice
 tacka& tacka::operator=(Tip&& v)
 {
+    _mat = std::move(v[0]);
+
     // Provera korektnosti matrice
     proverim(v);
-
-    _mat = std::move(v[0]);
 
     // Provera korektnosti tacke
     proveri();
@@ -367,13 +363,13 @@ tacka::Citac tacka::Citac::operator,(const Elem x) const
         throw Exc("Visak argumenata!");
     }
 
+    // Upis broja
+    t._mat[i] = x;
+
     // Provera po zavrsetku
     if (i == t._size-1){
         t.proveri();
     }
-
-    // Upis broja
-    t._mat[i] = x;
 
     // Nastavljanje dalje
     return Citac(t, i+1);
