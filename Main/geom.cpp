@@ -76,6 +76,12 @@ Vel geom::size() const
     return _size;
 }
 
+// Dohvatac (getter) za toleranciju
+Elem geom::tol() const
+{
+    return _tol;
+}
+
 // Kolekcijski metod za pocetak matrice
 Iter geom::begin() const noexcept
 {

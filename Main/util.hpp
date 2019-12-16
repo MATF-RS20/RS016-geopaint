@@ -4,6 +4,7 @@
 #include <iostream>
 #include <numeric>
 #include <functional>
+#include <cmath>
 
 // Imenski prostor pomocnih funkcija; namenjem je
 // za implementaciju mahom sablonskih funkcija
@@ -260,6 +261,18 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
     // Vracanje rezultata; eksplicitno pomeranje
     // kako bi se isforsirala optimizacija (RVO)
     return std::move(rez);
+}
+
+// Funkcija za pretvaranje stepena u radijane
+inline double deg2rad(double u)
+{
+    return acos(-1) * u / 180;
+}
+
+// Funkcija za pretvaranje radijana u stepene
+inline double rad2def(double u)
+{
+    return 180 * u / acos(-1);
 }
 
 }

@@ -50,7 +50,7 @@ public:
 
     // Destruktor; ne radi nista jer
     // klasa nema dinamickih objekata
-    ~geom() = default;
+    virtual ~geom() = default;
 
     // Konstruktor kopije; uzima se podrazumevani
     // sablon zasnovan na idiomu zamene (copy-swap)
@@ -71,6 +71,9 @@ public:
 
     // Dohvatac za velicinu
     Vel size() const;
+
+    // Dohvatac za toleranciju
+    Elem tol() const;
 
     // Kolekcijski metodi
     Iter begin() const noexcept;
@@ -148,10 +151,7 @@ public:
     // Pocetni upis
     Citac operator<<(const Elem);
 
-private:
-    // Provera korektnosti preslikavanja
-    void proveri() const;
-
+protected:
     // Transformacija ravni je predstavljena
     // homogenom 3x3 matricom, a podrazumevano
     // je u pitanju jedinicna transformacija;
@@ -167,6 +167,10 @@ private:
     // Tolerancija u slucaju greske u racunu;
     // nije const iz istog razloga kao dosad
     Elem _tol = 1e-5;
+
+private:
+    // Provera korektnosti preslikavanja
+    void proveri() const;
 
     // Operator citanja sa ulaznog toka; mora
     // prijateljski kako bi pristupao matrici
