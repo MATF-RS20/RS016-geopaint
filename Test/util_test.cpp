@@ -253,3 +253,31 @@ SCENARIO("Moguce je primenjivati binarne operacije na tacke", "[primeni]"){
         CHECK(t/2 == geom::tacka{0.5, 1});
     }
 }
+
+SCENARIO("Moguce je pretvarati stepene u radijane i obrnuto", "[deg2rad], [rad2deg]"){
+    GIVEN("Neki uglovi"){
+        WHEN("Slucajni brojevi"){
+            for (auto i = 0; i < 1000; i++){
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_real_distribution<> dis(-1000000,
+                                                      1000000);
+
+                const auto broj = dis(gen);
+
+                THEN("Funkcije su inverzne"){
+                    REQUIRE(Approx(broj) == util::deg2rad(util::rad2deg(broj)));
+                    REQUIRE(Approx(broj) == util::rad2deg(util::deg2rad(broj)));
+                }
+            }
+        }
+
+        WHEN("Argument je pi"){
+            const auto rpi = acos(-1);
+            const auto dpi = 180;
+
+            CHECK(Approx(rpi) == util::deg2rad(dpi));
+            REQUIRE(Approx(dpi) == util::rad2deg(rpi));
+        }
+    }
+}

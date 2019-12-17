@@ -39,6 +39,9 @@ protected:
     std::string poruka;
 };
 
+// Deklarisanje klase za tacku
+class tacka;
+
 // Afino preslikavanje ravni
 class geom
 {
@@ -86,6 +89,12 @@ public:
 
     // Stepen preslikavanja
     geom pow(const int, const bool = false);
+
+    // Centriranje transformacije
+    geom pomeri(const double, const double, const bool = false);
+    geom pomeri(tacka&, const bool = false);
+    geom pomeri(PodTip&, const bool = false);
+    geom pomeri(PodTip&&, const bool = false);
 
     // Pretvaranje preslikavanja u nisku
     std::string str() const;
@@ -179,6 +188,12 @@ private:
 
 // Staticka verzija fje za inverz
 geom inv(geom&, const bool = false);
+
+// Staticko centriranje transformacije
+geom pomeri(geom&, const double, const double, const bool = false);
+geom pomeri(geom&, tacka&, const bool = false);
+geom pomeri(geom&, PodTip&, const bool = false);
+geom pomeri(geom&, PodTip&&, const bool = false);
 
 // Operator ispisa na izlazni tok
 std::ostream& operator<<(std::ostream&, const geom&);

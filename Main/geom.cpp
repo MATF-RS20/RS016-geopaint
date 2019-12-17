@@ -1,10 +1,13 @@
-#include "geom.hpp"
-#include "util.hpp"
 #include <vector>
 #include <sstream>
 #include <iterator>
 #include <numeric>
 #include <functional>
+
+#include "util.hpp"
+#include "geom.hpp"
+#include "tacka.hpp"
+#include "afin.hpp"
 
 // Imenski prostor za geometriju
 namespace geom{
@@ -85,25 +88,25 @@ Elem geom::tol() const
 // Kolekcijski metod za pocetak matrice
 Iter geom::begin() const noexcept
 {
-    return std::begin(this->_mat);
+    return std::begin(_mat);
 }
 
 // Kolekcijski metod za const pocetak matrice
 Iter geom::cbegin() const noexcept
 {
-    return std::cbegin(this->_mat);
+    return std::cbegin(_mat);
 }
 
 // Kolekcijski metod za kraj matrice
 Iter geom::end() const noexcept
 {
-    return std::end(this->_mat);
+    return std::end(_mat);
 }
 
 // Kolekcijski metod za const kraj matrice
 Iter geom::cend() const noexcept
 {
-    return std::cend(this->_mat);
+    return std::cend(_mat);
 }
 
 // Opsti postupak inverzije afinih transformacijskih
@@ -118,9 +121,9 @@ geom geom::inv(const bool inplace)
 {
     // Izvlacenje vrednosti polja matrice
     // dekompozicijom privremene n-torke
-    auto [a, b, c,
-          d, e, f] = std::tie(_mat[0][0], _mat[0][1], _mat[0][2],
-                              _mat[1][0], _mat[1][1], _mat[1][2]);
+    const auto [a, b, c,
+                d, e, f] = std::tie(_mat[0][0], _mat[0][1], _mat[0][2],
+                                    _mat[1][0], _mat[1][1], _mat[1][2]);
 
     // Nije moguce izracunati inverz
     // ukoliko je matrica singularna
@@ -129,9 +132,9 @@ geom geom::inv(const bool inplace)
     }
 
     // Racunanje nekih kofaktora
-    auto k = 1 / (a*e - b*d);
-    auto t1 = b*f - c*e;
-    auto t2 = c*d - a*f;
+    const auto k = 1 / (a*e - b*d);
+    const auto t1 = b*f - c*e;
+    const auto t2 = c*d - a*f;
 
     // Racunanje rezultata
     geom rez{{k*e, k*-b, k*t1},
@@ -146,6 +149,50 @@ geom geom::inv(const bool inplace)
 geom geom::pow(const int i, const bool inplace)
 {
     return inplace ? *this = *this^i : *this^i;
+}
+
+// Centriranje transformacije prema koordinatama
+geom geom::pomeri(const double x, const double y, const bool inplace)
+{
+    // Odustajanje ako nema promene
+    if (util::jednakost(x, 0.0, _tol) &&
+        util::jednakost(y, 0.0, _tol)){
+        return *this;
+    }
+
+    // Pomeranje zeljenog centra u koordinatni
+    // pocetak translacijom, primena same
+    // transformacije i vracanje u polaznu tacku
+    const auto rez = trans(x, y) * *this * trans(-x, -y);
+
+    // Vracanje izracunatog rezultata
+    return inplace ? *this = rez : rez;
+}
+
+// Centriranje transformacije prema tacki
+geom geom::pomeri(tacka& t, const bool inplace)
+{
+    return pomeri(t[0], t[1], inplace);
+}
+
+// Centriranje transformacije prema l-nizu
+geom geom::pomeri(PodTip& t, const bool inplace)
+{
+    if (std::size(t) != 2){
+        throw Exc("Vektor nije duzine dva!");
+    }
+
+    return pomeri(t[0], t[1], inplace);
+}
+
+// Centriranje transformacije prema d-nizu
+geom geom::pomeri(PodTip&& t, const bool inplace)
+{
+    if (std::size(t) != 2){
+        throw Exc("Vektor nije duzine dva!");
+    }
+
+    return pomeri(t[0], t[1], inplace);
 }
 
 // Pretvaranje preslikavanja u nisku; ova
@@ -243,9 +290,9 @@ bool geom::operator==(const geom& dr) const
 {
     // Izbegavamo, zbog tolerancije
     // na sitnu gresku u racunu
-    //return this->_mat == dr._mat;
+    //return _mat == dr._mat;
 
-    return util::jednakost(this->_mat, dr._mat, _tol);
+    return util::jednakost(_mat, dr._mat, _tol);
 }
 
 // Operator nejednakosti
@@ -388,6 +435,30 @@ std::istream& operator>>(std::istream& in, geom& g)
 geom inv(geom& g, const bool inplace)
 {
     return g.inv(inplace);
+}
+
+// Staticko centriranje prema koordinatama
+geom pomeri(geom& g, const double x, const double y, const bool inplace)
+{
+    return g.pomeri(x, y, inplace);
+}
+
+// Centriranje transformacije prema tacki
+geom pomeri(geom& g, tacka& t, const bool inplace)
+{
+    return g.pomeri(t, inplace);
+}
+
+// Centriranje transformacije prema l-nizu
+geom pomeri(geom& g, PodTip& t, const bool inplace)
+{
+    return g.pomeri(t, inplace);
+}
+
+// Centriranje transformacije prema d-nizu
+geom pomeri(geom& g, PodTip&& t, const bool inplace)
+{
+    return g.pomeri(t, inplace);
 }
 
 // Mmnozenje numerickom vrednoscu sleva;

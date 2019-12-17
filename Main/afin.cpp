@@ -1,53 +1,9 @@
-#include "afin.hpp"
 #include "util.hpp"
+#include "afin.hpp"
 
 // Imenski prostor za geometriju
 namespace geom
 {
-
-// Centriranje transformacije prema koordinatama
-geom pomeri(geom& g, const double x, const double y, const bool inplace)
-{
-    // Odustajanje ako nema promene
-    if (util::jednakost(x, 0.0, g.tol()) &&
-        util::jednakost(y, 0.0, g.tol())){
-        return g;
-    }
-
-    // Pomeranje translacijom zeljenog centra
-    // u koordinatni pocetak, primene same
-    // transformacije i vracanja u polaznu tacku
-    auto rez = trans(x, y) * g * trans(-x, -y);
-
-    // Vracanje izracunatog rezultata
-    return inplace ? g = rez : rez;
-}
-
-// Centriranje transformacije prema tacki
-geom pomeri(geom& g, tacka& t, const bool inplace)
-{
-    return pomeri(g, t[0], t[1], inplace);
-}
-
-// Centriranje transformacije prema l-nizu
-geom pomeri(geom& g, PodTip& t, const bool inplace)
-{
-    if (std::size(t) != 2){
-        throw Exc("Vektor nije duzine dva!");
-    }
-
-    return pomeri(g, t[0], t[1], inplace);
-}
-
-// Centriranje transformacije prema d-nizu
-geom pomeri(geom& g, PodTip&& t, const bool inplace)
-{
-    if (std::size(t) != 2){
-        throw Exc("Vektor nije duzine dva!");
-    }
-
-    return pomeri(g, t[0], t[1], inplace);
-}
 
 // Translacija od koordinata
 trans::trans(double x, double y, const bool inv)
@@ -95,7 +51,7 @@ skal::skal(double x, double y, const double t1, const double t2, const bool inv)
             {0, 0, 1}};
 
     // Eventualno centriranje preslikavanja
-    pomeri(*this, t1, t2, true);
+    pomeri(t1, t2, true);
 }
 
 // Skaliranje od koordinata
@@ -139,7 +95,7 @@ smic::smic(double x, double y, const double t1, const double t2, const bool inv)
             { 0,   0,  1}};
 
     // Eventualno centriranje preslikavanja
-    pomeri(*this, t1, t2, true);
+    pomeri(t1, t2, true);
 }
 
 // Smicanje od koordinata
@@ -170,8 +126,8 @@ rot::rot(double u, const double t1, const double t2, const bool inv)
     }
 
     // Koeficijenti rotacije u ravni
-    auto pom1 = cos(util::deg2rad(u));
-    auto pom2 = sin(util::deg2rad(u));
+    const auto pom1 = cos(util::deg2rad(u));
+    const auto pom2 = sin(util::deg2rad(u));
 
      // Matrica rotacije u ravni
      _mat = {{pom1, -pom2,  0},
@@ -179,7 +135,7 @@ rot::rot(double u, const double t1, const double t2, const bool inv)
              {0,      0,    1}};
 
      // Eventualno centriranje preslikavanja
-     pomeri(*this, t1, t2, true);
+     pomeri(t1, t2, true);
 }
 
 // Rotacija od ugla sa tackom
@@ -198,8 +154,8 @@ refl::refl(double u, const double t1, const double t2, const bool inv)
     (void)inv;
 
     // Koeficijenti refleksije u ravni
-    auto pom1 = cos(util::deg2rad(u));
-    auto pom2 = sin(util::deg2rad(u));
+    const auto pom1 = cos(util::deg2rad(u));
+    const auto pom2 = sin(util::deg2rad(u));
 
     // Matrica refleksije u ravni
     _mat = {{pom1,  pom2,  0},
@@ -207,7 +163,7 @@ refl::refl(double u, const double t1, const double t2, const bool inv)
             {0,      0,    1}};
 
     // Eventualno centriranje preslikavanja
-    pomeri(*this, t1, t2, true);
+    pomeri(t1, t2, true);
 }
 
 // Refleksija od ugla sa tackom

@@ -46,6 +46,9 @@ public:
     // Dohvatac za velicinu
     Vel size() const;
 
+    // Dohvatac za toleranciju
+    Elem tol() const;
+
     // Kolekcijski metodi
     PodIter begin() const noexcept;
     PodIter cbegin() const noexcept;

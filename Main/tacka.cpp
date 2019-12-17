@@ -1,5 +1,7 @@
 #include <sstream>
 #include <iterator>
+
+#include "util.hpp"
 #include "tacka.hpp"
 
 // Imenski prostor za geometriju
@@ -72,28 +74,34 @@ Vel tacka::size() const
     return _size;
 }
 
+// Dohvatac (getter) za toleranciju
+Elem tacka::tol() const
+{
+    return _tol;
+}
+
 // Kolekcijski metod za pocetak matrice
 PodIter tacka::begin() const noexcept
 {
-    return std::begin(this->_mat);
+    return std::begin(_mat);
 }
 
 // Kolekcijski metod za const pocetak matrice
 PodIter tacka::cbegin() const noexcept
 {
-    return std::cbegin(this->_mat);
+    return std::cbegin(_mat);
 }
 
 // Kolekcijski metod za kraj matrice
 PodIter tacka::end() const noexcept
 {
-    return std::end(this->_mat);
+    return std::end(_mat);
 }
 
 // Kolekcijski metod za const kraj matrice
 PodIter tacka::cend() const noexcept
 {
-    return std::cend(this->_mat);
+    return std::cend(_mat);
 }
 
 // Pretvaranje tacke u nisku; ova fja je,
@@ -142,7 +150,7 @@ tacka tacka::operator+(const tacka& dr) const
     tacka t;
 
     for (Vel i = 0; i < _size-1; i++){
-        t._mat[i] = this->_mat[i] + dr._mat[i];
+        t._mat[i] = _mat[i] + dr._mat[i];
     }
 
     return t;
@@ -158,7 +166,7 @@ tacka tacka::operator+(const double broj) const
 tacka& tacka::operator+=(const tacka& dr)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] += dr._mat[i];
+        _mat[i] += dr._mat[i];
     }
 
     return *this;
@@ -168,7 +176,7 @@ tacka& tacka::operator+=(const tacka& dr)
 tacka& tacka::operator+=(const double broj)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] += broj;
+        _mat[i] += broj;
     }
 
     return *this;
@@ -180,7 +188,7 @@ tacka tacka::operator-() const
     tacka t;
 
     for (Vel i = 0; i < _size-1; i++){
-        t._mat[i] = -this->_mat[i];
+        t._mat[i] = -_mat[i];
     }
 
     return t;
@@ -192,7 +200,7 @@ tacka tacka::operator-(const tacka& dr) const
     tacka t;
 
     for (Vel i = 0; i < _size-1; i++){
-        t._mat[i] = this->_mat[i] - dr._mat[i];
+        t._mat[i] = _mat[i] - dr._mat[i];
     }
 
     return t;
@@ -208,7 +216,7 @@ tacka tacka::operator-(const double broj) const
 tacka& tacka::operator-=(const tacka& dr)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] -= dr._mat[i];
+        _mat[i] -= dr._mat[i];
     }
 
     return *this;
@@ -218,7 +226,7 @@ tacka& tacka::operator-=(const tacka& dr)
 tacka& tacka::operator-=(const double broj)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] -= broj;
+        _mat[i] -= broj;
     }
 
     return *this;
@@ -234,7 +242,7 @@ tacka tacka::operator*(const double broj) const
 tacka& tacka::operator*=(const double broj)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] *= broj;
+        _mat[i] *= broj;
     }
 
     return *this;
@@ -250,7 +258,7 @@ tacka tacka::operator/(const double broj) const
 tacka& tacka::operator/=(const double broj)
 {
     for (Vel i = 0; i < _size-1; i++){
-        this->_mat[i] /= broj;
+        _mat[i] /= broj;
     }
 
     return *this;
@@ -261,9 +269,9 @@ bool tacka::operator==(const tacka& dr) const
 {
     // Izbegavamo, zbog tolerancije
     // na sitnu gresku u racunu
-    //return this->_mat == dr._mat;
+    //return _mat == dr._mat;
 
-    return util::jednakost(this->_mat, dr._mat, _tol);
+    return util::jednakost(_mat, dr._mat, _tol);
 }
 
 // Operator poretka
@@ -271,14 +279,14 @@ bool tacka::operator<(const tacka& dr) const
 {
     // Izbegavamo, zbog tolerancije
     // na sitnu gresku u racunu
-    //return this->_mat < dr._mat;
+    //return _mat < dr._mat;
 
     // Pocetni, nulti indeks
     Vel i = 0;
 
     // Kretanje kroz svaku koordinatu
     // dokle god su jednaki parovi
-    while (i < _size-1 && util::jednakost(this->_mat[i], dr._mat[i], _tol)){
+    while (i < _size-1 && util::jednakost(_mat[i], dr._mat[i], _tol)){
         i++;
     }
 
@@ -286,7 +294,7 @@ bool tacka::operator<(const tacka& dr) const
     // jednake su odnosno nije prva manja, a
     // u suprotnom se celokupan rezultat dobija
     // poredjenjem prvog nejednakog para
-    return i != _size-1 && this->_mat[i] < dr._mat[i];
+    return i != _size-1 && _mat[i] < dr._mat[i];
 }
 
 // Operator dodele l-matrice
@@ -439,7 +447,7 @@ std::istream& operator>>(std::istream& in, tacka& t)
 tacka operator*(const geom& g, const tacka& t)
 {
     // Velicina izlazne tacke
-    auto vel = std::size(t);
+    const auto vel = std::size(t);
 
     // Nula-vektor kao inicijalni rezultat
     auto rez = PodTip(vel, 0);

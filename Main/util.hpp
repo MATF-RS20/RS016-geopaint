@@ -163,7 +163,7 @@ MatNeConst mult(Matrica&& a, Matrica&& b)
                              <decltype(a[0][0])>::type>::type;
 
     // Isto tako odredjivanje velicine
-    auto vel = std::size(a);
+    const auto vel = std::size(a);
 
     // Nula matrica: vektor vel vektora
     // velicine vel ispunjenih nulama
@@ -242,7 +242,7 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
                                   <decltype(b[0])>::type>::type;
 
     // Isto tako odredjivanje velicine
-    auto vel = std::size(b);
+    const auto vel = std::size(b);
 
     // Inicijalizacija rezultata;
     // on je vektor polazne tacke
@@ -270,7 +270,7 @@ inline double deg2rad(double u)
 }
 
 // Funkcija za pretvaranje radijana u stepene
-inline double rad2def(double u)
+inline double rad2deg(double u)
 {
     return 180 * u / acos(-1);
 }

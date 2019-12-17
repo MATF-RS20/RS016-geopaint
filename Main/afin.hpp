@@ -11,12 +11,6 @@
 namespace geom
 {
 
-// Centriranje transformacije
-geom pomeri(geom&, const double, const double, const bool = false);
-geom pomeri(geom&, tacka&, const bool = false);
-geom pomeri(geom&, PodTip&, const bool = false);
-geom pomeri(geom&, PodTip&&, const bool = false);
-
 // Translacija u ravni
 class trans : public geom
 {

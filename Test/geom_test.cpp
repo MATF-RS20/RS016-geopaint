@@ -397,42 +397,46 @@ SCENARIO("Moguce je upisati transformaciju sa ulaznog toka", "[ulaz]"){
 }
 
 SCENARIO("Moguce je upisati transformaciju preko citaca", "[izlaz]"){
-    geom::geom g;
+    GIVEN("Bilo koja transformacija"){
+        geom::geom g;
 
-    WHEN("Sve je u redu"){
-        REQUIRE_NOTHROW(g << 1, 2, 3,
-                             4, 5, 6,
-                             0, 0, 1);
-    }
+        WHEN("Sve je u redu"){
+            REQUIRE_NOTHROW(g << 1, 2, 3,
+                                 4, 5, 6,
+                                 0, 0, 1);
+        }
 
-    WHEN("Ulaz nije korektan"){
-        CHECK_THROWS_AS((g << 1, 2, 3,
-                              4, 5, 6,
-                              0, 0, 2),
-                        geom::Exc);
+        WHEN("Ulaz nije korektan"){
+            CHECK_THROWS_AS((g << 1, 2, 3,
+                                  4, 5, 6,
+                                  0, 0, 2),
+                            geom::Exc);
 
-        CHECK_THROWS_AS((g << 1, 2, 3,
-                              4, 5, 6,
-                              1, 0, 1),
-                        geom::Exc);
+            CHECK_THROWS_AS((g << 1, 2, 3,
+                                  4, 5, 6,
+                                  1, 0, 1),
+                            geom::Exc);
 
-        REQUIRE_THROWS_AS((g << 1, 2, 3,
-                                4, 5, 6,
-                                0, 0, 1, 1),
-                          geom::Exc);
+            REQUIRE_THROWS_AS((g << 1, 2, 3,
+                                    4, 5, 6,
+                                    0, 0, 1, 1),
+                              geom::Exc);
+        }
     }
 }
 
 SCENARIO("Moguce je mnozenje numerickom vrednoscu", "[mult]"){
-    geom::geom g;
+    GIVEN("Neki brojevi i transformacije"){
+        geom::geom g;
 
-    CHECK(2*g == g*2);
+        CHECK(2*g == g*2);
 
-    CHECK(2.5*g == geom::geom{{2.5,  0,   0},
-                              { 0,  2.5,  0},
-                              { 0,   0,   1}});
+        CHECK(2.5*g == geom::geom{{2.5,  0,   0},
+                                  { 0,  2.5,  0},
+                                  { 0,   0,   1}});
 
-    g *= 2;
+        g *= 2;
 
-    REQUIRE(g == 2*geom::geom());
+        REQUIRE(g == 2*geom::geom());
+    }
 }
