@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "../Main/afin.hpp"
+#include "../Main/geom.hpp"
 
 SCENARIO("Moguce je konstruisati translaciju", "[trans]"){
     GIVEN("Dva realna broja i bool"){

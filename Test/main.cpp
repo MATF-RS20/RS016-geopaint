@@ -1,3 +1,4 @@
+// Zastavica da se zeli rucno
 #define CATCH_CONFIG_RUNNER
 
 #include "catch.hpp"

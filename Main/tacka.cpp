@@ -1,10 +1,12 @@
 #include <sstream>
 #include <iterator>
+#include <iomanip>
 
-#include "util.hpp"
-#include "tacka.hpp"
+#include "geom.hpp"
 
-// Imenski prostor za geometriju
+// Imenski prostor za geometriju;
+// u ovoj datoteci se nalazi klasa za
+// predstavljanje tacke i povezano
 namespace geom
 {
 
@@ -118,6 +120,11 @@ std::string tacka::str() const
     // Izlazni stringovni tok; ovo ubrzava
     // stvar u odnosu na konkatenaciju niski
     std::ostringstream niska;
+
+    // Fiksiranje broja decimala i postavljanje
+    // preciznosti na skroman, ne prevelik broj
+    niska << std::fixed;
+    niska << std::setprecision(2);
 
     // Otvaranje glavnih zagrada
     niska << "[";

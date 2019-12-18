@@ -1,7 +1,8 @@
 #include "catch.hpp"
 
-#include "../Main/geom.hpp"
 #include <sstream>
+
+#include "../Main/geom.hpp"
 
 SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){
@@ -229,9 +230,9 @@ SCENARIO("Predstavljanje u obliku niske", "[str]"){
 
         WHEN("Sve je uobicajeno"){
             std::ostringstream s;
-            s << "[[1, 0, 1]" << std::endl;
-            s << " [0, 1, 1]" << std::endl;
-            s << " [0, 0, 1]]";
+            s << "[[1.00, 0.00, 1.00]" << std::endl;
+            s << " [0.00, 1.00, 1.00]" << std::endl;
+            s << " [0.00, 0.00, 1.00]]";
 
             REQUIRE(g.str() == s.str());
         }

@@ -1,7 +1,8 @@
-#include "util.hpp"
-#include "afin.hpp"
+#include "geom.hpp"
 
-// Imenski prostor za geometriju
+// Imenski prostor za geometriju;
+// u ovoj datoteci su izvedene konkretne
+// afine transformacije i povezano
 namespace geom
 {
 

@@ -10,7 +10,5 @@ SOURCES += \
         tacka.cpp
 
 HEADERS += \
-        afin.hpp \
         geom.hpp \
-        tacka.hpp \
         util.hpp

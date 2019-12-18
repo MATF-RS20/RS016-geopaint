@@ -1,15 +1,12 @@
-#include <vector>
 #include <sstream>
 #include <iterator>
-#include <numeric>
-#include <functional>
+#include <iomanip>
 
-#include "util.hpp"
 #include "geom.hpp"
-#include "tacka.hpp"
-#include "afin.hpp"
 
-// Imenski prostor za geometriju
+// Imenski prostor za geometriju;
+// u ovoj datoteci je osvnovna klasa
+// za preslikavanja kao i izuzetak
 namespace geom{
 
 // Konstruktor posebnog izuzetka
@@ -209,6 +206,11 @@ std::string geom::str() const
     // Izlazni stringovni tok; ovo ubrzava
     // stvar u odnosu na konkatenaciju niski
     std::ostringstream niska;
+
+    // Fiksiranje broja decimala i postavljanje
+    // preciznosti na skroman, ne prevelik broj
+    niska << std::fixed;
+    niska << std::setprecision(2);
 
     // Otvaranje glavnih zagrada
     niska << "[";
