@@ -120,7 +120,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
             geom::geom g(mat[0], mat[1], mat[2]);
 
             for (geom::Vel i = 0; i < std::size(g); i++){
-                REQUIRE(g.mat()[i] == mat[i]);
+                DYNAMIC_SECTION("Iteracija: " << i) {
+                    REQUIRE(g.mat()[i] == mat[i]);
+                }
             }
         }
 
@@ -136,7 +138,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                          std::move(mat[2])};
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
-                REQUIRE(mat[i].empty());
+                DYNAMIC_SECTION("Iteracija: " << i) {
+                    REQUIRE(mat[i].empty());
+                }
             }
         }
     }
@@ -167,7 +171,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                               geom::Exc);
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
-                REQUIRE(mat[i].empty());
+                DYNAMIC_SECTION("Iteracija: " << i) {
+                    REQUIRE(mat[i].empty());
+                }
             }
         }
     }
@@ -322,7 +328,7 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
                 auto j = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
                 CHECK_NOTHROW(g[i]);
 
-                SECTION("Mora biti konstantna vrednost"){
+                THEN("Mora biti konstantna vrednost"){
                     using Tip = std::remove_reference<decltype(g[i])>::type;
                     CHECK(std::is_const<Tip>::value);
                 }
@@ -334,9 +340,11 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
         auto niz = {std::size(g), std::size(g)+1, std::size(g)+100};
         for (const auto& i : niz){
             for (const auto& j : niz){
-                CHECK_THROWS_AS(g[i], std::out_of_range);
-                CHECK_THROWS_AS(g[i][i], std::out_of_range);
-                REQUIRE_THROWS_AS(g[i][j], std::out_of_range);
+                DYNAMIC_SECTION("Iteracija: " << i << j) {
+                    CHECK_THROWS_AS(g[i], std::out_of_range);
+                    CHECK_THROWS_AS(g[i][i], std::out_of_range);
+                    REQUIRE_THROWS_AS(g[i][j], std::out_of_range);
+                }
             }
         }
     }

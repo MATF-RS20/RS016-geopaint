@@ -15,23 +15,27 @@ SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
                                    {2, 2}};
 
         for (geom::Vel i = 0; i < std::size(v); i++){
-            CHECK(v[i] == v[i]);
-            CHECK(v[i] <= v[i]);
-            CHECK(v[i] >= v[i]);
+            DYNAMIC_SECTION("Iteracija: " << i) {
+                CHECK(v[i] == v[i]);
+                CHECK(v[i] <= v[i]);
+                CHECK(v[i] >= v[i]);
 
-            CHECK_FALSE(v[i] != v[i]);
-            CHECK_FALSE(v[i] < v[i]);
-            CHECK_FALSE(v[i] > v[i]);
+                CHECK_FALSE(v[i] != v[i]);
+                CHECK_FALSE(v[i] < v[i]);
+                CHECK_FALSE(v[i] > v[i]);
+            }
         }
 
         for (geom::Vel i = std::size(v)-1; i > 1; i--){
-            CHECK(v[i] != v[i-1]);
-            CHECK(v[i] > v[i-1]);
-            CHECK(v[i] >= v[i-1]);
+            DYNAMIC_SECTION("Iteracija: " << i) {
+                CHECK(v[i] != v[i-1]);
+                CHECK(v[i] > v[i-1]);
+                CHECK(v[i] >= v[i-1]);
 
-            CHECK_FALSE(v[i] == v[i-1]);
-            CHECK_FALSE(v[i] < v[i-1]);
-            CHECK_FALSE(v[i] <= v[i-1]);
+                CHECK_FALSE(v[i] == v[i-1]);
+                CHECK_FALSE(v[i] < v[i-1]);
+                CHECK_FALSE(v[i] <= v[i-1]);
+            }
         }
 
         CHECK(v[0] == v[1]);
@@ -190,8 +194,10 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
 
         WHEN("Stepenovanje neutrala"){
             for (auto i = 0; i <= 10; i++){
-                REQUIRE((g^i) == g);
-                REQUIRE((g.pow(i)) == g);
+                DYNAMIC_SECTION("Iteracija: " << i) {
+                    REQUIRE((g^i) == g);
+                    REQUIRE((g.pow(i)) == g);
+                }
             }
         }
 
@@ -257,17 +263,19 @@ SCENARIO("Moguce je primenjivati binarne operacije na tacke", "[primeni]"){
 SCENARIO("Moguce je pretvarati stepene u radijane i obrnuto", "[deg2rad], [rad2deg]"){
     GIVEN("Neki uglovi"){
         WHEN("Slucajni brojevi"){
-            for (auto i = 0; i < 1000; i++){
-                std::random_device rd;
-                std::mt19937 gen(rd());
-                std::uniform_real_distribution<> dis(-1000000,
-                                                      1000000);
+            for (auto i = 0; i < 100; i++){
+                DYNAMIC_SECTION("Iteracija: " << i) {
+                    std::random_device rd;
+                    std::mt19937 gen(rd());
+                    std::uniform_real_distribution<> dis(-10000,
+                                                          10000);
 
-                const auto broj = dis(gen);
+                    const auto broj = dis(gen);
 
-                THEN("Funkcije su inverzne"){
-                    REQUIRE(Approx(broj) == util::deg2rad(util::rad2deg(broj)));
-                    REQUIRE(Approx(broj) == util::rad2deg(util::deg2rad(broj)));
+                    THEN("Funkcije su inverzne"){
+                        REQUIRE(Approx(broj) == util::deg2rad(util::rad2deg(broj)));
+                        REQUIRE(Approx(broj) == util::rad2deg(util::deg2rad(broj)));
+                    }
                 }
             }
         }

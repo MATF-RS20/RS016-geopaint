@@ -12,18 +12,5 @@ int main()
 
     geom::rot r(90, {2, 0});
     std::cerr << r << std::endl;
-    std::cerr << r * t << std::endl << std::endl;
-
-    r.inv();
-    std::cerr << r << std::endl;
-    std::cerr << r * t << std::endl << std::endl;
-
-    r.inv(true);
-    std::cerr << r << std::endl;
-    std::cerr << r * t << std::endl << std::endl;
-
-    geom::rot f(90);
-    f.pomeri(1, 0, true);
-    std::cerr << f << std::endl;
-    std::cerr << f * t << std::endl << std::endl;
+    std::cerr << r * t << std::endl;
 }

@@ -132,7 +132,7 @@ rot::rot(double u, const double t1, const double t2, const bool inv)
      // Matrica rotacije u ravni
      _mat = {{pom1, -pom2,  0},
              {pom2,  pom1,  0},
-             {0,      0,    1}};
+             { 0,     0,    1}};
 
      // Eventualno centriranje preslikavanja
      pomeri(t1, t2, true);
@@ -154,13 +154,13 @@ refl::refl(double u, const double t1, const double t2, const bool inv)
     (void)inv;
 
     // Koeficijenti refleksije u ravni
-    const auto pom1 = cos(util::deg2rad(u));
-    const auto pom2 = sin(util::deg2rad(u));
+    const auto pom1 = cos(util::deg2rad(2*u));
+    const auto pom2 = sin(util::deg2rad(2*u));
 
     // Matrica refleksije u ravni
     _mat = {{pom1,  pom2,  0},
             {pom2, -pom1,  0},
-            {0,      0,    1}};
+            { 0,     0,    1}};
 
     // Eventualno centriranje preslikavanja
     pomeri(t1, t2, true);

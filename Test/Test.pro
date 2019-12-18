@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        afin_test.cpp \
         geom_test.cpp \
         main.cpp \
         util_test.cpp \
