@@ -357,7 +357,7 @@ tacka& tacka::operator=(PodTip&& v)
 // briga o validnosti indeksa prepusta se
 // vektoru, koji se nalazi ispod omotaca;
 // menjanje nije dozovoljeno (const)
-const Elem& tacka::operator[] (const Vel i) const
+const Elem& tacka::operator[](const Vel i) const
 {
     return _mat.at(i);
 }

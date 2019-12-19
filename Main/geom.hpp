@@ -147,7 +147,7 @@ public:
     // oznacen da se ne sme odbaciti, kako bi se dodatno
     // istaklo da je iskljucivo za dohvatanje, ne izmenu
     [[nodiscard]]
-    const PodTip& operator[] (const Vel) const;
+    const PodTip& operator[](const Vel) const;
 
     // Struktura koja sluzi za citanje
     // toka razdvojenog zapetama
@@ -336,7 +336,7 @@ public:
     // oznacen da se ne sme odbaciti, kako bi se dodatno
     // istaklo da je iskljucivo za dohvatanje, ne izmenu
     [[nodiscard]]
-    const Elem& operator[] (const Vel) const;
+    const Elem& operator[](const Vel) const;
 
     // Struktura koja sluzi za citanje
     // toka razdvojenog zapetama

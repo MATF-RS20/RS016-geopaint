@@ -150,8 +150,7 @@ inline bool jednakost(const Objekat& a, const Objekat& b)
 // tip koji nije referentan niti konstantan; radi
 // i kada se instancira sa STL vektorima
 template <typename Matrica,
-          typename MatNeRef = typename std::remove_reference<Matrica>::type,
-          typename MatNeConst = typename std::remove_const<MatNeRef>::type>
+          typename MatNeConst = typename std::decay<Matrica>::type>
 MatNeConst mult(Matrica&& a, Matrica&& b)
 {
     // Odredjivanje tipa elemenata matrice;
@@ -159,8 +158,7 @@ MatNeConst mult(Matrica&& a, Matrica&& b)
     // je da funkcija bude sto generickija;
     // dakle, uzima se tip prvog elementa
     // i skidaju mu se referenca i const
-    using Tip = typename std::remove_const<typename std::remove_reference
-                             <decltype(a[0][0])>::type>::type;
+    using Tip = typename std::decay<decltype(a[0][0])>::type;
 
     // Isto tako odredjivanje velicine
     const auto vel = std::size(a);
@@ -191,8 +189,7 @@ MatNeConst mult(Matrica&& a, Matrica&& b)
 // objekata poput geom. preslikavanja (matrica);
 // ista prica sa savrsenim prosledjivanjem
 template <typename Matrica,
-          typename MatNeRef = typename std::remove_reference<Matrica>::type,
-          typename MatNeConst = typename std::remove_const<MatNeRef>::type>
+          typename MatNeConst = typename std::decay<Matrica>::type>
 MatNeConst pow(Matrica&& baza, const int exp)
 {
     // Jedinicna transformacija
@@ -228,8 +225,7 @@ MatNeConst pow(Matrica&& baza, const int exp)
 // nad ovde bitnim objektima poput tacaka
 template <typename Levo,
           typename Desno,
-          typename DesnoNeRef = typename std::remove_reference<Desno>::type,
-          typename DesnoNeConst = typename std::remove_const<DesnoNeRef>::type,
+          typename DesnoNeConst = typename std::decay<Desno>::type,
           typename BinOp>
 DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
 {
@@ -238,8 +234,7 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
     // je da funkcija bude sto generickija;
     // dakle, uzima se tip prvog elementa
     // i skidaju mu se referenca i const
-    using Tip = typename std::remove_const<typename std::remove_reference
-                                  <decltype(b[0])>::type>::type;
+    using Tip = typename std::decay<decltype(b[0])>::type;
 
     // Isto tako odredjivanje velicine
     const auto vel = std::size(b);
