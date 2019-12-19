@@ -74,6 +74,8 @@ public:
     geom(Tip&&);
     geom(const PodTip&, const PodTip&, const PodTip&);
     geom(PodTip&&, PodTip&&, PodTip&&);
+    geom(const PodTip&, const PodTip&);
+    geom(PodTip&&, PodTip&&);
 
     // Dohvatac za matricu
     const Tip& mat() const;
@@ -185,7 +187,7 @@ protected:
 
 private:
     // Provera korektnosti preslikavanja
-    void proveri() const;
+    void proveri();
 
     // Operator citanja sa ulaznog toka; mora
     // prijateljski kako bi pristupao matrici
@@ -359,6 +361,9 @@ private:
     // Provera korektnosti tacke
     void proveri();
 
+    // Provera korektnosti matrice
+    void proverim(const Tip&);
+
     // Tacka u ravni predstavljena je homogenim
     // vektorom duzine tri, a podrazumevano je
     // u pitanju koordinatni pocetak; nije const
@@ -398,9 +403,6 @@ tacka operator*(const double, const tacka&);
 
 // Operator za deljenje numerickom vrednoscu
 tacka operator/(const double, const tacka&);
-
-// Provera korektnosti matrice
-void proverim(const Tip&);
 
 /////////////////////////////////////////////
 // !TACKA ///////////////////////////////////

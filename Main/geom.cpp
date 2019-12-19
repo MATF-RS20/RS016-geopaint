@@ -64,6 +64,18 @@ geom::geom(PodTip&& v1, PodTip&& v2, PodTip&& v3)
     proveri();
 }
 
+// Konstruktor od dva l-vektora
+geom::geom(const PodTip& v1,
+           const PodTip& v2)
+    : geom(v1, v2, {0, 0, 1})
+{}
+
+// Konstruktor od dva d-vektora
+geom::geom(PodTip&& v1,
+           PodTip&& v2)
+    : geom(std::move(v1), std::move(v2), {0, 0, 1})
+{}
+
 // Dohvatac (getter) za matricu
 const Tip& geom::mat() const
 {
@@ -197,8 +209,9 @@ geom geom::pomeri(PodTip&& t, const bool inplace)
 // postojanja prijateljskog operatora ispisa
 std::string geom::str() const
 {
-    // Prazno preslikavanje; moguce samo
-    // nakon pomeranja (move) objekta
+    // Prazno preslikavanje; moguce u slucaju
+    // pomerenog (move) ili neispravnog, lose
+    // inicijalizovanog ili izmenjenog objekta
     if (_mat.empty()){
         return "[]";
     }
@@ -346,6 +359,7 @@ geom::Citac geom::Citac::operator,(const Elem x) const
 {
     // Provera indeksa
     if (i >= g._size*g._size){
+        g._mat.clear();
         throw Exc("Visak argumenata!");
     }
 
@@ -353,6 +367,7 @@ geom::Citac geom::Citac::operator,(const Elem x) const
     if (i/g._size == g._size-1){
         if ((i%g._size != g._size-1 && !util::jednakost(x, 0.0, g._tol)) ||
             (i%g._size == g._size-1 && !util::jednakost(x, 1.0, g._tol))){
+            g._mat.clear();
             throw Exc("Poslednji red mora biti {0, 0, ..., 1}!");
         }
     }
@@ -375,11 +390,25 @@ geom::Citac geom::operator<<(const Elem x)
 }
 
 // Provera korektnosti preslikavanja
-void geom::proveri() const
+void geom::proveri()
 {
+    if (std::size(_mat) == _size-1){
+        // Dodavanje homogenog dela ako fali
+        // na kopiran vec ucitani podvektor
+        PodTip mat;
+        std::fill_n(std::back_inserter(mat),
+                    _size-1,
+                    0);
+        mat.push_back(1);
+
+        // Preuzimanje implementacije
+        _mat.push_back(std::move(mat));
+    }
+
     // Izbacivanje izuzetka u slucaju
     // nekorektnog ulaznog vektora
     if (std::size(_mat) != _size){
+        _mat.clear();
         throw Exc("Vektor nije duzine " +
                   std::to_string(_size) + "!");
     }
@@ -387,6 +416,7 @@ void geom::proveri() const
     // U slucaju nekorektnih redova
     for (Vel i = 0; i < _size; i++){
         if (std::size(_mat[i]) != _size){
+            _mat.clear();
             throw Exc("Podvektor " + std::to_string(i) +
                       " nije duzine " + std::to_string(_size) + "!");
         }
@@ -401,6 +431,7 @@ void geom::proveri() const
                          _mat[_size-1][_size-1]},
                          std::vector<Elem>{0, 1},
                          _tol)){
+        _mat.clear();
         throw Exc("Poslednji podvektor nije oblika {0, 0, ..., 1}!");
     }
 }

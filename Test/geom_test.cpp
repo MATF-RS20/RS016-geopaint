@@ -6,11 +6,11 @@
 
 SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){
-        geom::geom g;
+        const geom::geom g;
 
-        geom::Tip k{{1, 0, 0},
-                    {0, 1, 0},
-                    {0, 0, 1}};
+        const geom::Tip k{{1, 0, 0},
+                          {0, 1, 0},
+                          {0, 0, 1}};
 
         REQUIRE(g.mat() == k);
     }
@@ -20,16 +20,16 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                      {4, 5, 6},
                      {0, 0, 1}};
 
-        auto k(g);
+        const auto k(g);
 
         CHECK(k.mat() == g.mat());
 
-        auto b = k;
+        const auto b = k;
 
         CHECK(k.mat() == b.mat());
         CHECK(g.mat() == b.mat());
 
-        auto a = std::move(g);
+        const auto a = std::move(g);
 
         CHECK(k.mat() == a.mat());
         CHECK(b.mat() == a.mat());
@@ -42,22 +42,32 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                       {1, 1, 1},
                       {0, 0, 1}};
 
+        geom::Tip mat1{{1, 1, 1},
+                       {1, 1, 1}};
+
         WHEN("L-value"){
             REQUIRE_NOTHROW(geom::geom(mat));
+            REQUIRE_NOTHROW(geom::geom(mat1));
 
-            REQUIRE(geom::geom(mat).mat() == mat);
+            CHECK(geom::geom(mat).mat() == mat);
+            REQUIRE(geom::geom(mat1).mat() == mat);
         }
 
         WHEN("R-value"){
-            REQUIRE_NOTHROW((geom::geom(geom::Tip{{1, 1, 1},
-                                                  {1, 1, 1},
-                                                  {0, 0, 1}})));
+            CHECK_NOTHROW(geom::geom(geom::Tip{{1, 1, 1},
+                                               {1, 1, 1},
+                                               {0, 0, 1}}));
+
+            REQUIRE_NOTHROW(geom::geom(geom::Tip{{1, 1, 1},
+                                                 {1, 1, 1}}));
         }
 
         WHEN("Move ctor"){
-            geom::geom g(std::move(mat));
-
+            const geom::geom g(std::move(mat));
             REQUIRE(mat.empty());
+
+            const geom::geom k(std::move(mat1));
+            REQUIRE(mat1.empty());
         }
     }
 
@@ -70,27 +80,20 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                        {1, 1},
                        {0, 0, 1}};
 
-        geom::Tip mat2{{1, 1, 1},
-                       {1, 1, 1}};
-
         WHEN("L-value"){
             CHECK_THROWS_AS(geom::geom(mat), geom::Exc);
-            CHECK_THROWS_AS(geom::geom(mat1), geom::Exc);
-            REQUIRE_THROWS_AS(geom::geom(mat2), geom::Exc);
+            REQUIRE_THROWS_AS(geom::geom(mat1), geom::Exc);
         }
 
         WHEN("R-value"){
-            CHECK_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
-                                                  {1, 1, 1},
-                                                  {0, 0, 0}})),
+            CHECK_THROWS_AS(geom::geom(geom::Tip{{1, 1, 1},
+                                                 {1, 1, 1},
+                                                 {0, 0, 0}}),
                             geom::Exc);
-            CHECK_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
-                                                  {1, 1},
-                                                  {0, 0, 1}})),
+            REQUIRE_THROWS_AS(geom::geom(geom::Tip{{1, 1, 1},
+                                                   {1, 1},
+                                                   {0, 0, 1}}),
                             geom::Exc);
-            REQUIRE_THROWS_AS((geom::geom(geom::Tip{{1, 1, 1},
-                                                    {1, 1, 1}})),
-                              geom::Exc);
         }
 
         WHEN("Move ctor"){
@@ -101,10 +104,6 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
             REQUIRE_THROWS_AS(geom::geom(std::move(mat1)),
                               geom::Exc);
             CHECK(mat1.empty());
-
-            REQUIRE_THROWS_AS(geom::geom(std::move(mat2)),
-                              geom::Exc);
-            REQUIRE(mat2.empty());
         }
     }
 
@@ -118,19 +117,28 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                                        mat[1],
                                        mat[2]));
 
+            REQUIRE_NOTHROW(geom::geom(mat[0],
+                                       mat[1]));
+
             geom::geom g(mat[0], mat[1], mat[2]);
 
             for (geom::Vel i = 0; i < std::size(g); i++){
-                DYNAMIC_SECTION("Iteracija: " << i) {
-                    REQUIRE(g.mat()[i] == mat[i]);
+                DYNAMIC_SECTION("Iteracija: " << i){
+                    CHECK(g.mat()[i] == mat[i]);
                 }
             }
+
+            geom::geom k(mat[0], mat[1]);
+            REQUIRE(g == k);
         }
 
         WHEN("R-value"){
-            REQUIRE_NOTHROW((geom::geom{{1, 1, 1},
-                                        {1, 1, 1},
-                                        {0, 0, 1}}));
+            REQUIRE_NOTHROW(geom::geom{{1, 1, 1},
+                                       {1, 1, 1},
+                                       {0, 0, 1}});
+
+            REQUIRE_NOTHROW(geom::geom{{1, 1, 1},
+                                       {1, 1, 1}});
         }
 
         WHEN("Move ctor"){
@@ -139,7 +147,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                          std::move(mat[2])};
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
-                DYNAMIC_SECTION("Iteracija: " << i) {
+                DYNAMIC_SECTION("Iteracija: " << i){
                     REQUIRE(mat[i].empty());
                 }
             }
@@ -172,7 +180,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                               geom::Exc);
 
             for (geom::Vel i = 0; i < std::size(mat); i++){
-                DYNAMIC_SECTION("Iteracija: " << i) {
+                DYNAMIC_SECTION("Iteracija: " << i){
                     REQUIRE(mat[i].empty());
                 }
             }
@@ -180,7 +188,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     }
 }
 
-SCENARIO("Inverz preslikavanja", "[inv]"){
+SCENARIO("Moguce je invertovati preslikavanja", "[inv]"){
     GIVEN("Neka preslikavanja"){
         geom::geom g{{1, 0, 1},
                      {0, 1, 1},
@@ -222,7 +230,7 @@ SCENARIO("Inverz preslikavanja", "[inv]"){
     }
 }
 
-SCENARIO("Predstavljanje u obliku niske", "[str]"){
+SCENARIO("Moguce je predstaviti preslikavanje u obliku niske", "[str]"){
     GIVEN("Neko preslikavanje"){
         geom::geom g{{1, 0, 1},
                      {0, 1, 1},
@@ -238,7 +246,7 @@ SCENARIO("Predstavljanje u obliku niske", "[str]"){
         }
 
         WHEN("Preslikavanju je uzeta implementacija"){
-            auto k = std::move(g);
+            const auto k = std::move(g);
 
             THEN("Niska je prazna"){
                 REQUIRE(g.str() == "[]");
@@ -295,9 +303,6 @@ SCENARIO("Moguce je dodeljivati preslikavanja", "[dodela]"){
                     {1, 0, 1}};
 
         geom::Tip b{{1, 0, 1},
-                    {1, 0, 1}};
-
-        geom::Tip c{{1, 0, 1},
                     {1, 0, 1},
                     {1, 0}};
 
@@ -306,27 +311,23 @@ SCENARIO("Moguce je dodeljivati preslikavanja", "[dodela]"){
         WHEN("Dodeljuje se matrica"){
             CHECK_THROWS_AS(g = a, geom::Exc);
             CHECK_THROWS_AS(g = b, geom::Exc);
-            CHECK_THROWS_AS(g = c, geom::Exc);
 
             REQUIRE_THROWS_AS(g = std::move(a), geom::Exc);
             CHECK(a.empty());
 
             REQUIRE_THROWS_AS(g = std::move(b), geom::Exc);
-            CHECK(b.empty());
-
-            REQUIRE_THROWS_AS(g = std::move(c), geom::Exc);
-            REQUIRE(c.empty());
+            REQUIRE(b.empty());
         }
     }
 }
 
-SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
+SCENARIO("Moguce je indeksirati preslikavanja", "[index]"){
     GIVEN("Preslikavanje i niz indeksa"){
-        geom::geom g;
+        const geom::geom g;
 
-        auto i = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
+        const auto i = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
             WHEN("Postoji par indeksa"){
-                auto j = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
+                const auto j = GENERATE_REF(0ull, std::size(g)/2, std::size(g)-1);
                 CHECK_NOTHROW(g[i]);
 
                 THEN("Mora biti konstantna vrednost"){
@@ -338,10 +339,10 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
                 REQUIRE_NOTHROW(g[i][j]);
             }
 
-        auto niz = {std::size(g), std::size(g)+1, std::size(g)+100};
+        const auto niz = {std::size(g), std::size(g)+1, std::size(g)+100};
         for (const auto& i : niz){
             for (const auto& j : niz){
-                DYNAMIC_SECTION("Iteracija: " << i << j) {
+                DYNAMIC_SECTION("Iteracija: " << i << j){
                     CHECK_THROWS_AS(g[i], std::out_of_range);
                     CHECK_THROWS_AS(g[i][i], std::out_of_range);
                     REQUIRE_THROWS_AS(g[i][j], std::out_of_range);
@@ -353,11 +354,11 @@ SCENARIO("Moguce je pristupati preko indeksa", "[index]"){
 
 SCENARIO("Moguce je ispisati transformaciju na izlazni tok", "[izlaz]"){
     GIVEN("Vec postojeca preslikavanja"){
-        geom::geom g{{1, 0, 1},
-                     {0, 1, 1},
-                     {0, 0, 1}};
+        const geom::geom g{{1, 0, 1},
+                           {0, 1, 1},
+                           {0, 0, 1}};
 
-        geom::geom k;
+        const geom::geom k;
 
         WHEN("Ispisuje se na neki tok"){
             std::ostringstream s;
@@ -434,7 +435,7 @@ SCENARIO("Moguce je upisati transformaciju preko citaca", "[izlaz]"){
     }
 }
 
-SCENARIO("Moguce je mnozenje numerickom vrednoscu", "[mult]"){
+SCENARIO("Moguce je mnozenje matrice numerickom vrednoscu", "[mult]"){
     GIVEN("Neki brojevi i transformacije"){
         geom::geom g;
 

@@ -13,10 +13,7 @@ namespace geom
 // Konstruktor od dve vrednosti
 tacka::tacka(Elem x, Elem y)
     : _mat({x, y, 1})
-{
-    // Provera korektnosti tacke
-    proveri();
-}
+{}
 
 // Konstruktor od tri vrednosti
 tacka::tacka(Elem x, Elem y, Elem z)
@@ -111,8 +108,9 @@ PodIter tacka::cend() const noexcept
 // prijateljskog operatora ispisa
 std::string tacka::str() const
 {
-    // Prazna tacka; moguce samo
-    // nakon pomeranja (move)
+    // Prazna tacka; moguce samo u slucaju
+    // pomerenog (move) ili neispravnog, lose
+    // inicijalizovanog ili izmenjenog objekta
     if (_mat.empty()){
         return "[]";
     }
@@ -375,6 +373,7 @@ tacka::Citac tacka::Citac::operator,(const Elem x) const
 {
     // Provera indeksa
     if (i >= t._size){
+        t._mat.clear();
         throw Exc("Visak argumenata!");
     }
 
@@ -403,15 +402,23 @@ tacka::Citac tacka::operator<<(const Elem x)
 // Provera korektnosti tacke
 void tacka::proveri()
 {
+    // Dodavanje homogenog dela ako fali
+    // na kopiran vec ucitani (pod)vektor
+    if (std::size(_mat) == _size-1){
+        _mat.push_back(1);
+    }
+
     // Izbacivanje izuzetka u slucaju
     // nekorektne velicine vektora
     if (std::size(_mat) != _size){
+        _mat.clear();
         throw Exc("Vektor nije duzine " +
                   std::to_string(_size) + "!");
     }
 
     // Greska u slucaju beskonacne tacke
     if (util::jednakost(_mat[_size-1], 0.0, _tol)){
+        _mat.clear();
         throw Exc("Nisu podrzane beskonacne tacke!");
     }
 
@@ -425,6 +432,16 @@ void tacka::proveri()
                              _mat[_size-1]));
 }
 
+// Provera korektnosti matrice
+void tacka::proverim(const Tip& v)
+{
+    // Mora biti oblika 1x3
+    if (std::size(v) != 1){
+        _mat.clear();
+        throw Exc("Matrica nije ranga 1!");
+    }
+}
+
 // Operator ispisa na izlazni tok
 std::ostream& operator<<(std::ostream& out, const tacka& t)
 {
@@ -436,8 +453,13 @@ std::istream& operator>>(std::istream& in, tacka& t)
 {
     // Kopiranje vrednosti sa ulaza
     std::copy_n(std::istream_iterator<Elem>(in),
-                t._size,
+                t._size-1,
                 std::begin(t._mat));
+
+    // Uzimanje poslednje ako postoji
+    if (!in.eof()) {
+        in >> t._mat[t._size-1];
+    }
 
     // Provera korektnosti ulaza
     try{
@@ -501,15 +523,6 @@ tacka operator/(const double broj, const tacka& t)
     return util::primeni(broj,
                          tacka(1/t[0], 1/t[1], 1),
                          std::multiplies<>());
-}
-
-// Provera korektnosti matrice
-inline void proverim(const Tip& v)
-{
-    // Mora biti oblika 1x3
-    if (std::size(v) != 1){
-        throw Exc("Matrica nije ranga 1!");
-    }
 }
 
 }

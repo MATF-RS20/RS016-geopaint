@@ -7,6 +7,7 @@ SOURCES += \
         afin_test.cpp \
         geom_test.cpp \
         main.cpp \
+        tacka_test.cpp \
         util_test.cpp \
         "../Main/afin.cpp" \
         "../Main/geom.cpp" \

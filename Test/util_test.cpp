@@ -6,14 +6,14 @@ static const auto tol = 1e-5;
 
 SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
     GIVEN("Neke uredjene tacke"){
-        std::vector<geom::tacka> v{{1, 1},
-                                   {1, 1},
-                                   {1, 2},
-                                   {2, 1},
-                                   {2, 2}};
+        const std::vector<geom::tacka> v{{1, 1},
+                                         {1, 1},
+                                         {1, 2},
+                                         {2, 1},
+                                         {2, 2}};
 
         for (geom::Vel i = 0; i < std::size(v); i++){
-            DYNAMIC_SECTION("Iteracija: " << i) {
+            DYNAMIC_SECTION("Iteracija: " << i){
                 CHECK(v[i] == v[i]);
                 CHECK(v[i] <= v[i]);
                 CHECK(v[i] >= v[i]);
@@ -25,7 +25,7 @@ SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
         }
 
         for (geom::Vel i = std::size(v)-1; i > 1; i--){
-            DYNAMIC_SECTION("Iteracija: " << i) {
+            DYNAMIC_SECTION("Iteracija: " << i){
                 CHECK(v[i] != v[i-1]);
                 CHECK(v[i] > v[i-1]);
                 CHECK(v[i] >= v[i-1]);
@@ -50,11 +50,11 @@ SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     GIVEN("Popunjene kolekcije"){
         using Tip = std::vector<std::vector<std::vector<double>>>;
 
-        Tip a{{{1, 2}, {3, 4}},
-              {{5, 6}, {7, 8}}};
+        const Tip a{{{1, 2}, {3, 4}},
+                    {{5, 6}, {7, 8}}};
 
-        Tip b{{{1, 2}, {3, 4}},
-              {{5, 6}, {7, 8}}};
+        const Tip b{{{1, 2}, {3, 4}},
+                    {{5, 6}, {7, 8}}};
 
         WHEN("Iste su"){
             CHECK(util::jednakost(a, a));
@@ -62,8 +62,8 @@ SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
             REQUIRE(util::jednakost(b, b));
         }
 
-        Tip c{{{1, 2}, {3, 4}},
-              {{5, 6}, {7, 8.000001}}};
+        const Tip c{{{1, 2}, {3, 4}},
+                    {{5, 6}, {7, 8.000001}}};
 
         WHEN("Samo mala razlika"){
             CHECK_FALSE(util::jednakost(a, c));
@@ -98,13 +98,13 @@ SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     }
 
     GIVEN("Matrice preslikavanja"){
-        geom::geom g;
+        const geom::geom g;
 
         CHECK(g == geom::geom());
         REQUIRE(util::jednakost(g, geom::geom()));
 
-        geom::geom k{{1.000001, 0, -0.000001},
-                     {0, 1, 0}, {0, 0, 1}};
+        const geom::geom k{{1.000001, 0, -0.000001},
+                           {0, 1, 0}, {0, 0, 1}};
 
         WHEN("Ne postoji tolerancija"){
             CHECK_FALSE(util::jednakost(g.mat(), k.mat()));
@@ -120,8 +120,8 @@ SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     }
 
     GIVEN("Nekolekcijske vrednosti"){
-        int niz[] = {1, 1, 2};
-        auto& [i, j, k] = niz;
+        const int niz[] = {1, 1, 2};
+        const auto& [i, j, k] = niz;
 
         CHECK(util::jednakost(i, i));
         CHECK(util::jednakost(i, j));
@@ -177,7 +177,7 @@ SCENARIO("Moguce je mnoziti matrice", "[mult]"){
         CHECK(util::jednakost(util::mult(a, b), b, tol));
         CHECK(util::jednakost(util::mult(b, a), b, tol));
 
-        Tip c = util::mult(b, b);
+        const auto c = util::mult(b, b);
 
         REQUIRE(util::jednakost(c, {{1, 0, 0, 2},
                                     {0, 1, 0, 0},
@@ -192,7 +192,7 @@ SCENARIO("Moguce je stepenovati matrice", "[pow]"){
 
         WHEN("Stepenovanje neutrala"){
             for (auto i = 0; i <= 10; i++){
-                DYNAMIC_SECTION("Iteracija: " << i) {
+                DYNAMIC_SECTION("Iteracija: " << i){
                     REQUIRE((g^i) == g);
                     REQUIRE((g.pow(i)) == g);
                 }
@@ -246,15 +246,31 @@ SCENARIO("Moguce je primenjivati binarne operacije na tacke", "[primeni]"){
 
         CHECK(2+t == geom::tacka{3, 4});
         CHECK(t+2 == geom::tacka{3, 4});
+        CHECK((t+=2) == geom::tacka{3, 4});
+        CHECK(t == geom::tacka{3, 4});
+
+        // Testiranje se jos jednom pokazalo kao
+        // vazno, jer ovo isprva nije radilo
+        t = geom::PodTip{1, 2};
 
         CHECK(2-t == geom::tacka{1, 0});
         CHECK(t-2 == geom::tacka{-1, 0});
+        CHECK((t-=2) == geom::tacka{-1, 0});
+        CHECK(t == geom::tacka{-1, 0});
+
+        t = geom::PodTip{1, 2};
 
         CHECK(2*t == geom::tacka{2, 4});
         CHECK(t*2 == geom::tacka{2, 4});
+        CHECK((t*=2) == geom::tacka{2, 4});
+        CHECK(t == geom::tacka{2, 4});
+
+        t = geom::PodTip{1, 2};
 
         CHECK(2/t == geom::tacka{2, 1});
         CHECK(t/2 == geom::tacka{0.5, 1});
+        CHECK((t/=2) == geom::tacka{0.5, 1});
+        CHECK(t == geom::tacka{0.5, 1});
     }
 }
 
@@ -262,7 +278,7 @@ SCENARIO("Moguce je pretvarati stepene u radijane i obrnuto", "[deg2rad], [rad2d
     GIVEN("Neki uglovi"){
         WHEN("Slucajni brojevi"){
             for (auto i = 0; i < 100; i++){
-                DYNAMIC_SECTION("Iteracija: " << i) {
+                DYNAMIC_SECTION("Iteracija: " << i){
                     std::random_device rd;
                     std::mt19937 gen(rd());
                     std::uniform_real_distribution<> dis(-10000,
