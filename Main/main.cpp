@@ -4,11 +4,11 @@
 
 int main()
 {
-    const geom::tacka t{3, 0, 3};
-    std::cerr << t << std::endl << std::endl;
+    std::vector<geom::tacka> niz{{3, 0, 3}};
+    std::cerr << niz[0] << std::endl << std::endl;
 
-    const geom::rot r(90, {2, 0});
-    std::cerr << r << std::endl << std::endl;
-
-    std::cerr << r * t << std::endl;
+    geom::poly o(niz);
+    o.dodaj({1, 1});
+    std::cerr << o.tacke()[0] << std::endl;
+    std::cerr << o.tacke()[1] << std::endl;
 }

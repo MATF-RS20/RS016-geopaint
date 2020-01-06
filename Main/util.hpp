@@ -258,6 +258,153 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
     return std::move(rez);
 }
 
+// Sablonska fja za apstrakciju odnosno
+// 'razumevanje' fja (list comprehension)
+template<typename Niz, typename P,
+         typename NizNeConst = typename std::decay<Niz>::type,
+         typename Elem = typename NizNeConst::value_type>
+NizNeConst listcomp(Niz&& izv, const P& pred,
+                    const std::function<void(Elem)>& trans = [](const auto&){})
+{
+    // Inicijalizacija rezultata
+    // prostim kopiranjem izvora
+    NizNeConst rez = std::forward<Niz>(izv);
+
+    // Filtriranje u mestu koriscenjem
+    // poznatog erase-remove idioma
+    rez.erase(std::remove_if(std::begin(rez),
+                             std::end(rez),
+                             [&pred](const auto& t)
+                                    {return !pred(t);}),
+              std::end(rez));
+
+    // Primena transformacije na svaki element
+    std::for_each(std::begin(rez),
+                  std::end(rez),
+                  trans);
+
+    // Vracanje rezultata; eksplicitno pomeranje
+    // kako bi se isforsirala optimizacija (RVO)
+    return std::move(rez);
+}
+
+// Vracanje tacaka sa leve strane vektora; nesto tipa
+// return [t for t in tacke if vekt_proiz(t, u, v) < 0]
+const auto vekt_proiz = [](const auto& t, const auto& u, const auto&v)
+                          {
+                              const auto a = std::make_tuple(t[0]-u[0], t[1]-u[1]);
+                              const auto b = std::make_tuple(v[0]-u[0], v[1]-u[1]);
+
+                              // Vracanje dela vektorskog proizvoda
+                              return std::get<0>(a)*std::get<1>(b) -
+                                     std::get<1>(a)*std::get<0>(b);
+                          };
+
+// Podela prostora prema polozaju u odnosu na vektor
+const auto podela = [](const auto& u, const auto& v, const auto& tacke)
+                      {return listcomp(tacke, [&u, &v](const auto& t)
+                                                      {return vekt_proiz(t, u, v) < 0;});};
+
+// Lambda dohvatac indeksa
+const auto itemgetter = [](const auto& i)
+                          {return [&i](const auto niz){return niz[i];};};
+const auto get0 = itemgetter(0);
+const auto get0comp = [](const auto& a, const auto& b)
+                        {return get0(a) < get0(b);};
+
+// Prosirivanje pretrage omotnih tacaka
+template <typename Niz,
+          typename NizNeConst = typename std::decay<Niz>::type,
+          typename Tacka = typename NizNeConst::value_type>
+NizNeConst prosiri(Tacka u, Tacka v, Niz&& tacke)
+{
+    // Nema prosirivanja praznog niza
+    if (std::forward<Niz>(tacke).empty()){
+        return {};
+    }
+
+    // Nalazenje najudaljenije tacke
+    const auto vpk = [&u, &v](const auto& t)
+                             {return vekt_proiz(t, u, v);};
+    const auto key = [&vpk](const auto& a, const auto& b)
+                           {return vpk(a) < vpk(b);};
+
+    const auto w = *std::min_element(std::cbegin(std::forward<Niz>(tacke)),
+                                     std::cend(std::forward<Niz>(tacke)),
+                                     key);
+
+    // Podela pretrage po odredjenoj tacki
+    const auto t1 = podela(w, v, std::forward<Niz>(tacke));
+    const auto t2 = podela(u, w, std::forward<Niz>(tacke));
+
+    // Prosirivanje pretrage
+    const auto p1 = prosiri(w, v, t1);
+    const auto p2 = prosiri(u, w, t2);
+
+    // Formiranje rezultata
+    NizNeConst rez;
+    rez.insert(std::end(rez),
+               std::cbegin(p1),
+               std::cend(p1));
+    rez.push_back(w);
+    rez.insert(std::end(rez),
+               std::cbegin(p2),
+               std::cend(p2));
+
+    // Vracanje rezultata; eksplicitno pomeranje
+    // kako bi se isforsirala optimizacija (RVO)
+    return std::move(rez);
+}
+
+// Sablonska fja za pronalazak konveksnog omotaca;
+// jednostavnosti radi ogranicena na vektor tacaka
+template <typename Niz,
+          typename NizNeConst = typename std::decay<Niz>::type,
+          typename Tacka = typename NizNeConst::value_type>
+NizNeConst konv_omot(Niz&& tacke)
+{
+    // Prazan niz tacaka nema konveksni omot
+    if (std::forward<Niz>(tacke).empty()){
+        return {};
+    }
+
+    // Nalazenje dve tacke omota
+    const auto u = *std::min_element(std::cbegin(std::forward<Niz>(tacke)),
+                                     std::cend(std::forward<Niz>(tacke)),
+                                     get0comp);
+    const auto v = *std::max_element(std::cbegin(std::forward<Niz>(tacke)),
+                                     std::cend(std::forward<Niz>(tacke)),
+                                     get0comp);
+
+    // Podela pretrage na levu i desnu stranu
+    const auto levo = podela(u, v, std::forward<Niz>(tacke));
+    const auto desno = podela(v, u, std::forward<Niz>(tacke));
+
+    // Nalazenje omota na obe strane
+    const auto plevo = prosiri(u, v, levo);
+    const auto pdesno = prosiri(v, u, desno);
+
+    // Formiranje rezultata
+    NizNeConst rez;
+    rez.push_back(v);
+    rez.insert(std::end(rez),
+               std::cbegin(plevo),
+               std::cend(plevo));
+    rez.push_back(u);
+    rez.insert(std::end(rez),
+               std::cbegin(pdesno),
+               std::cend(pdesno));
+
+    // Popravka u slucaju dve tacke
+    if (rez.size() == 2 && rez[0] == rez[1]){
+        rez.pop_back();
+    }
+
+    // Vracanje rezultata; eksplicitno pomeranje
+    // kako bi se isforsirala optimizacija (RVO)
+    return std::move(rez);
+}
+
 // Funkcija za pretvaranje stepena u radijane
 inline double deg2rad(double u)
 {

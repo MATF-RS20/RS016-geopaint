@@ -7,6 +7,7 @@ SOURCES += \
         afin.cpp \
         geom.cpp \
         main.cpp \
+        oblik.cpp \
         tacka.cpp
 
 HEADERS += \

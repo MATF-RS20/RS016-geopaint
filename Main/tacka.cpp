@@ -143,6 +143,12 @@ std::string tacka::str() const
     return niska.str();
 }
 
+// Primena transformacije na tacku
+void tacka::primeni(const geom& g)
+{
+    *this = g * *this;
+}
+
 // Unarna potvrda
 tacka tacka::operator+() const
 {

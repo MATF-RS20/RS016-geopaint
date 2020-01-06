@@ -270,6 +270,9 @@ public:
     // Pretvaranje tacke u nisku
     std::string str() const;
 
+    // Primena transformacije na tacku
+    void primeni(const geom&);
+
     // Unarna potvrda
     tacka operator+() const;
 
@@ -463,6 +466,135 @@ public:
 
 /////////////////////////////////////////////
 // !AFIN ////////////////////////////////////
+/////////////////////////////////////////////
+
+/////////////////////////////////////////////
+// OBLIK ////////////////////////////////////
+/////////////////////////////////////////////
+
+// Alijas za kolekciju tacaka
+using OTip = std::vector<tacka>;
+
+// Maksimalno svedena reprezentacija oblika
+// koje je moguce nacrtati na platnu; mogli
+// bi se implementirati razni metodi po ugledu
+// na prethodne klase, ali to nije neophodno,
+// pa je stoga i izostavljeno u radu
+class oblik
+{
+public:
+    // Podrazumevani virtuelni destruktor
+    virtual ~oblik() = default;
+
+    // Dohvatac za tacke
+    const OTip& tacke() const;
+
+    // Transformacija oblika
+    void transformisi(const geom&);
+
+protected:
+    // Konstruktori od vektora
+    oblik(const OTip&);
+    oblik(OTip&& = {});
+
+    // Uredjeni niz tacaka oblika
+    OTip _tacke{};
+};
+
+// Mnogougao ili poligonska linija
+class poly : public oblik
+{
+public:
+    // Konstruktori od vektora
+    poly(const OTip&);
+    poly(OTip&& = {});
+
+    // Konstruktor od tacaka
+    poly(const std::initializer_list<tacka>);
+
+    // Dohvatac za zatvorenost
+    bool zatvoren() const;
+
+    // Zatvaranje i otvaranje
+    void zatvori();
+    void otvori();
+
+    // Dodavanje tacke
+    void dodaj(const tacka&);
+    void dodaj(tacka&&);
+
+    // Zamena konveksnim omotacem
+    void omot();
+
+private:
+    // Indikator zatvorenosti
+    bool _zatvoren = false;
+};
+
+// Pravilan mnogougao
+class ppoly : public oblik
+{
+public:
+    // Konstruktor sa centrom i velicinama
+    ppoly(const tacka = {0, 0}, const Vel = 3, const Elem = 3);
+};
+
+// Elipsa
+class elipsa : public oblik
+{
+public:
+    // Konstruktor sa centrom i poluprecnicima
+    elipsa(const tacka = {0, 0}, const Elem = 3, const Elem = 6);
+
+    // Konstruktor sa trima glavnim tackama
+    elipsa(const tacka, const tacka, const tacka);
+};
+
+// Krug
+class krug : public oblik
+{
+public:
+    // Konstruktor sa centrom i poluprecnikom
+    krug(const tacka = {0, 0}, const Elem = 5);
+
+    // Konstruktor sa dvema glavnim tackama
+    krug(const tacka, const tacka);
+};
+
+/***** OVO SAMO AKO BAS BUDE VREMENA ******************
+// Slika kao oblik
+class slika : public oblik
+{
+public:
+    // Konstruktor sa putanjom i centrom
+    slika(const std::string, const tacka = {0, 0});
+
+    // Dohvatac za putanju
+    std::string putanja() const;
+
+private:
+    // Putanja (tj. QPixmap ili sta vec)
+    std::string _putanja;
+};
+
+// Tekstualni oblik
+class tekst : public oblik
+{
+public:
+    // Konstruktor sa tekstom i centrom
+    tekst(const std::string = "", const tacka = {0, 0});
+
+    // Dohvatac za sadrzaj
+    std::string sadrzaj() const;
+
+private:
+    // Sadrzaj teksta
+    std::string _sadrzaj;
+};
+*****************************************************/
+
+/////////////////////////////////////////////
+// !OBLIK ///////////////////////////////////
 /////////////////////////////////////////////
 
 }
