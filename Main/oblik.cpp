@@ -43,9 +43,7 @@ poly::poly(OTip&& t)
 // Konstruktor od tacaka
 poly::poly(const std::initializer_list<tacka> ts)
 {
-    for (const auto& t : ts){
-        _tacke.push_back(t);
-    }
+    _tacke.assign(ts);
 }
 
 // Dohvatac za zatvorenost
@@ -85,7 +83,7 @@ void poly::omot()
 }
 
 // Konstruktor sa centrom i velicinama
-ppoly::ppoly(const tacka t, const Vel i, const Elem x)
+ppoly::ppoly(const tacka& t, const Vel i, const Elem x)
 {
     // Konstanta pi kao arkuskosinus od -1
     const auto pi = acos(-1);
@@ -110,7 +108,7 @@ ppoly::ppoly(const tacka t, const Vel i, const Elem x)
 }
 
 // Konstruktor sa centrom i poluprecnicima
-elipsa::elipsa(const tacka t, const Elem e1, const Elem e2)
+elipsa::elipsa(const tacka& t, const Elem e1, const Elem e2)
 {
     // Dodavanje centra
     _tacke.push_back(t);
@@ -123,7 +121,7 @@ elipsa::elipsa(const tacka t, const Elem e1, const Elem e2)
 }
 
 // Konstruktor sa trima glavnim tackama
-elipsa::elipsa(const tacka t1, const tacka t2, const tacka t3)
+elipsa::elipsa(const tacka& t1, const tacka& t2, const tacka& t3)
 {
     _tacke.push_back(t1);
     _tacke.push_back(t2);
@@ -131,7 +129,7 @@ elipsa::elipsa(const tacka t1, const tacka t2, const tacka t3)
 }
 
 // Konstruktor sa centrom i poluprecnikom
-krug::krug(const tacka t, const Elem e)
+krug::krug(const tacka& t, const Elem e)
 {
     // Dodavanje centra
     _tacke.push_back(t);
@@ -141,7 +139,7 @@ krug::krug(const tacka t, const Elem e)
 }
 
 // Konstruktor sa dvema glavnim tackama
-krug::krug(const tacka t1, const tacka t2)
+krug::krug(const tacka& t1, const tacka& t2)
 {
     _tacke.push_back(t1);
     _tacke.push_back(t2);

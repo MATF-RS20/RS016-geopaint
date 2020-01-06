@@ -536,7 +536,7 @@ class ppoly : public oblik
 {
 public:
     // Konstruktor sa centrom i velicinama
-    ppoly(const tacka = {0, 0}, const Vel = 3, const Elem = 3);
+    ppoly(const tacka& = {0, 0}, const Vel = 3, const Elem = 3);
 };
 
 // Elipsa
@@ -544,10 +544,10 @@ class elipsa : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnicima
-    elipsa(const tacka = {0, 0}, const Elem = 3, const Elem = 6);
+    elipsa(const tacka& = {0, 0}, const Elem = 3, const Elem = 6);
 
     // Konstruktor sa trima glavnim tackama
-    elipsa(const tacka, const tacka, const tacka);
+    elipsa(const tacka&, const tacka&, const tacka&);
 };
 
 // Krug
@@ -555,10 +555,10 @@ class krug : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnikom
-    krug(const tacka = {0, 0}, const Elem = 5);
+    krug(const tacka& = {0, 0}, const Elem = 5);
 
     // Konstruktor sa dvema glavnim tackama
-    krug(const tacka, const tacka);
+    krug(const tacka&, const tacka&);
 };
 
 /***** OVO SAMO AKO BAS BUDE VREMENA ******************
