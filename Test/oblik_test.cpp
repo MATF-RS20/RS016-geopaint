@@ -60,7 +60,13 @@ SCENARIO("Moguce je konstruisati mnogougao", "[poly]"){
             CHECK(a.tacke().size() == 7);
 
             a.omot();
-            REQUIRE(a.tacke().size() == 4);
+            CHECK(a.tacke().size() == 4);
+
+            std::vector<int> niz{1, 2, 3};
+            niz = util::listcomp(niz,
+                                 [](const auto& x){return x>2;},
+                                 [](auto& x){x+=2;});
+            REQUIRE(niz == std::vector<int>{5});
         }
 
         WHEN("Primenjuje se transformacija"){

@@ -258,13 +258,12 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
     return std::move(rez);
 }
 
-// Sablonska fja za apstrakciju odnosno
-// 'razumevanje' fja (list comprehension)
-template<typename Niz, typename P,
+// Sablonska funkcija za apstrakciju odnosno
+// 'razumevanje' listi (list comprehension)
+template<typename Niz, typename P1, typename P2,
          typename NizNeConst = typename std::decay<Niz>::type,
          typename Elem = typename NizNeConst::value_type>
-NizNeConst listcomp(Niz&& izv, const P& pred,
-                    const std::function<void(Elem)>& trans = [](const auto&){})
+NizNeConst listcomp(Niz&& izv, const P1& pred, const P2& trans)
 {
     // Inicijalizacija rezultata
     // prostim kopiranjem izvora
@@ -286,6 +285,14 @@ NizNeConst listcomp(Niz&& izv, const P& pred,
     // Vracanje rezultata; eksplicitno pomeranje
     // kako bi se isforsirala optimizacija (RVO)
     return std::move(rez);
+}
+
+// Gornja fja bez transformacije
+template<typename Niz, typename P,
+         typename NizNeConst = typename std::decay<Niz>::type>
+NizNeConst listcomp(Niz&& izv, const P& pred)
+{
+    return listcomp(std::forward<Niz>(izv), pred, [](auto&){});
 }
 
 // Vracanje tacaka sa leve strane vektora; nesto tipa
