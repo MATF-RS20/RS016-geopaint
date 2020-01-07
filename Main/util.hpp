@@ -263,7 +263,7 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
 template<typename Niz, typename P1, typename P2,
          typename NizNeConst = typename std::decay<Niz>::type,
          typename Elem = typename NizNeConst::value_type>
-NizNeConst listcomp(Niz&& izv, const P1& pred, const P2& trans)
+NizNeConst listcomp(Niz&& izv, P1&& pred, P2&& trans)
 {
     // Inicijalizacija rezultata
     // prostim kopiranjem izvora
@@ -273,14 +273,13 @@ NizNeConst listcomp(Niz&& izv, const P1& pred, const P2& trans)
     // poznatog erase-remove idioma
     rez.erase(std::remove_if(std::begin(rez),
                              std::end(rez),
-                             [&pred](const auto& t)
-                                    {return !pred(t);}),
+                             std::not_fn(std::forward<P1>(pred))),
               std::end(rez));
 
     // Primena transformacije na svaki element
     std::for_each(std::begin(rez),
                   std::end(rez),
-                  trans);
+                  std::forward<P2>(trans));
 
     // Vracanje rezultata; eksplicitno pomeranje
     // kako bi se isforsirala optimizacija (RVO)
@@ -290,9 +289,11 @@ NizNeConst listcomp(Niz&& izv, const P1& pred, const P2& trans)
 // Gornja fja bez transformacije
 template<typename Niz, typename P,
          typename NizNeConst = typename std::decay<Niz>::type>
-NizNeConst listcomp(Niz&& izv, const P& pred)
+NizNeConst listcomp(Niz&& izv, P&& pred)
 {
-    return listcomp(std::forward<Niz>(izv), pred, [](auto&){});
+    return listcomp(std::forward<Niz>(izv),
+                    std::forward<P>(pred),
+                    [](auto&){});
 }
 
 // Vracanje tacaka sa leve strane vektora; nesto tipa
@@ -323,7 +324,7 @@ const auto get0comp = [](const auto& a, const auto& b)
 template <typename Niz,
           typename NizNeConst = typename std::decay<Niz>::type,
           typename Tacka = typename NizNeConst::value_type>
-NizNeConst prosiri(Tacka u, Tacka v, Niz&& tacke)
+NizNeConst prosiri(Tacka& u, Tacka& v, Niz&& tacke)
 {
     // Nema prosirivanja praznog niza
     if (std::forward<Niz>(tacke).empty()){

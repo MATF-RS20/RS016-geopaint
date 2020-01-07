@@ -62,11 +62,25 @@ SCENARIO("Moguce je konstruisati mnogougao", "[poly]"){
             a.omot();
             CHECK(a.tacke().size() == 4);
 
-            std::vector<int> niz{1, 2, 3};
+            geom::PodTip niz{1, 2, 3};
             niz = util::listcomp(niz,
                                  [](const auto& x){return x>2;},
                                  [](auto& x){x+=2;});
-            REQUIRE(niz == std::vector<int>{5});
+            CHECK(niz == geom::PodTip{5});
+
+            const geom::Tip rez{{1, 2}};
+
+            geom::Tip niz1{{1, 2}};
+            niz1 = util::konv_omot(niz1);
+            CHECK(niz1 == rez);
+
+            geom::Tip niz2{{1, 2}, {1, 2}};
+            niz2 = util::konv_omot(niz2);
+            REQUIRE(niz2 == rez);
+
+            geom::Tip niz3{};
+            niz3 = util::konv_omot(niz3);
+            REQUIRE(niz3 == geom::Tip{});
         }
 
         WHEN("Primenjuje se transformacija"){
