@@ -10,10 +10,11 @@ SOURCES += \
         oblik_test.cpp \
         tacka_test.cpp \
         util_test.cpp \
-        "../Main/afin.cpp" \
-        "../Main/geom.cpp" \
-        "../Main/oblik.cpp" \
-        "../Main/tacka.cpp"
+        "../Cons/afin.cpp" \
+        "../Cons/geom.cpp" \
+        "../Cons/oblik.cpp" \
+        "../Cons/tacka.cpp"
 
 HEADERS += \
-        catch.hpp
+        catch.hpp \
+        "../Cons/geom.hpp"

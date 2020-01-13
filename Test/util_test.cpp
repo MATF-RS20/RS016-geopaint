@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "../Main/geom.hpp"
+#include "../Cons/geom.hpp"
 
 static const auto tol = 1e-5;
 

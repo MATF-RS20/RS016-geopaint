@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "../Main/geom.hpp"
+#include "../Cons/geom.hpp"
 
 SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){
