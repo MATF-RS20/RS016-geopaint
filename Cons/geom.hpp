@@ -567,7 +567,7 @@ class slika : public oblik
 {
 public:
     // Konstruktor sa putanjom i centrom
-    slika(const std::string, const tacka = {0, 0});
+    slika(const std::string&, const tacka& = {0, 0});
 
     // Dohvatac za putanju
     std::string putanja() const;
@@ -582,7 +582,7 @@ class tekst : public oblik
 {
 public:
     // Konstruktor sa tekstom i centrom
-    tekst(const std::string = "", const tacka = {0, 0});
+    tekst(const std::string& = "", const tacka& = {0, 0});
 
     // Dohvatac za sadrzaj
     std::string sadrzaj() const;

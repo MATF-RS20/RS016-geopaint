@@ -147,7 +147,7 @@ krug::krug(const tacka& t1, const tacka& t2)
 
 /***** OVO SAMO AKO BAS BUDE VREMENA ******************
 // Konstruktor sa putanjom i centrom
-slika::slika(const std::string put, const tacka t)
+slika::slika(const std::string& put, const tacka& t)
 {
     _tacke.push_back(t);
     _putanja = put;
@@ -160,7 +160,7 @@ std::string slika::putanja() const
 }
 
 // Konstruktor sa tekstom i centrom
-tekst::tekst(const std::string sad, const tacka t)
+tekst::tekst(const std::string& sad, const tacka& t)
 {
     _tacke.push_back(t);
     _sadrzaj = sad;
