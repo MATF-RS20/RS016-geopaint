@@ -40,10 +40,26 @@ private:
 
 
 
-class CLinija
+class clinija : public QGraphicsItem
 {
 public:
-    CLinija();
+    clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
+            const geom::Elem x_kraj,    const geom::Elem y_kraj);
+
+    clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
+                const geom::Elem x_kraj,    const geom::Elem y_kraj, QColor boja_);
+
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
+
+    void setColor(QColor );
+
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+private:
+    geom::tacka pocetak;
+    geom::tacka kraj;
+    QColor boja;
 };
 }
 
