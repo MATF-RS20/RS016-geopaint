@@ -16,6 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    clinija.cpp \
+    ctacka.cpp \
+    geom_graphics_view.cpp \
     main.cpp \
     mainwindow.cpp \
     "../Cons/afin.cpp" \
@@ -24,6 +27,9 @@ SOURCES += \
     "../Cons/tacka.cpp"
 
 HEADERS += \
+    Boje.hpp \
+    crtanje.hpp \
+    geom_graphics_view.hpp \
     mainwindow.h \
     "../Cons/geom.hpp"
 

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "geom_graphics_view.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
