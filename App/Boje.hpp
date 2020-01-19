@@ -4,7 +4,7 @@
 #include <QColor>
 
 #define PODRAZUMEVANA_BOJA QColor(38, 77, 115)
-#define KLIKNUTO_BOJA QColor(0, 128, 128)
+#define KLIKNUTO_BOJA QColor(0, 117, 117)
 
 
 

@@ -18,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     clinija.cpp \
     ctacka.cpp \
+    cxosa.cpp \
+    cyosa.cpp \
     geom_graphics_view.cpp \
     main.cpp \
     mainwindow.cpp \

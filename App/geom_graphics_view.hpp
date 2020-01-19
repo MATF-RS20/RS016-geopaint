@@ -19,6 +19,9 @@
 #define Y_BOUND_GRAPHIC_SCENE (-2000)
 #define WIDTH_GRAPHIC_SCENE   (4000)
 #define HEIGHT_GRAPHIC_SCENE  (4000)
+#define MESH_CELL (50)
+#define POINT_ON_AXIS_SIZE (3)
+#define PENCIL_WEIGHT_AXIS (2)
 
 class geom_graphics_view : public QGraphicsView
 {
@@ -29,6 +32,12 @@ public:
     void nacrtaj_tacku(const geom::tacka& );
 
     void nacrtaj_liniju(const geom::tacka& , const geom::tacka&);
+    void nacrtaj_x_osu();
+    void nacrtaj_y_osu();
+    void nacrtaj_koordinatne_ose() {
+        nacrtaj_x_osu();
+        nacrtaj_y_osu();
+    }
 /*
     void nacrtajOblik(const Shape& );
 */

@@ -6,7 +6,8 @@
 #include <QColor>
 #include <QGraphicsItem>
 
-#include "/home/milena/Learning_Cetvrta_godina/Razvoj_softvera/RS_Projekat/RS016-geopaint/Cons/geom.hpp"
+#include "../Cons/geom.hpp"
+#include "geom_graphics_view.hpp"
 
 namespace crtanje {
 
@@ -60,6 +61,35 @@ private:
     geom::tacka pocetak;
     geom::tacka kraj;
     QColor boja;
+};
+
+// TODO: Singletoni: Jer, nema smisla da se pravi vise osa
+class cxosa : public clinija {
+private:
+    cxosa() : clinija(X_BOUND_GRAPHIC_SCENE, 0,
+                      X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE, 0) {}
+
+    ~cxosa() = default;
+    static cxosa* osa_;
+
+public:
+    static cxosa* osa();
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) override;
+
+};
+
+class cyosa : public clinija {
+private:
+    cyosa() : clinija(0, Y_BOUND_GRAPHIC_SCENE,
+                      0, Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE) {}
+
+    ~cyosa() = default;
+    static cyosa* osa_;
+
+public:
+    static cyosa* osa();
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) override;
+
 };
 }
 
