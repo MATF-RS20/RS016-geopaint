@@ -21,7 +21,7 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
 
    nacrtaj_koordinatne_ose();
 
-   /***** Ovde samo proveravamo nase metode *****/
+   /***** Ovde samo proveravamo nase metode *****
    nacrtaj_tacku();
    nacrtaj_tacku(geom::tacka (70,80));
    geom::tacka t (100,100);
@@ -35,7 +35,7 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
    nacrtaj_elipsu(e);
    nacrtaj_krug(k);
    nacrtaj_poligon(p);
-   /***** ********************************** *****/
+   ***** ********************************** *****/
 }
 
 void geom_graphics_view::drawBackground(QPainter* painter, const QRectF& pozadina_)
