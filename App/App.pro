@@ -16,7 +16,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    celipsa.cpp \
+    ckrug.cpp \
     clinija.cpp \
+    cpoligon.cpp \
     ctacka.cpp \
     cxosa.cpp \
     cyosa.cpp \
@@ -33,8 +36,7 @@ HEADERS += \
     crtanje.hpp \
     geom_graphics_view.hpp \
     mainwindow.h \
-    "../Cons/geom.hpp" \
-    posetilac.hpp
+    "../Cons/geom.hpp"
 
 FORMS += \
     mainwindow.ui

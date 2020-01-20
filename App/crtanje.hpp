@@ -8,7 +8,6 @@
 
 #include "../Cons/geom.hpp"
 #include "geom_graphics_view.hpp"
-#include "posetilac.hpp"
 
 namespace crtanje {
 
@@ -93,17 +92,46 @@ public:
 
 };
 
+/***** OBLICI *****/
+/*****************/
 
-// Posetilac zaduzen za crtanje
-class crtac : Posetilac {
+class cpoligon : public QGraphicsItem {
 public:
-    crtac() = default;
+    cpoligon(geom::poly& );
 
-    void poseti_poligon() override;
-    void poseti_elipsu() override;
-    void poseti_krug() override;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
+
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+private:
+    geom::poly odgovarajuci_poligon;
+};
+
+class celipsa : public QGraphicsItem {
+public:
+    celipsa(geom::elipsa& );
+
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
+
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+private:
+    geom::elipsa odgovarajuca_elipsa;
+};
+
+class ckrug : public QGraphicsItem {
+public:
+    ckrug(geom::krug& );
+
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
+
+    void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
+
+    QPainterPath shape() const Q_DECL_OVERRIDE;
+private:
+    geom::krug odgovarajuci_krug;
 };
 }
-
-
 #endif // CRTANJE_H

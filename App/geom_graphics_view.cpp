@@ -22,6 +22,14 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
    /***** Ovde samo proveravamo nase metode *****/
    nacrtaj_tacku();
    nacrtaj_tacku(geom::tacka (70,80));
+   geom::tacka t (100,100);
+   geom::elipsa e (t,300,100);
+   geom::tacka centar (300,300);
+   geom::krug k (centar,200);
+   geom::trans translacija (-300,-300,false);
+   k.transformisi(translacija);
+   nacrtaj_elipsu(e);
+   nacrtaj_krug(k);
    /***** ********************************** *****/
 }
 
@@ -88,4 +96,15 @@ void geom_graphics_view::nacrtaj_mrezu() {
         const geom::tacka kraj_   ((X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE), i);
         nacrtaj_liniju(pocetak_, kraj_);
     }
+}
+
+
+void geom_graphics_view::nacrtaj_elipsu(geom::elipsa& e) {
+    crtanje::celipsa* nova_elipsa = new crtanje::celipsa(e);
+    scene()->addItem(nova_elipsa);
+}
+
+void geom_graphics_view::nacrtaj_krug(geom::krug& k) {
+    crtanje::ckrug* novi_krug = new crtanje::ckrug(k);
+    scene()->addItem(novi_krug);
 }

@@ -38,6 +38,10 @@ public:
         nacrtaj_x_osu();
         nacrtaj_y_osu();
     }
+
+    /***** OBLICI *****/
+    void nacrtaj_elipsu(geom::elipsa& e);
+    void nacrtaj_krug(geom::krug& k);
 /*
     void nacrtajOblik(const Shape& );
 */

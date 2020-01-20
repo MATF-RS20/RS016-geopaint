@@ -128,6 +128,7 @@ elipsa::elipsa(const tacka& t1, const tacka& t2, const tacka& t3)
     _tacke.push_back(t3);
 }
 
+
 // Konstruktor sa centrom i poluprecnikom
 krug::krug(const tacka& t, const Elem e)
 {
