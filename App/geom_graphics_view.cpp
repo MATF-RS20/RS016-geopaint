@@ -17,6 +17,8 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
 
    setRenderHint(QPainter::Antialiasing);
 
+   scale(1, -1);
+
    nacrtaj_koordinatne_ose();
 
    /***** Ovde samo proveravamo nase metode *****/

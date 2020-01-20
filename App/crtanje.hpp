@@ -104,7 +104,7 @@ public:
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
 
     QPainterPath shape() const Q_DECL_OVERRIDE;
-private:
+
     geom::poly odgovarajuci_poligon;
 };
 
@@ -117,7 +117,7 @@ public:
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
 
     QPainterPath shape() const Q_DECL_OVERRIDE;
-private:
+
     geom::elipsa odgovarajuca_elipsa;
 };
 
@@ -130,7 +130,7 @@ public:
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) Q_DECL_OVERRIDE;
 
     QPainterPath shape() const Q_DECL_OVERRIDE;
-private:
+
     geom::krug odgovarajuci_krug;
 };
 }

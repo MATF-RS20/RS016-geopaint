@@ -300,6 +300,13 @@
       <item row="0" column="0">
        <widget class="geom_graphics_view" name="graphicsView"/>
       </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Resetuj transformacije</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>

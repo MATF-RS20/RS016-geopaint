@@ -23,6 +23,12 @@ private slots:
 
     void on_pb_krug_clicked();
 
+    void on_pb_ocisti_ekran_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pb_primeni_transformacije_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
