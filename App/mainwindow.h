@@ -16,6 +16,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pb_poligon_clicked();
+
+    void on_pb_elipsa_clicked();
+
+    void on_pb_krug_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

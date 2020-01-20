@@ -59,3 +59,4 @@ QRectF crtanje::celipsa::boundingRect() const
     return QRectF(centar[0] - 2 * a, centar[1] - 2 * b, 4 * a, 4 * b);
 }
 
+

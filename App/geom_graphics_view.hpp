@@ -42,9 +42,7 @@ public:
     /***** OBLICI *****/
     void nacrtaj_elipsu(geom::elipsa& e);
     void nacrtaj_krug(geom::krug& k);
-/*
-    void nacrtajOblik(const Shape& );
-*/
+    void nacrtaj_poligon(geom::poly& p);
 
 protected:
     void drawBackground(QPainter *, const QRectF &) override;

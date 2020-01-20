@@ -27,9 +27,12 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
    geom::tacka centar (300,300);
    geom::krug k (centar,200);
    geom::trans translacija (-300,-300,false);
+   geom::poly p{{100, 100}, {200, 200}, {-100, 50}};
+   p.zatvori();
    k.transformisi(translacija);
    nacrtaj_elipsu(e);
    nacrtaj_krug(k);
+   nacrtaj_poligon(p);
    /***** ********************************** *****/
 }
 
@@ -106,5 +109,10 @@ void geom_graphics_view::nacrtaj_elipsu(geom::elipsa& e) {
 
 void geom_graphics_view::nacrtaj_krug(geom::krug& k) {
     crtanje::ckrug* novi_krug = new crtanje::ckrug(k);
+    scene()->addItem(novi_krug);
+}
+
+void geom_graphics_view::nacrtaj_poligon(geom::poly& p) {
+    crtanje::cpoligon* novi_krug = new crtanje::cpoligon(p);
     scene()->addItem(novi_krug);
 }

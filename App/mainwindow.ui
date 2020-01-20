@@ -27,14 +27,14 @@
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="3" column="1" colspan="2">
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="pb_ocisti_ekran">
         <property name="text">
          <string>Očisti ekran</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1" colspan="2">
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="pb_primeni_transformacije">
         <property name="text">
          <string>  Primeni transformacije  </string>
         </property>
@@ -68,7 +68,7 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_3">
+               <widget class="QLineEdit" name="le_translacija_x">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -88,7 +88,7 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="lineEdit_4">
+               <widget class="QLineEdit" name="le_translacija_y">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -98,7 +98,7 @@
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBox_2">
+               <widget class="QCheckBox" name="cb_translacija">
                 <property name="text">
                  <string>Primeni</string>
                 </property>
@@ -131,7 +131,7 @@
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEdit_5">
+               <widget class="QLineEdit" name="le_rotacija_x">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -151,7 +151,7 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="lineEdit_6">
+               <widget class="QLineEdit" name="le_rotacija_y">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -168,10 +168,10 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_7"/>
+               <widget class="QLineEdit" name="le_ugao"/>
               </item>
               <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBox_3">
+               <widget class="QCheckBox" name="cb_rotacija">
                 <property name="text">
                  <string>Primeni</string>
                 </property>
@@ -198,7 +198,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QLineEdit" name="lineEdit_8"/>
+               <widget class="QLineEdit" name="le_skaliranje_x"/>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_7">
@@ -208,7 +208,7 @@
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_9"/>
+               <widget class="QLineEdit" name="le_skaliranje_y"/>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_9">
@@ -218,7 +218,7 @@
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QLineEdit" name="lineEdit_10"/>
+               <widget class="QLineEdit" name="le_skaliranje_tacka"/>
               </item>
               <item row="2" column="0" colspan="2">
                <widget class="QLabel" name="label_8">
@@ -228,7 +228,7 @@
                </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBox_4">
+               <widget class="QCheckBox" name="cb_skaliranje">
                 <property name="text">
                  <string>Primeni</string>
                 </property>
@@ -246,21 +246,21 @@
        <widget class="QGroupBox" name="groupBox">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="pb_poligon">
            <property name="text">
             <string>Dodaj poligon/mnogougao</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_4">
+          <widget class="QPushButton" name="pb_elipsa">
            <property name="text">
             <string>Dodaj elipsu</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="pb_krug">
            <property name="text">
             <string>Dodaj krug</string>
            </property>
@@ -270,14 +270,14 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="le_poluprecnik">
         <property name="placeholderText">
          <string>Dužine poluosa kod elipse ili poluprečnik kruga:</string>
         </property>
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="cb_zatvorena_linija">
         <property name="text">
          <string>Zatvorena linija (za poligon)</string>
         </property>
@@ -291,7 +291,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="le_tacke">
         <property name="placeholderText">
          <string>Unesite koordinate tačaka koje pripadaju poligonu ili koordinate centra kruga ili elipse (u zavisnosti od izabrane opcije)</string>
         </property>
@@ -310,7 +310,7 @@
      <x>0</x>
      <y>0</y>
      <width>1010</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
