@@ -8,6 +8,7 @@
 
 #include "../Cons/geom.hpp"
 #include "geom_graphics_view.hpp"
+#include "posetilac.hpp"
 
 namespace crtanje {
 
@@ -69,7 +70,7 @@ private:
     cxosa() : clinija(X_BOUND_GRAPHIC_SCENE, 0,
                       X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE, 0) {}
 
-    ~cxosa() = default;
+    ~cxosa() override = default;
     static cxosa* osa_;
 
 public:
@@ -83,13 +84,24 @@ private:
     cyosa() : clinija(0, Y_BOUND_GRAPHIC_SCENE,
                       0, Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE) {}
 
-    ~cyosa() = default;
+    ~cyosa() override = default;
     static cyosa* osa_;
 
 public:
     static cyosa* osa();
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) override;
 
+};
+
+
+// Posetilac zaduzen za crtanje
+class crtac : Posetilac {
+public:
+    crtac() = default;
+
+    void poseti_poligon() override;
+    void poseti_elipsu() override;
+    void poseti_krug() override;
 };
 }
 

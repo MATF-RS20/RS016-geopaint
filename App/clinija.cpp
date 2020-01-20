@@ -14,8 +14,8 @@ crtanje::clinija::clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak
  : pocetak(geom::tacka(x_pocetak, y_pocetak)) , kraj(geom::tacka(x_kraj, y_kraj)), boja(boja_) {this->setZValue(10);};
 
 QRectF crtanje::clinija::boundingRect() const  {
-    auto min_x = (pocetak[0] < kraj[0]) ? 2*pocetak[0] : 2*kraj[0];
-    auto min_y = (pocetak[1] < kraj[1]) ? 2*pocetak[1] : 2*kraj[1];
+    const auto min_x = (pocetak[0] < kraj[0]) ? 2*pocetak[0] : 2*kraj[0];
+    const auto min_y = (pocetak[1] < kraj[1]) ? 2*pocetak[1] : 2*kraj[1];
 
     return QRectF(min_x, min_y, 2 * abs(pocetak[0] - kraj[0]), 2 * abs(pocetak[1] - kraj[1]));
 }
@@ -31,8 +31,8 @@ void crtanje::clinija::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 }
 
 QPainterPath crtanje::clinija::shape() const {
-    auto min_x = (pocetak[0] < kraj[0]) ? 2*pocetak[0] : 2*kraj[0];
-    auto min_y = (pocetak[1] < kraj[1]) ? 2*pocetak[1] : 2*kraj[1];
+    const auto min_x = (pocetak[0] < kraj[0]) ? 2*pocetak[0] : 2*kraj[0];
+    const auto min_y = (pocetak[1] < kraj[1]) ? 2*pocetak[1] : 2*kraj[1];
 
     QPainterPath path;
     path.addRect(min_x, min_y, abs(pocetak[0] - kraj[0]), pocetak[1] - kraj[1]);

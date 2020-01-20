@@ -10,6 +10,7 @@ crtanje::cyosa* crtanje::cyosa::osa_ = nullptr;
 crtanje::cyosa* crtanje::cyosa::osa(){
     if (osa_ == nullptr){
         osa_ = new cyosa();
+        osa_->setZValue(50);
     }
 
     return osa_;

@@ -10,6 +10,7 @@ crtanje::cxosa* crtanje::cxosa::osa_ = nullptr;
 crtanje::cxosa* crtanje::cxosa::osa(){
     if (osa_ == nullptr){
         osa_ = new cxosa();
+        osa_->setZValue(50);
     }
 
     return osa_;

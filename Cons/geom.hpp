@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "util.hpp"
+#include "../App/posetilac.hpp"
 
 // Imenski prostor za geometriju; namenjen je
 // za implementaciju klasa i povezanih metoda
@@ -526,6 +527,8 @@ public:
     // Zamena konveksnim omotacem
     void omot();
 
+    // Metod za primenu obrasca Posetilac
+    void prihvati_posetu(const Posetilac& );
 private:
     // Indikator zatvorenosti
     bool _zatvoren = false;
@@ -537,6 +540,7 @@ class ppoly : public oblik
 public:
     // Konstruktor sa centrom i velicinama
     ppoly(const tacka& = {0, 0}, const Vel = 3, const Elem = 3);
+
 };
 
 // Elipsa
@@ -548,6 +552,9 @@ public:
 
     // Konstruktor sa trima glavnim tackama
     elipsa(const tacka&, const tacka&, const tacka&);
+
+    // Metod za primenu obrasca Posetilac
+    void prihvati_posetu(const Posetilac& posetilac);
 };
 
 // Krug
@@ -559,6 +566,9 @@ public:
 
     // Konstruktor sa dvema glavnim tackama
     krug(const tacka&, const tacka&);
+
+    // Metod za primenu obrasca Posetilac
+    void prihvatiPosetu(const Posetilac& posetilac);
 };
 
 /***** OVO SAMO AKO BAS BUDE VREMENA ******************

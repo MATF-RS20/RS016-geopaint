@@ -33,7 +33,8 @@ HEADERS += \
     crtanje.hpp \
     geom_graphics_view.hpp \
     mainwindow.h \
-    "../Cons/geom.hpp"
+    "../Cons/geom.hpp" \
+    posetilac.hpp
 
 FORMS += \
     mainwindow.ui

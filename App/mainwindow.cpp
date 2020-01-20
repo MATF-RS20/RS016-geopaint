@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+   // ui->statusbar->showMessage("pozzzzzzz", 5000);
 }
 
 MainWindow::~MainWindow()

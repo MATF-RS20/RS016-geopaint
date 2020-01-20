@@ -17,6 +17,8 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
 
    setRenderHint(QPainter::Antialiasing);
 
+   nacrtaj_koordinatne_ose();
+
    /***** Ovde samo proveravamo nase metode *****/
    nacrtaj_tacku();
    nacrtaj_tacku(geom::tacka (70,80));
@@ -25,7 +27,7 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
 
 void geom_graphics_view::drawBackground(QPainter* painter, const QRectF& pozadina_)
 {
-    Q_UNUSED(pozadina_);
+    Q_UNUSED(pozadina_)
 
     QRectF pozadina = this->sceneRect();
     painter->setOpacity(0.8);
@@ -33,8 +35,8 @@ void geom_graphics_view::drawBackground(QPainter* painter, const QRectF& pozadin
 
 
     painter->drawRect(pozadina);
-    nacrtaj_mrezu();
-    nacrtaj_koordinatne_ose();
+    /*nacrtaj_mrezu();*/
+
 }
 
 void geom_graphics_view::nacrtaj_tacku()
@@ -60,13 +62,13 @@ void geom_graphics_view::nacrtaj_liniju (const geom::tacka& pocetak, const geom:
 }
 
 void geom_graphics_view::nacrtaj_x_osu() {
-    auto x_osa = crtanje::cxosa::osa();
+    const auto x_osa = crtanje::cxosa::osa();
     scene()->addItem(x_osa);
 }
 
 
 void geom_graphics_view::nacrtaj_y_osu() {
-    auto y_osa = crtanje::cyosa::osa();
+    const auto y_osa = crtanje::cyosa::osa();
     scene()->addItem(y_osa);
 }
 
@@ -75,15 +77,15 @@ void geom_graphics_view::nacrtaj_y_osu() {
 void geom_graphics_view::nacrtaj_mrezu() {
     for (auto i= X_BOUND_GRAPHIC_SCENE; i<= (X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE); i+= MESH_CELL)
     {
-        geom::tacka pocetak_ (i,Y_BOUND_GRAPHIC_SCENE);
-        geom::tacka kraj_   (i, (Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE));
+        const geom::tacka pocetak_ (i,Y_BOUND_GRAPHIC_SCENE);
+        const geom::tacka kraj_   (i, (Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE));
         nacrtaj_liniju(pocetak_, kraj_);
     }
 
     for (auto i= Y_BOUND_GRAPHIC_SCENE; i<= (Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE); i+= MESH_CELL)
     {
-        geom::tacka pocetak_ (X_BOUND_GRAPHIC_SCENE, i);
-        geom::tacka kraj_   ((X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE), i);
+        const geom::tacka pocetak_ (X_BOUND_GRAPHIC_SCENE, i);
+        const geom::tacka kraj_   ((X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE), i);
         nacrtaj_liniju(pocetak_, kraj_);
     }
 }
