@@ -4,9 +4,11 @@
 #include "Boje.hpp"
 #include <cstdlib>
 
+// klasa ckrug : Element graficke scene koji predstavlja elipsu
 crtanje::ckrug::ckrug(geom::krug& k)
     : odgovarajuci_krug(k) {};
 
+// Crtanje elementa klase ckrug (nasledjena iz klase elementa graficke scene)
 void crtanje::ckrug::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
@@ -24,6 +26,7 @@ void crtanje::ckrug::paint(QPainter* painter, const QStyleOptionGraphicsItem *op
     painter->drawEllipse(centar[0] - r, centar[1] -r, 2*r, 2*r);
 }
 
+// Pomocna funkcija za detekciju kolizije (nasledjena iz klase elementa graficke scene)
 QPainterPath crtanje::ckrug::shape() const
 {
     QPainterPath path;
@@ -35,6 +38,7 @@ QPainterPath crtanje::ckrug::shape() const
     return path;
 }
 
+// Pomocna funkcija za iscrtavanje (nasledjena iz klase elementa graficke scene)
 QRectF crtanje::ckrug::boundingRect() const
 {
     auto centar = odgovarajuci_krug.tacke()[0];

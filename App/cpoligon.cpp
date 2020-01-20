@@ -3,9 +3,11 @@
 
 #include "Boje.hpp"
 
+// klasa cpoligon : Element graficke scene koji predstavlja poligon
 crtanje::cpoligon::cpoligon(geom::poly& p)
     : odgovarajuci_poligon(p) {};
 
+// Crtanje elementa klase cpoligon (nasledjena iz klase elementa graficke scene)
 void crtanje::cpoligon::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(widget)
@@ -46,6 +48,7 @@ void crtanje::cpoligon::paint(QPainter* painter, const QStyleOptionGraphicsItem*
 
 }
 
+// Pomocna funkcija za iscrtavanje (nasledjena iz klase elementa graficke scene)
 QRectF crtanje::cpoligon::boundingRect() const {
        const auto [min_x, max_x] = std::minmax_element(std::cbegin(odgovarajuci_poligon.tacke()),
                                                         std::cend(odgovarajuci_poligon.tacke()),
@@ -68,6 +71,7 @@ QRectF crtanje::cpoligon::boundingRect() const {
         return QRectF(mini_x, mini_y, (maxi_x - mini_x), (maxi_y - mini_y));
 }
 
+// Pomocna funkcija za detekciju kolizije (nasledjena iz klase elementa graficke scene)
 QPainterPath crtanje::cpoligon::shape() const {
     QPainterPath path;
     const auto [min_x, max_x] = std::minmax_element(std::cbegin(odgovarajuci_poligon.tacke()),

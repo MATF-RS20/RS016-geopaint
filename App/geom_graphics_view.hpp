@@ -23,11 +23,14 @@
 #define POINT_ON_AXIS_SIZE (3)
 #define PENCIL_WEIGHT_AXIS (2)
 
+// Nasa podklasa grafickog pogleda na scenu
 class geom_graphics_view : public QGraphicsView
 {
 public:
     geom_graphics_view(QWidget* );
     // TODO: Dodaj i konstruktore sa realnim argumentima
+
+    /***** CRTANJE PRIMITIVA *****/
     void nacrtaj_tacku();
     void nacrtaj_tacku(const geom::tacka& );
 
@@ -39,7 +42,7 @@ public:
         nacrtaj_y_osu();
     }
 
-    /***** OBLICI *****/
+    /***** CRTANJE OBLIKA *****/
     void nacrtaj_elipsu(geom::elipsa& e);
     void nacrtaj_krug(geom::krug& k);
     void nacrtaj_poligon(geom::poly& p);
@@ -48,8 +51,6 @@ protected:
     void drawBackground(QPainter *, const QRectF &) override;
 private:
     std::vector<geom::PodTip> sve_tacke;
-/*
-    void nacrtaj_koordinatne_ose();*/
     void nacrtaj_mrezu();
 };
 

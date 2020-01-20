@@ -5,9 +5,11 @@
 #include "../Cons/geom.hpp"
 #include "../Cons/util.hpp"
 
+// geom_graphics_view : Nasa podklasa grafickog pogleda na scenu
 geom_graphics_view::geom_graphics_view(QWidget* parent)
     : QGraphicsView(parent)
 {
+   // Podesavamo graficke parametre scene.
    QGraphicsScene* scena = new QGraphicsScene(this);
 
    scena->setSceneRect(X_BOUND_GRAPHIC_SCENE, Y_BOUND_GRAPHIC_SCENE,

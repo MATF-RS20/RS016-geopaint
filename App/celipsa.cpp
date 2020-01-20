@@ -4,9 +4,11 @@
 #include "Boje.hpp"
 #include <cstdlib>
 
+// klasa celipsa : Element graficke scene koji predstavlja elipsu
 crtanje::celipsa::celipsa(geom::elipsa& e)
     : odgovarajuca_elipsa(e) {};
 
+// Crtanje elementa klase celipsa (nasledjena iz klase elementa graficke scene)
 void crtanje::celipsa::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
@@ -29,6 +31,7 @@ void crtanje::celipsa::paint(QPainter* painter, const QStyleOptionGraphicsItem *
     painter->drawEllipse(centar[0] - a, centar[1] - b, 2 * a, 2 * b);
 }
 
+// Pomocna funkcija za detekciju kolizije (nasledjena iz klase elementa graficke scene)
 QPainterPath crtanje::celipsa::shape() const
 {
     QPainterPath path;
@@ -45,6 +48,7 @@ QPainterPath crtanje::celipsa::shape() const
     return path;
 }
 
+// Pomocna funkcija za iscrtavanje (nasledjena iz klase elementa graficke scene)
 QRectF crtanje::celipsa::boundingRect() const
 {
     auto centar = odgovarajuca_elipsa.tacke()[0];

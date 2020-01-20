@@ -5,6 +5,10 @@
 
 #include <QPointF>
 
+// Element na grafickoj sceni koji predstavlja y-osu.
+// Implementiran je koriscenjem principa UNIKAT obrasca
+// za projektovanje (eng. SINGLETON), jer nema smisla da
+// imamo vise primeraka y-ose.
 crtanje::cyosa* crtanje::cyosa::osa_ = nullptr;
 
 crtanje::cyosa* crtanje::cyosa::osa(){

@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+// FIXME: NEISPRAVNI ULAZI!!! **********
 void MainWindow::on_pb_poligon_clicked()
 {
     geom::poly p;
@@ -35,6 +35,7 @@ void MainWindow::on_pb_poligon_clicked()
     ui->graphicsView->nacrtaj_poligon(p);
 }
 
+// FIXME: NEISPRAVNI ULAZI!!! **********
 void MainWindow::on_pb_elipsa_clicked()
 {
     auto s_koordinate_centra = ui->le_tacke->text().split(",");
@@ -47,6 +48,7 @@ void MainWindow::on_pb_elipsa_clicked()
     ui->graphicsView->nacrtaj_elipsu(e);
 }
 
+// FIXME: NEISPRAVNI ULAZI!!! **********
 void MainWindow::on_pb_krug_clicked()
 {
     auto s_koordinate_centra = ui->le_tacke->text().split(",");
@@ -87,12 +89,13 @@ void MainWindow::on_pushButton_clicked()
     ui->le_skaliranje_tacka->setText("");
 }
 
+// FIXME: NEISPRAVNI ULAZI!!! **********
 void MainWindow::on_pb_primeni_transformacije_clicked()
 {
     geom::geom transformacija;
     if (ui->cb_rotacija->isChecked())
     {
-         float ugao = ui->le_ugao->text().toFloat();
+         float ugao = ui->le_ugao->text().toFloat(); // TODO: Obrada neispravnih ulaza
          float x = ui->le_rotacija_x->text().toFloat();
          float y = ui->le_rotacija_y->text().toFloat();
 
@@ -100,14 +103,14 @@ void MainWindow::on_pb_primeni_transformacije_clicked()
     }
     else if (ui->cb_translacija->isChecked())
     {
-         float x = ui->le_translacija_x->text().toFloat();
+         float x = ui->le_translacija_x->text().toFloat(); // TODO: Obrada neispravnih ulaza
          float y = ui->le_translacija_y->text().toFloat();
          transformacija = geom::trans(x ,y);
     }
 
     else if (ui->cb_skaliranje->isChecked())
     {
-        float x = ui->le_skaliranje_x->text().toFloat();
+        float x = ui->le_skaliranje_x->text().toFloat(); // TODO: Obrada neispravnih ulaza
         float y = ui->le_skaliranje_y->text().toFloat();
         auto s_tacke = ui->le_skaliranje_tacka->text().split(",");
         geom::tacka t (s_tacke[0].toFloat(), s_tacke[1].toFloat());
@@ -119,6 +122,10 @@ void MainWindow::on_pb_primeni_transformacije_clicked()
 
     auto graphicItems = ui->graphicsView->scene()->items();
 
+    // HACK: Trenutno 'dovijanje' za nalazenje imena klase
+    // Lose resenje usled nedostatka vremena
+    // Lako se moze ispraviti dodavanjem nadklase za sve graficke elemente
+    // koje predstavljaju oblik
     for(auto item: graphicItems){
         auto element = dynamic_cast<crtanje::cpoligon*>(item);
         if(element == nullptr){
@@ -129,7 +136,9 @@ void MainWindow::on_pb_primeni_transformacije_clicked()
                     if (e2 == nullptr){
                         continue;
                     }
-
+                    // Kada nadjemo tip oblika, uzimamo njegov odgovarajuci geometrijski objekat
+                    // i transformisemo ga. Brisemo trenutni graficki element sa
+                    // scene i crtamo novi koji odgovara istom objektu sa transformisanim koordinatama.
                     auto odgovarajuci_oblik = e2->odgovarajuci_krug;
 
                     ui->graphicsView->scene()->removeItem(item);
@@ -149,6 +158,4 @@ void MainWindow::on_pb_primeni_transformacije_clicked()
             ui->graphicsView->nacrtaj_poligon(odgovarajuci_oblik);
         }
     }
-
-    update();
 }

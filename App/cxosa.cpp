@@ -5,6 +5,10 @@
 
 #include <QPointF>
 
+// Element na grafickoj sceni koji predstavlja x-osu.
+// Implementiran je koriscenjem principa UNIKAT obrasca
+// za projektovanje (eng. SINGLETON), jer nema smisla da
+// imamo vise primeraka x-ose.
 crtanje::cxosa* crtanje::cxosa::osa_ = nullptr;
 
 crtanje::cxosa* crtanje::cxosa::osa(){

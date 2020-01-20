@@ -95,6 +95,7 @@ public:
 /***** OBLICI *****/
 /*****************/
 
+// Element na grafickoj sceni koji predstavlja poligon
 class cpoligon : public QGraphicsItem {
 public:
     cpoligon(geom::poly& );
@@ -108,6 +109,7 @@ public:
     geom::poly odgovarajuci_poligon;
 };
 
+// Element na grafickoj sceni koji predstavlja elipsa
 class celipsa : public QGraphicsItem {
 public:
     celipsa(geom::elipsa& );
@@ -121,6 +123,7 @@ public:
     geom::elipsa odgovarajuca_elipsa;
 };
 
+// Element na grafickoj sceni koji predstavlja krug
 class ckrug : public QGraphicsItem {
 public:
     ckrug(geom::krug& );
