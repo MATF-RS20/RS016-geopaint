@@ -3,6 +3,7 @@
 #include <iomanip>
 
 #include "geom.hpp"
+#include "tacka.hpp"
 
 // Imenski prostor za geometriju;
 // u ovoj datoteci se nalazi klasa za

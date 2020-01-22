@@ -2,7 +2,6 @@
 #include "crtanje.hpp"
 
 #include "Boje.hpp"
-#include <cstdlib>
 
 // klasa celipsa : Element graficke scene koji predstavlja elipsu
 crtanje::celipsa::celipsa(geom::elipsa& e)
@@ -62,5 +61,3 @@ QRectF crtanje::celipsa::boundingRect() const
 
     return QRectF(centar[0] - 2 * a, centar[1] - 2 * b, 4 * a, 4 * b);
 }
-
-

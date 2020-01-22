@@ -13,6 +13,7 @@
 
 #include <vector>
 #include "../Cons/geom.hpp"
+#include "../Cons/oblik.hpp"
 #include "../Cons/util.hpp"
 
 #define X_BOUND_GRAPHIC_SCENE (-2000)

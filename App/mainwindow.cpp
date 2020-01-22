@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "geom_graphics_view.hpp"
 
-#include "../Cons/geom.hpp"
+#include "../Cons/afin.hpp"
 #include "geom_graphics_view.hpp"
 #include "crtanje.hpp"
 

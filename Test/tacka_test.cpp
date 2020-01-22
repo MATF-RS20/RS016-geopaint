@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "../Cons/geom.hpp"
+#include "../Cons/afin.hpp"
 
 SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){

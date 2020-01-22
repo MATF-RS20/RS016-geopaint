@@ -69,8 +69,3 @@ void crtanje::ctacka::setColor(QColor boja_, QColor kliknuto_) {
     boja = boja_;
     kliknuto = kliknuto_;
 }
-
-
-
-
-

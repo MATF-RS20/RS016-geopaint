@@ -1,4 +1,5 @@
-#include "geom.hpp"
+#include "tacka.hpp"
+#include "oblik.hpp"
 
 // Imenski prostor za geometriju;
 // u ovoj datoteci su oblici

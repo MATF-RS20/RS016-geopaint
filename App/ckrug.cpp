@@ -47,4 +47,3 @@ QRectF crtanje::ckrug::boundingRect() const
 
     return QRectF(centar[0] - 2 * r, centar[1] - 2 * r, 4 * r, 4 * r);
 }
-

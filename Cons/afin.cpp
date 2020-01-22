@@ -1,4 +1,4 @@
-#include "geom.hpp"
+#include "afin.hpp"
 
 // Imenski prostor za geometriju;
 // u ovoj datoteci su izvedene konkretne

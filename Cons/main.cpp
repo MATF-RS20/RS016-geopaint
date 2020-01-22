@@ -1,6 +1,7 @@
 #include <iostream>
 
-#include "geom.hpp"
+#include "tacka.hpp"
+#include "oblik.hpp"
 
 int main()
 {

@@ -7,6 +7,8 @@
 #include <QGraphicsItem>
 
 #include "../Cons/geom.hpp"
+#include "../Cons/tacka.hpp"
+#include "../Cons/oblik.hpp"
 #include "geom_graphics_view.hpp"
 
 namespace crtanje {

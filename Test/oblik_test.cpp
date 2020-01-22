@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
-#include "../Cons/geom.hpp"
+#include "../Cons/afin.hpp"
+#include "../Cons/oblik.hpp"
 
 SCENARIO("Moguce je konstruisati mnogougao", "[poly]"){
     GIVEN("Niz tacaka"){
