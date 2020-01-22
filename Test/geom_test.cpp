@@ -8,9 +8,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){
         const geom::geom g;
 
-        const geom::Tip k{{1, 0, 0},
-                          {0, 1, 0},
-                          {0, 0, 1}};
+        const geom::Matrica k{{1, 0, 0},
+                              {0, 1, 0},
+                              {0, 0, 1}};
 
         REQUIRE(g.mat() == k);
     }
@@ -38,12 +38,12 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     }
 
     GIVEN("Korektna matrica"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {0, 0, 1}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {0, 0, 1}};
 
-        geom::Tip mat1{{1, 1, 1},
-                       {1, 1, 1}};
+        geom::Matrica mat1{{1, 1, 1},
+                           {1, 1, 1}};
 
         WHEN("L-value"){
             REQUIRE_NOTHROW(geom::geom(mat));
@@ -54,12 +54,12 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
         }
 
         WHEN("R-value"){
-            CHECK_NOTHROW(geom::geom(geom::Tip{{1, 1, 1},
-                                               {1, 1, 1},
-                                               {0, 0, 1}}));
+            CHECK_NOTHROW(geom::geom(geom::Matrica{{1, 1, 1},
+                                                   {1, 1, 1},
+                                                   {0, 0, 1}}));
 
-            REQUIRE_NOTHROW(geom::geom(geom::Tip{{1, 1, 1},
-                                                 {1, 1, 1}}));
+            REQUIRE_NOTHROW(geom::geom(geom::Matrica{{1, 1, 1},
+                                                     {1, 1, 1}}));
         }
 
         WHEN("Move ctor"){
@@ -72,13 +72,13 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     }
 
     GIVEN("Nekorektna matrica"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {0, 0, 0}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {0, 0, 0}};
 
-        geom::Tip mat1{{1, 1, 1},
-                       {1, 1},
-                       {0, 0, 1}};
+        geom::Matrica mat1{{1, 1, 1},
+                           {1, 1},
+                           {0, 0, 1}};
 
         WHEN("L-value"){
             CHECK_THROWS_AS(geom::geom(mat), geom::Exc);
@@ -86,13 +86,13 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
         }
 
         WHEN("R-value"){
-            CHECK_THROWS_AS(geom::geom(geom::Tip{{1, 1, 1},
-                                                 {1, 1, 1},
-                                                 {0, 0, 0}}),
+            CHECK_THROWS_AS(geom::geom(geom::Matrica{{1, 1, 1},
+                                                     {1, 1, 1},
+                                                     {0, 0, 0}}),
                             geom::Exc);
-            REQUIRE_THROWS_AS(geom::geom(geom::Tip{{1, 1, 1},
-                                                   {1, 1},
-                                                   {0, 0, 1}}),
+            REQUIRE_THROWS_AS(geom::geom(geom::Matrica{{1, 1, 1},
+                                                       {1, 1},
+                                                       {0, 0, 1}}),
                             geom::Exc);
         }
 
@@ -108,9 +108,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     }
 
     GIVEN("Korektan niz vektora"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {0, 0, 1}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {0, 0, 1}};
 
         WHEN("L-value"){
             REQUIRE_NOTHROW(geom::geom(mat[0],
@@ -122,7 +122,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
 
             geom::geom g(mat[0], mat[1], mat[2]);
 
-            for (geom::Vel i = 0; i < std::size(g); i++){
+            for (geom::Velicina i = 0; i < std::size(g); i++){
                 DYNAMIC_SECTION("Iteracija: " << i){
                     CHECK(g.mat()[i] == mat[i]);
                 }
@@ -146,7 +146,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                          std::move(mat[1]),
                          std::move(mat[2])};
 
-            for (geom::Vel i = 0; i < std::size(mat); i++){
+            for (geom::Velicina i = 0; i < std::size(mat); i++){
                 DYNAMIC_SECTION("Iteracija: " << i){
                     REQUIRE(mat[i].empty());
                 }
@@ -155,9 +155,9 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
     }
 
     GIVEN("Nekorektan niz vektora"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {1, 0, 1}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {1, 0, 1}};
 
         WHEN("L-value"){
             REQUIRE_THROWS_AS((geom::geom{mat[0],
@@ -179,7 +179,7 @@ SCENARIO("Moguce je konstruisati preslikavanja", "[ctor]"){
                                           std::move(mat[2])}),
                               geom::Exc);
 
-            for (geom::Vel i = 0; i < std::size(mat); i++){
+            for (geom::Velicina i = 0; i < std::size(mat); i++){
                 DYNAMIC_SECTION("Iteracija: " << i){
                     REQUIRE(mat[i].empty());
                 }
@@ -273,9 +273,9 @@ SCENARIO("Moguce je dodeljivati preslikavanja", "[dodela]"){
     }
 
     GIVEN("Korektna matrica"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {0, 0, 1}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {0, 0, 1}};
 
         geom::geom g;
 
@@ -288,23 +288,23 @@ SCENARIO("Moguce je dodeljivati preslikavanja", "[dodela]"){
             // Ono kad je testiranje stvarno posluzilo svrsi!
             // Ovaj test nije prosao jer je slucajno dodela
             // sa semantikom pomeranja bila deklarisana sa
-            // const Tip&&, sto bi vrv proslo neopazeno
+            // const Matrica&&, sto bi vrv proslo neopazeno
             CHECK(mat.empty());
 
-            REQUIRE_NOTHROW(g = geom::Tip{{1, 1, 1},
-                                          {1, 1, 1},
-                                          {0, 0, 1}});
+            REQUIRE_NOTHROW(g = geom::Matrica{{1, 1, 1},
+                                              {1, 1, 1},
+                                              {0, 0, 1}});
         }
     }
 
     GIVEN("Nekorektne matrice"){
-        geom::Tip a{{1, 0, 1},
-                    {1, 0, 1},
-                    {1, 0, 1}};
+        geom::Matrica a{{1, 0, 1},
+                        {1, 0, 1},
+                        {1, 0, 1}};
 
-        geom::Tip b{{1, 0, 1},
-                    {1, 0, 1},
-                    {1, 0}};
+        geom::Matrica b{{1, 0, 1},
+                        {1, 0, 1},
+                        {1, 0}};
 
         geom::geom g;
 
@@ -331,8 +331,8 @@ SCENARIO("Moguce je indeksirati preslikavanja", "[index]"){
                 CHECK_NOTHROW(g[i]);
 
                 THEN("Mora biti konstantna vrednost"){
-                    using Tip = std::remove_reference<decltype(g[i])>::type;
-                    CHECK(std::is_const<Tip>::value);
+                    using ConstTip = std::remove_reference<decltype(g[i])>::type;
+                    CHECK(std::is_const<ConstTip>::value);
                 }
 
                 CHECK_NOTHROW(g[i][i]);

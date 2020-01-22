@@ -35,7 +35,7 @@ geom::geom()
 {}
 
 // Konstruktor od vektora kao l-vrednosti
-geom::geom(const Tip& v)
+geom::geom(const Matrica& v)
     : _mat(v)
 {
     // Provera korektnosti preslikavanja
@@ -43,7 +43,7 @@ geom::geom(const Tip& v)
 }
 
 // Konstruktor od vektora kao r-vrednosti
-geom::geom(Tip&& v)
+geom::geom(Matrica&& v)
     : _mat(std::move(v))
 {
     // Provera korektnosti preslikavanja
@@ -53,9 +53,9 @@ geom::geom(Tip&& v)
 // Konstruktor od vektorâ kao l-vrednosti;
 // ovaj se poziva i u mesanom slucaju, ako su
 // dva ili jedan od tri zapravo r-vrednosti
-geom::geom(const PodTip& v1,
-           const PodTip& v2,
-           const PodTip& v3)
+geom::geom(const Vektor& v1,
+           const Vektor& v2,
+           const Vektor& v3)
     : _mat({v1, v2, v3})
 {
     // Provera korektnosti preslikavanja
@@ -64,7 +64,7 @@ geom::geom(const PodTip& v1,
 
 // Konstruktor od vektorâ kao r-vrednosti;
 // poziva se iskljucivo ako su sva tri desna
-geom::geom(PodTip&& v1, PodTip&& v2, PodTip&& v3)
+geom::geom(Vektor&& v1, Vektor&& v2, Vektor&& v3)
     : _mat({std::move(v1), std::move(v2), std::move(v3)})
 {
     // Provera korektnosti preslikavanja
@@ -72,55 +72,55 @@ geom::geom(PodTip&& v1, PodTip&& v2, PodTip&& v3)
 }
 
 // Konstruktor od dva l-vektora
-geom::geom(const PodTip& v1,
-           const PodTip& v2)
+geom::geom(const Vektor& v1,
+           const Vektor& v2)
     : geom(v1, v2, {0, 0, 1})
 {}
 
 // Konstruktor od dva d-vektora
-geom::geom(PodTip&& v1,
-           PodTip&& v2)
+geom::geom(Vektor&& v1,
+           Vektor&& v2)
     : geom(std::move(v1), std::move(v2), {0, 0, 1})
 {}
 
 // Dohvatac (getter) za matricu
-const Tip& geom::mat() const
+const Matrica& geom::mat() const
 {
     return _mat;
 }
 
 // Dohvatac (getter) za velicinu
-Vel geom::size() const
+Velicina geom::size() const
 {
     return _size;
 }
 
 // Dohvatac (getter) za toleranciju
-Elem geom::tol() const
+Element geom::tol() const
 {
     return _tol;
 }
 
 // Kolekcijski metod za pocetak matrice
-Iter geom::begin() const noexcept
+auto geom::begin() const noexcept
 {
     return std::begin(_mat);
 }
 
 // Kolekcijski metod za const pocetak matrice
-Iter geom::cbegin() const noexcept
+auto geom::cbegin() const noexcept
 {
     return std::cbegin(_mat);
 }
 
 // Kolekcijski metod za kraj matrice
-Iter geom::end() const noexcept
+auto geom::end() const noexcept
 {
     return std::end(_mat);
 }
 
 // Kolekcijski metod za const kraj matrice
-Iter geom::cend() const noexcept
+auto geom::cend() const noexcept
 {
     return std::cend(_mat);
 }
@@ -192,7 +192,7 @@ geom geom::pomeri(tacka& t, const bool inplace)
 }
 
 // Centriranje transformacije prema l-nizu
-geom geom::pomeri(PodTip& t, const bool inplace)
+geom geom::pomeri(Vektor& t, const bool inplace)
 {
     if (std::size(t) != 2){
         throw Exc("Vektor nije duzine dva!");
@@ -202,7 +202,7 @@ geom geom::pomeri(PodTip& t, const bool inplace)
 }
 
 // Centriranje transformacije prema d-nizu
-geom geom::pomeri(PodTip&& t, const bool inplace)
+geom geom::pomeri(Vektor&& t, const bool inplace)
 {
     if (std::size(t) != 2){
         throw Exc("Vektor nije duzine dva!");
@@ -236,7 +236,7 @@ std::string geom::str() const
     niska << "[";
 
     // Dodavanje svakog reda u novom redu
-    for (Vel i = 0; i < _size; i++){
+    for (Velicina i = 0; i < _size; i++){
         // Razmak ako nije prvi
         if (i != 0){
             niska << " ";
@@ -247,7 +247,7 @@ std::string geom::str() const
         std::copy(std::cbegin(_mat[i]),
                   std::cend(_mat[i])-1,
                   // Iterator izlaznog toka sa separatorom
-                  std::ostream_iterator<Elem>(niska, ", "));
+                  std::ostream_iterator<Element>(niska, ", "));
         niska << _mat[i][_size-1];
         niska << "]";
 
@@ -324,7 +324,7 @@ bool geom::operator!=(const geom& dr) const
 }
 
 // Operator dodele l-vektora
-geom& geom::operator=(const Tip& v)
+geom& geom::operator=(const Matrica& v)
 {
     _mat = v;
 
@@ -335,7 +335,7 @@ geom& geom::operator=(const Tip& v)
 }
 
 // Operator dodele r-vektora
-geom& geom::operator=(Tip&& v)
+geom& geom::operator=(Matrica&& v)
 {
     _mat = std::move(v);
 
@@ -350,19 +350,19 @@ geom& geom::operator=(Tip&& v)
 // briga o validnosti indeksa prepusta se
 // vektoru, koji se nalazi ispod omotaca;
 // menjanje nije dozovoljeno (const)
-const PodTip& geom::operator[](const Vel i) const
+const Vektor& geom::operator[](const Velicina i) const
 {
     return _mat.at(i);
 }
 
 // Struktura koja sluzi za citanje
 // toka razdvojenog zapetama
-geom::Citac::Citac(geom& g, const Vel i)
+geom::Citac::Citac(geom& g, const Velicina i)
     : g(g), i(i)
 {}
 
 // Upisivanje brojeva po zapeti
-geom::Citac geom::Citac::operator,(const Elem x) const
+geom::Citac geom::Citac::operator,(const Element x) const
 {
     // Provera indeksa
     if (i >= g._size*g._size){
@@ -387,7 +387,7 @@ geom::Citac geom::Citac::operator,(const Elem x) const
 }
 
 // Upisivanje prvog broja u matricu
-geom::Citac geom::operator<<(const Elem x)
+geom::Citac geom::operator<<(const Element x)
 {
     // Upis broja
     _mat[0][0] = x;
@@ -402,7 +402,7 @@ void geom::proveri()
     if (std::size(_mat) == _size-1){
         // Dodavanje homogenog dela ako fali
         // na kopiran vec ucitani podvektor
-        PodTip mat;
+        Vektor mat;
         std::fill_n(std::back_inserter(mat),
                     _size-1,
                     0);
@@ -421,7 +421,7 @@ void geom::proveri()
     }
 
     // U slucaju nekorektnih redova
-    for (Vel i = 0; i < _size; i++){
+    for (Velicina i = 0; i < _size; i++){
         if (std::size(_mat[i]) != _size){
             _mat.clear();
             throw Exc("Podvektor " + std::to_string(i) +
@@ -430,13 +430,13 @@ void geom::proveri()
     }
 
     // U slucaju nekorektnog poslednjeg reda
-    if (!util::jednakost(std::vector<Elem>{
+    if (!util::jednakost(std::vector<Element>{
                          std::accumulate(std::cbegin(_mat[_size-1]),
                                          std::cend(_mat[_size-1])-1,
                                          0.0,
                                          std::plus<>()),
                          _mat[_size-1][_size-1]},
-                         std::vector<Elem>{0, 1},
+                         std::vector<Element>{0, 1},
                          _tol)){
         _mat.clear();
         throw Exc("Poslednji podvektor nije oblika {0, 0, ..., 1}!");
@@ -453,9 +453,9 @@ std::ostream& operator<<(std::ostream& out, const geom& g)
 std::istream& operator>>(std::istream& in, geom& g)
 {
     // Kopiranje vrednosti sa ulaza
-    for (Vel i = 0; i < g._size; i++){
+    for (Velicina i = 0; i < g._size; i++){
                     // Iterator ulaznog toka
-        std::copy_n(std::istream_iterator<Elem>(in),
+        std::copy_n(std::istream_iterator<Element>(in),
                     g._size,
                     std::begin(g._mat[i]));
     }
@@ -490,13 +490,13 @@ geom pomeri(geom& g, tacka& t, const bool inplace)
 }
 
 // Centriranje transformacije prema l-nizu
-geom pomeri(geom& g, PodTip& t, const bool inplace)
+geom pomeri(geom& g, Vektor& t, const bool inplace)
 {
     return g.pomeri(t, inplace);
 }
 
 // Centriranje transformacije prema d-nizu
-geom pomeri(geom& g, PodTip&& t, const bool inplace)
+geom pomeri(geom& g, Vektor&& t, const bool inplace)
 {
     return g.pomeri(t, inplace);
 }
@@ -506,10 +506,10 @@ geom operator*(const double broj, const geom& g)
 {
     // Inicijalizacija rezultata;
     // on je matrica transformacije
-    auto rez = static_cast<Tip>(g.mat());
+    auto rez = static_cast<Matrica>(g.mat());
 
     // Mnozenje prvih redova
-    for (Vel i = 0; i < std::size(rez)-1; i++){
+    for (Velicina i = 0; i < std::size(rez)-1; i++){
         std::transform(std::cbegin(rez[i]),
                        std::cend(rez[i]),
                        // Red = rezultat

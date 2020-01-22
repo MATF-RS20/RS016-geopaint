@@ -15,7 +15,7 @@ crtanje::ctacka::ctacka()
 crtanje::ctacka::ctacka(const geom::tacka& t)
     : odgovarajuca_tacka(geom::tacka(t)), boja(PODRAZUMEVANA_BOJA), kliknuto(KLIKNUTO_BOJA) {};
 
-crtanje::ctacka::ctacka(const geom::Elem x, const geom::Elem y)
+crtanje::ctacka::ctacka(const geom::Element x, const geom::Element y)
     : odgovarajuca_tacka(geom::tacka(x,y)), boja(PODRAZUMEVANA_BOJA), kliknuto(KLIKNUTO_BOJA) {};
 
 

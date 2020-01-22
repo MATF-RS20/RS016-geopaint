@@ -17,12 +17,10 @@ namespace geom
 
 // Izdvajanje imena tipova,
 // zapravo njihovih alijasa
-using Tip = std::vector<std::vector<double>>;
-using Iter = Tip::const_iterator;
-using PodTip = Tip::value_type;
-using PodIter = PodTip::const_iterator;
-using Elem = PodTip::value_type;
-using Vel = Tip::size_type;
+using Matrica = std::vector<std::vector<double>>;
+using Vektor = Matrica::value_type;
+using Element = Vektor::value_type;
+using Velicina = Matrica::size_type;
 
 // Poseban izuzetak
 class Exc : std::exception
@@ -68,27 +66,27 @@ public:
     geom(geom&&) noexcept = default;
 
     // Konstruktori od vektora
-    geom(const Tip&);
-    geom(Tip&&);
-    geom(const PodTip&, const PodTip&, const PodTip&);
-    geom(PodTip&&, PodTip&&, PodTip&&);
-    geom(const PodTip&, const PodTip&);
-    geom(PodTip&&, PodTip&&);
+    geom(const Matrica&);
+    geom(Matrica&&);
+    geom(const Vektor&, const Vektor&, const Vektor&);
+    geom(Vektor&&, Vektor&&, Vektor&&);
+    geom(const Vektor&, const Vektor&);
+    geom(Vektor&&, Vektor&&);
 
     // Dohvatac za matricu
-    const Tip& mat() const;
+    const Matrica& mat() const;
 
     // Dohvatac za velicinu
-    Vel size() const;
+    Velicina size() const;
 
     // Dohvatac za toleranciju
-    Elem tol() const;
+    Element tol() const;
 
     // Kolekcijski metodi
-    Iter begin() const noexcept;
-    Iter cbegin() const noexcept;
-    Iter end() const noexcept;
-    Iter cend() const noexcept;
+    auto begin() const noexcept;
+    auto cbegin() const noexcept;
+    auto end() const noexcept;
+    auto cend() const noexcept;
 
     // Inverz preslikavanja
     geom inv(const bool = false);
@@ -99,8 +97,8 @@ public:
     // Centriranje transformacije
     geom pomeri(const double, const double, const bool = false);
     geom pomeri(tacka&, const bool = false);
-    geom pomeri(PodTip&, const bool = false);
-    geom pomeri(PodTip&&, const bool = false);
+    geom pomeri(Vektor&, const bool = false);
+    geom pomeri(Vektor&&, const bool = false);
 
     // Pretvaranje preslikavanja u nisku
     std::string str() const;
@@ -138,14 +136,14 @@ public:
     geom& operator=(geom&&) noexcept = default;
 
     // Operatori dodele vektora
-    geom& operator=(const Tip&);
-    geom& operator=(Tip&&);
+    geom& operator=(const Matrica&);
+    geom& operator=(Matrica&&);
 
     // Operator indeksiranja za dohvatanje; eksplicitno
     // oznacen da se ne sme odbaciti, kako bi se dodatno
     // istaklo da je iskljucivo za dohvatanje, ne izmenu
     [[nodiscard]]
-    const PodTip& operator[](const Vel) const;
+    const Vektor& operator[](const Velicina) const;
 
     // Struktura koja sluzi za citanje
     // toka razdvojenog zapetama
@@ -154,32 +152,32 @@ public:
         geom& g;
 
         // Indeks citaca
-        Vel i;
+        Velicina i;
 
         // Konstruktor
-        Citac(geom&, Vel);
+        Citac(geom&, Velicina);
 
         // Zapeta za upis
-        Citac operator,(const Elem) const;
+        Citac operator,(const Element) const;
     };
 
     // Pocetni upis
-    Citac operator<<(const Elem);
+    Citac operator<<(const Element);
 
 protected:
     // Transformacija ravni je predstavljena
     // homogenom 3x3 matricom, a podrazumevano
     // je u pitanju jedinicna transformacija;
     // nije const zbog pomeranja (move)
-    Tip _mat;
+    Matrica _mat;
 
     // Matrica preslikavanja ravni fiksno
     // je velicine 3, ali slicno nije const
-    Vel _size = 3;
+    Velicina _size = 3;
 
     // Tolerancija u slucaju greske u racunu;
     // nije const iz istog razloga kao dosad
-    Elem _tol = 1e-5;
+    Element _tol = 1e-5;
 
 private:
     // Provera korektnosti preslikavanja
@@ -196,8 +194,8 @@ geom inv(geom&, const bool = false);
 // Staticko centriranje transformacije
 geom pomeri(geom&, const double, const double, const bool = false);
 geom pomeri(geom&, tacka&, const bool = false);
-geom pomeri(geom&, PodTip&, const bool = false);
-geom pomeri(geom&, PodTip&&, const bool = false);
+geom pomeri(geom&, Vektor&, const bool = false);
+geom pomeri(geom&, Vektor&&, const bool = false);
 
 // Operator ispisa na izlazni tok
 std::ostream& operator<<(std::ostream&, const geom&);
@@ -237,29 +235,29 @@ public:
     tacka(tacka&&) noexcept = default;
 
     // Konstruktori od brojeva
-    tacka(Elem, Elem);
-    tacka(Elem, Elem, Elem);
+    tacka(Element, Element);
+    tacka(Element, Element, Element);
 
     // Konstruktori od vektora
-    tacka(const Tip&);
-    tacka(Tip&&);
-    tacka(const PodTip&);
-    tacka(PodTip&&);
+    tacka(const Matrica&);
+    tacka(Matrica&&);
+    tacka(const Vektor&);
+    tacka(Vektor&&);
 
     // Dohvatac za vektor
-    const PodTip& mat() const;
+    const Vektor& mat() const;
 
     // Dohvatac za velicinu
-    Vel size() const;
+    Velicina size() const;
 
     // Dohvatac za toleranciju
-    Elem tol() const;
+    Element tol() const;
 
     // Kolekcijski metodi
-    PodIter begin() const noexcept;
-    PodIter cbegin() const noexcept;
-    PodIter end() const noexcept;
-    PodIter cend() const noexcept;
+    auto begin() const noexcept;
+    auto cbegin() const noexcept;
+    auto end() const noexcept;
+    auto cend() const noexcept;
 
     // Pretvaranje tacke u nisku
     std::string str() const;
@@ -324,16 +322,16 @@ public:
     tacka& operator=(tacka&&) noexcept = default;
 
     // Operatori dodele vektora
-    tacka& operator=(const Tip&);
-    tacka& operator=(Tip&&);
-    tacka& operator=(const PodTip&);
-    tacka& operator=(PodTip&&);
+    tacka& operator=(const Matrica&);
+    tacka& operator=(Matrica&&);
+    tacka& operator=(const Vektor&);
+    tacka& operator=(Vektor&&);
 
     // Operator indeksiranja za dohvatanje; eksplicitno
     // oznacen da se ne sme odbaciti, kako bi se dodatno
     // istaklo da je iskljucivo za dohvatanje, ne izmenu
     [[nodiscard]]
-    const Elem& operator[](const Vel) const;
+    const Element& operator[](const Velicina) const;
 
     // Struktura koja sluzi za citanje
     // toka razdvojenog zapetama
@@ -342,38 +340,38 @@ public:
         tacka& t;
 
         // Indeks citaca
-        Vel i;
+        Velicina i;
 
         // Konstruktor
-        Citac(tacka&, Vel);
+        Citac(tacka&, Velicina);
 
         // Zapeta za upis
-        Citac operator,(const Elem) const;
+        Citac operator,(const Element) const;
     };
 
     // Pocetni upis
-    Citac operator<<(const Elem);
+    Citac operator<<(const Element);
 
 private:
     // Provera korektnosti tacke
     void proveri();
 
     // Provera korektnosti matrice
-    void proverim(const Tip&);
+    void proverim(const Matrica&);
 
     // Tacka u ravni predstavljena je homogenim
     // vektorom duzine tri, a podrazumevano je
     // u pitanju koordinatni pocetak; nije const
     // zbog mogucnosti pomeranja (move)
-    PodTip _mat;
+    Vektor _mat;
 
     // Vektor je fiksne velicine,
     // ali slicno nije const
-    Vel _size = 3;
+    Velicina _size = 3;
 
     // Tolerancija u slucaju greske u racunu;
     // nije const iz istog razloga kao dosad
-    Elem _tol = 1e-5;
+    Element _tol = 1e-5;
 
     // Operator citanja sa ulaznog toka; mora
     // prijateljski kako bi pristupao vektoru
@@ -467,7 +465,7 @@ public:
 /////////////////////////////////////////////
 
 // Alijas za kolekciju tacaka
-using OTip = std::vector<tacka>;
+using NizTacaka = std::vector<tacka>;
 
 // Maksimalno svedena reprezentacija oblika
 // koje je moguce nacrtati na platnu; mogli
@@ -481,18 +479,18 @@ public:
     virtual ~oblik() = default;
 
     // Dohvatac za tacke
-    const OTip& tacke() const;
+    const NizTacaka& tacke() const;
 
     // Transformacija oblika
     void transformisi(const geom&);
 
 protected:
     // Konstruktori od vektora
-    oblik(const OTip&);
-    oblik(OTip&& = {});
+    oblik(const NizTacaka&);
+    oblik(NizTacaka&& = {});
 
     // Uredjeni niz tacaka oblika
-    OTip _tacke{};
+    NizTacaka _tacke{};
 };
 
 // Mnogougao ili poligonska linija
@@ -500,8 +498,8 @@ class poly : public oblik
 {
 public:
     // Konstruktori od vektora
-    poly(const OTip&);
-    poly(OTip&& = {});
+    poly(const NizTacaka&);
+    poly(NizTacaka&& = {});
 
     // Konstruktor od tacaka
     poly(const std::initializer_list<tacka>);
@@ -530,7 +528,7 @@ class ppoly : public oblik
 {
 public:
     // Konstruktor sa centrom i velicinama
-    ppoly(const tacka& = {0, 0}, const Vel = 3, const Elem = 3);
+    ppoly(const tacka& = {0, 0}, const Velicina = 3, const Element = 3);
 
 };
 
@@ -539,7 +537,7 @@ class elipsa : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnicima
-    elipsa(const tacka& = {0, 0}, const Elem = 3, const Elem = 6);
+    elipsa(const tacka& = {0, 0}, const Element = 3, const Element = 6);
 
     // Konstruktor sa trima glavnim tackama
     elipsa(const tacka&, const tacka&, const tacka&);
@@ -551,7 +549,7 @@ class krug : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnikom
-    krug(const tacka& = {0, 0}, const Elem = 5);
+    krug(const tacka& = {0, 0}, const Element = 5);
 
     // Konstruktor sa dvema glavnim tackama
     krug(const tacka&, const tacka&);

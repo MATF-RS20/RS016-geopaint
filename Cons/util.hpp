@@ -158,23 +158,23 @@ MatNeConst mult(Matrica&& a, Matrica&& b)
     // je da funkcija bude sto generickija;
     // dakle, uzima se tip prvog elementa
     // i skidaju mu se referenca i const
-    using Tip = typename std::decay<decltype(a[0][0])>::type;
+    using Element = typename std::decay<decltype(a[0][0])>::type;
 
     // Isto tako odredjivanje velicine
     const auto vel = std::size(a);
 
     // Nula matrica: vektor vel vektora
     // velicine vel ispunjenih nulama
-    auto rez = std::vector<std::vector<Tip>>
-               (vel, std::vector<Tip>(vel, 0));
+    auto rez = std::vector<std::vector<Element>>
+               (vel, std::vector<Element>(vel, 0));
 
     // Klasicno mnozenje u trostrukoj petlji; lepse
     // bi izgledalo kada bi bio list comprehension,
     // kao sto je to elegantno moguce u Python-u
-    using Vel = typename std::vector<Tip>::size_type;
-    for (Vel i = 0; i < vel; i++){
-        for (Vel j = 0; j < vel; j++){
-            for (Vel k = 0; k < vel; k++){
+    using Velicina = typename std::vector<Element>::size_type;
+    for (Velicina i = 0; i < vel; i++){
+        for (Velicina j = 0; j < vel; j++){
+            for (Velicina k = 0; k < vel; k++){
                 rez[i][j] += a[i][k] * b[k][j];
             }
         }
@@ -234,14 +234,14 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
     // je da funkcija bude sto generickija;
     // dakle, uzima se tip prvog elementa
     // i skidaju mu se referenca i const
-    using Tip = typename std::decay<decltype(b[0])>::type;
+    using Element = typename std::decay<decltype(b[0])>::type;
 
     // Isto tako odredjivanje velicine
     const auto vel = std::size(b);
 
     // Inicijalizacija rezultata;
     // on je vektor polazne tacke
-    auto rez = std::vector<Tip>(vel, 1);
+    auto rez = std::vector<Element>(vel, 1);
 
     // Operacija nad prvim elementima
     std::transform(std::cbegin(b),
@@ -262,7 +262,7 @@ DesnoNeConst primeni(Levo&& a, Desno&& b, BinOp&& operacija)
 // 'razumevanje' listi (list comprehension)
 template<typename Niz, typename P1, typename P2,
          typename NizNeConst = typename std::decay<Niz>::type,
-         typename Elem = typename NizNeConst::value_type>
+         typename Element = typename NizNeConst::value_type>
 NizNeConst listcomp(Niz&& izv, P1&& pred, P2&& trans)
 {
     // Inicijalizacija rezultata

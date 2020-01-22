@@ -53,7 +53,7 @@ protected:
     void wheelEvent(QWheelEvent *) override;
 
 private:
-    std::vector<geom::PodTip> sve_tacke;
+    geom::Matrica sve_tacke;
     void nacrtaj_mrezu();
 };
 

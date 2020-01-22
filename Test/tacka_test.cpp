@@ -8,7 +8,7 @@ SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
     SECTION("Konstruktor bez argumenta"){
         const geom::tacka t;
 
-        const geom::PodTip k{0, 0, 1};
+        const geom::Vektor k{0, 0, 1};
 
         REQUIRE(t.mat() == k);
     }
@@ -34,10 +34,10 @@ SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
     }
 
     GIVEN("Korektan vektor, dva ili tri broja"){
-        geom::Tip mat{{1, 1, 1}};
-        geom::Tip mat1{{1, 1}};
-        geom::PodTip vek{1, 1, 1};
-        geom::PodTip vek1{1, 1};
+        geom::Matrica mat{{1, 1, 1}};
+        geom::Matrica mat1{{1, 1}};
+        geom::Vektor vek{1, 1, 1};
+        geom::Vektor vek1{1, 1};
 
         WHEN("L-value"){
             REQUIRE_NOTHROW(geom::tacka(vek[0], vek[1]));
@@ -58,10 +58,10 @@ SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
         WHEN("R-value"){
             CHECK_NOTHROW(geom::tacka(1, 1));
             CHECK_NOTHROW(geom::tacka(1, 1, 1));
-            CHECK_NOTHROW(geom::tacka(geom::Tip{{1, 1, 1}}));
-            CHECK_NOTHROW(geom::tacka(geom::Tip{{1, 1}}));
-            CHECK_NOTHROW(geom::tacka(geom::PodTip{1, 1, 1}));
-            REQUIRE_NOTHROW(geom::tacka(geom::PodTip{1, 1}));
+            CHECK_NOTHROW(geom::tacka(geom::Matrica{{1, 1, 1}}));
+            CHECK_NOTHROW(geom::tacka(geom::Matrica{{1, 1}}));
+            CHECK_NOTHROW(geom::tacka(geom::Vektor{1, 1, 1}));
+            REQUIRE_NOTHROW(geom::tacka(geom::Vektor{1, 1}));
         }
 
         WHEN("Move ctor"){
@@ -80,13 +80,13 @@ SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
     }
 
     GIVEN("Nekorektan vektor ili tri broja"){
-        geom::Tip mat{{1, 1, 1},
-                      {1, 1, 1},
-                      {0, 0, 0}};
+        geom::Matrica mat{{1, 1, 1},
+                          {1, 1, 1},
+                          {0, 0, 0}};
 
-        geom::PodTip vek{1, 1, 0};
+        geom::Vektor vek{1, 1, 0};
 
-        geom::PodTip vek1{1, 1, 1, 1};
+        geom::Vektor vek1{1, 1, 1, 1};
 
         WHEN("L-value"){
             CHECK_THROWS_AS(geom::tacka(mat), geom::Exc);
@@ -96,14 +96,14 @@ SCENARIO("Moguce je konstruisati tacke", "[ctor]"){
         }
 
         WHEN("R-value"){
-            CHECK_THROWS_AS(geom::tacka(geom::Tip{{1, 1, 1},
-                                                  {1, 1, 1},
-                                                  {0, 0, 0}}),
+            CHECK_THROWS_AS(geom::tacka(geom::Matrica{{1, 1, 1},
+                                                     {1, 1, 1},
+                                                     {0, 0, 0}}),
                             geom::Exc);
-            CHECK_THROWS_AS(geom::tacka(geom::PodTip{1, 1, 0}),
+            CHECK_THROWS_AS(geom::tacka(geom::Vektor{1, 1, 0}),
                             geom::Exc);
             CHECK_THROWS_AS(geom::tacka(1, 1, 0), geom::Exc);
-            REQUIRE_THROWS_AS(geom::tacka(geom::PodTip{1, 1, 1, 1}),
+            REQUIRE_THROWS_AS(geom::tacka(geom::Vektor{1, 1, 1, 1}),
                               geom::Exc);
         }
 
@@ -157,10 +157,10 @@ SCENARIO("Moguce je dodeljivati tacke", "[dodela]"){
     }
 
     GIVEN("Korektan vektor ili matrica"){
-        geom::Tip mat{{1, 1, 1}};
-        geom::Tip mat1{{1, 1}};
-        geom::PodTip vek{1, 1, 1};
-        geom::PodTip vek1{1, 1};
+        geom::Matrica mat{{1, 1, 1}};
+        geom::Matrica mat1{{1, 1}};
+        geom::Vektor vek{1, 1, 1};
+        geom::Vektor vek1{1, 1};
 
         geom::tacka t;
 
@@ -179,8 +179,8 @@ SCENARIO("Moguce je dodeljivati tacke", "[dodela]"){
             REQUIRE_NOTHROW(t = std::move(mat1));
             CHECK(mat1[0].empty());
 
-            CHECK_NOTHROW(t = geom::Tip{{1, 1, 1}});
-            REQUIRE_NOTHROW(t = geom::Tip{{1, 1}});
+            CHECK_NOTHROW(t = geom::Matrica{{1, 1, 1}});
+            REQUIRE_NOTHROW(t = geom::Matrica{{1, 1}});
         }
 
         WHEN("Dodeljuje se vektor"){
@@ -198,21 +198,21 @@ SCENARIO("Moguce je dodeljivati tacke", "[dodela]"){
             REQUIRE_NOTHROW(t = std::move(vek1));
             CHECK(vek1.empty());
 
-            CHECK_NOTHROW(t = geom::PodTip{1, 1, 1});
-            REQUIRE_NOTHROW(t = geom::PodTip{1, 1});
+            CHECK_NOTHROW(t = geom::Vektor{1, 1, 1});
+            REQUIRE_NOTHROW(t = geom::Vektor{1, 1});
         }
     }
 
     GIVEN("Nekorektni vektori ili matrice"){
-        geom::Tip a{{1, 0, 1},
-                    {1, 0, 1},
-                    {1, 0, 1}};
+        geom::Matrica a{{1, 0, 1},
+                        {1, 0, 1},
+                        {1, 0, 1}};
 
-        geom::Tip b{{1, 0, 0}};
-        geom::Tip c{{1, 0, 1, 1}};
+        geom::Matrica b{{1, 0, 0}};
+        geom::Matrica c{{1, 0, 1, 1}};
 
-        geom::PodTip d{1, 0, 0};
-        geom::PodTip e{1, 0, 1, 1};
+        geom::Vektor d{1, 0, 0};
+        geom::Vektor e{1, 0, 1, 1};
 
         geom::tacka t;
 
@@ -334,10 +334,10 @@ SCENARIO("Moguce je upisati tacku sa ulaznog toka", "[ulaz]"){
 
         WHEN("Upisuje se sa ispravnog toka"){
             REQUIRE(static_cast<bool>(s1 >> t));
-            CHECK(t.mat() == geom::PodTip{1, 2, 1});
+            CHECK(t.mat() == geom::Vektor{1, 2, 1});
 
             REQUIRE(static_cast<bool>(s2 >> t));
-            REQUIRE(t.mat() == geom::PodTip{1./3, 2./3, 1});
+            REQUIRE(t.mat() == geom::Vektor{1./3, 2./3, 1});
         }
 
         WHEN("Upisuje se sa neispravnog toka"){
@@ -353,13 +353,13 @@ SCENARIO("Moguce je upisati tacku preko citaca", "[izlaz]"){
 
         WHEN("Sve je u redu"){
             REQUIRE_NOTHROW(t << 1);
-            CHECK(t.mat() == geom::PodTip{1, 0, 1});
+            CHECK(t.mat() == geom::Vektor{1, 0, 1});
 
             REQUIRE_NOTHROW(t << 1, 2);
-            CHECK(t.mat() == geom::PodTip{1, 2, 1});
+            CHECK(t.mat() == geom::Vektor{1, 2, 1});
 
             REQUIRE_NOTHROW(t << 1, 2, 3);
-            REQUIRE(t.mat() == geom::PodTip{1./3, 2./3, 1});
+            REQUIRE(t.mat() == geom::Vektor{1./3, 2./3, 1});
         }
 
         WHEN("Ulaz nije korektan"){

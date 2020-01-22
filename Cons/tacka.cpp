@@ -16,12 +16,12 @@ tacka::tacka()
 {}
 
 // Konstruktor od dve vrednosti
-tacka::tacka(Elem x, Elem y)
+tacka::tacka(Element x, Element y)
     : _mat({x, y, 1})
 {}
 
 // Konstruktor od tri vrednosti
-tacka::tacka(Elem x, Elem y, Elem z)
+tacka::tacka(Element x, Element y, Element z)
     : _mat({x, y, z})
 {
     // Provera korektnosti tacke
@@ -29,7 +29,7 @@ tacka::tacka(Elem x, Elem y, Elem z)
 }
 
 // Konstruktor od matrice kao l-vrednost
-tacka::tacka(const Tip& v)
+tacka::tacka(const Matrica& v)
     : _mat(v[0])
 {
     // Provera korektnosti matrice
@@ -40,7 +40,7 @@ tacka::tacka(const Tip& v)
 }
 
 // Konstruktor od matrice kao r-vrednost
-tacka::tacka(Tip&& v)
+tacka::tacka(Matrica&& v)
     : _mat(std::move(v[0]))
 {
     // Provera korektnosti matrice
@@ -51,7 +51,7 @@ tacka::tacka(Tip&& v)
 }
 
 // Konstruktor od vektora kao l-vrednost
-tacka::tacka(const PodTip& v)
+tacka::tacka(const Vektor& v)
     : _mat(v)
 {
     // Provera korektnosti tacke
@@ -59,7 +59,7 @@ tacka::tacka(const PodTip& v)
 }
 
 // Konstruktor od vektora kao r-vrednost
-tacka::tacka(PodTip&& v)
+tacka::tacka(Vektor&& v)
     : _mat(std::move(v))
 {
     // Provera korektnosti tacke
@@ -67,43 +67,43 @@ tacka::tacka(PodTip&& v)
 }
 
 // Dohvatac (getter) za matricu
-const PodTip& tacka::mat() const
+const Vektor& tacka::mat() const
 {
     return _mat;
 }
 
 // Dohvatac (getter) za velicinu
-Vel tacka::size() const
+Velicina tacka::size() const
 {
     return _size;
 }
 
 // Dohvatac (getter) za toleranciju
-Elem tacka::tol() const
+Element tacka::tol() const
 {
     return _tol;
 }
 
 // Kolekcijski metod za pocetak matrice
-PodIter tacka::begin() const noexcept
+auto tacka::begin() const noexcept
 {
     return std::begin(_mat);
 }
 
 // Kolekcijski metod za const pocetak matrice
-PodIter tacka::cbegin() const noexcept
+auto tacka::cbegin() const noexcept
 {
     return std::cbegin(_mat);
 }
 
 // Kolekcijski metod za kraj matrice
-PodIter tacka::end() const noexcept
+auto tacka::end() const noexcept
 {
     return std::end(_mat);
 }
 
 // Kolekcijski metod za const kraj matrice
-PodIter tacka::cend() const noexcept
+auto tacka::cend() const noexcept
 {
     return std::cend(_mat);
 }
@@ -136,7 +136,7 @@ std::string tacka::str() const
     std::copy(std::cbegin(_mat),
               std::cend(_mat)-1,
               // Iterator izlaznog toka sa separatorom
-              std::ostream_iterator<Elem>(niska, ", "));
+              std::ostream_iterator<Element>(niska, ", "));
 
     // Kopiranje krajnje vrednosti na izlazni tok
     niska << _mat[_size-1];
@@ -165,7 +165,7 @@ tacka tacka::operator+(const tacka& dr) const
 {
     tacka t;
 
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         t._mat[i] = _mat[i] + dr._mat[i];
     }
 
@@ -181,7 +181,7 @@ tacka tacka::operator+(const double broj) const
 // Operator sabiranja sa dodelom
 tacka& tacka::operator+=(const tacka& dr)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] += dr._mat[i];
     }
 
@@ -191,7 +191,7 @@ tacka& tacka::operator+=(const tacka& dr)
 // Sabiranje sa numerickom vrednoscu sa dodelom
 tacka& tacka::operator+=(const double broj)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] += broj;
     }
 
@@ -203,7 +203,7 @@ tacka tacka::operator-() const
 {
     tacka t;
 
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         t._mat[i] = -_mat[i];
     }
 
@@ -215,7 +215,7 @@ tacka tacka::operator-(const tacka& dr) const
 {
     tacka t;
 
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         t._mat[i] = _mat[i] - dr._mat[i];
     }
 
@@ -231,7 +231,7 @@ tacka tacka::operator-(const double broj) const
 // Operator oduzimanja sa dodelom
 tacka& tacka::operator-=(const tacka& dr)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] -= dr._mat[i];
     }
 
@@ -241,7 +241,7 @@ tacka& tacka::operator-=(const tacka& dr)
 // Oduzimanje numericke vrednosti sa dodelom
 tacka& tacka::operator-=(const double broj)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] -= broj;
     }
 
@@ -257,7 +257,7 @@ tacka tacka::operator*(const double broj) const
 // Mnozenje numerickom vrednoscu sa dodelom
 tacka& tacka::operator*=(const double broj)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] *= broj;
     }
 
@@ -273,7 +273,7 @@ tacka tacka::operator/(const double broj) const
 // Deljenje numerickom vrednoscu sa dodelom
 tacka& tacka::operator/=(const double broj)
 {
-    for (Vel i = 0; i < _size-1; i++){
+    for (Velicina i = 0; i < _size-1; i++){
         _mat[i] /= broj;
     }
 
@@ -298,7 +298,7 @@ bool tacka::operator<(const tacka& dr) const
     //return _mat < dr._mat;
 
     // Pocetni, nulti indeks
-    Vel i = 0;
+    Velicina i = 0;
 
     // Kretanje kroz svaku koordinatu
     // dokle god su jednaki parovi
@@ -314,7 +314,7 @@ bool tacka::operator<(const tacka& dr) const
 }
 
 // Operator dodele l-matrice
-tacka& tacka::operator=(const Tip& v)
+tacka& tacka::operator=(const Matrica& v)
 {
     _mat = v[0];
 
@@ -328,7 +328,7 @@ tacka& tacka::operator=(const Tip& v)
 }
 
 // Operator dodele d-matrice
-tacka& tacka::operator=(Tip&& v)
+tacka& tacka::operator=(Matrica&& v)
 {
     _mat = std::move(v[0]);
 
@@ -342,7 +342,7 @@ tacka& tacka::operator=(Tip&& v)
 }
 
 // Operator dodele l-vektora
-tacka& tacka::operator=(const PodTip& v)
+tacka& tacka::operator=(const Vektor& v)
 {
     _mat = v;
 
@@ -353,7 +353,7 @@ tacka& tacka::operator=(const PodTip& v)
 }
 
 // Operator dodele d-vektora
-tacka& tacka::operator=(PodTip&& v)
+tacka& tacka::operator=(Vektor&& v)
 {
     _mat = std::move(v);
 
@@ -368,19 +368,19 @@ tacka& tacka::operator=(PodTip&& v)
 // briga o validnosti indeksa prepusta se
 // vektoru, koji se nalazi ispod omotaca;
 // menjanje nije dozovoljeno (const)
-const Elem& tacka::operator[](const Vel i) const
+const Element& tacka::operator[](const Velicina i) const
 {
     return _mat.at(i);
 }
 
 // Struktura koja sluzi za citanje
 // toka razdvojenog zapetama
-tacka::Citac::Citac(tacka& t, Vel i)
+tacka::Citac::Citac(tacka& t, Velicina i)
     : t(t), i(i)
 {}
 
 // Upisivanje brojeva po zapeti
-tacka::Citac tacka::Citac::operator,(const Elem x) const
+tacka::Citac tacka::Citac::operator,(const Element x) const
 {
     // Provera indeksa
     if (i >= t._size){
@@ -401,7 +401,7 @@ tacka::Citac tacka::Citac::operator,(const Elem x) const
 }
 
 // Pocetni upis
-tacka::Citac tacka::operator<<(const Elem x)
+tacka::Citac tacka::operator<<(const Element x)
 {
     // Upis broja
     _mat[0] = x;
@@ -444,7 +444,7 @@ void tacka::proveri()
 }
 
 // Provera korektnosti matrice
-void tacka::proverim(const Tip& v)
+void tacka::proverim(const Matrica& v)
 {
     // Mora biti oblika 1x3
     if (std::size(v) != 1){
@@ -463,7 +463,7 @@ std::ostream& operator<<(std::ostream& out, const tacka& t)
 std::istream& operator>>(std::istream& in, tacka& t)
 {
     // Kopiranje vrednosti sa ulaza
-    std::copy_n(std::istream_iterator<Elem>(in),
+    std::copy_n(std::istream_iterator<Element>(in),
                 t._size-1,
                 std::begin(t._mat));
 
@@ -490,11 +490,11 @@ tacka operator*(const geom& g, const tacka& t)
     const auto vel = std::size(t);
 
     // Nula-vektor kao inicijalni rezultat
-    auto rez = PodTip(vel, 0);
+    auto rez = Vektor(vel, 0);
 
     // Klasicno mnozenje u dvostrukoj petlji
-    for (Vel i = 0; i < vel; i++){
-        for (Vel j = 0; j < vel; j++){
+    for (Velicina i = 0; i < vel; i++){
+        for (Velicina j = 0; j < vel; j++){
             rez[i] += g[i][j] * t[j];
         }
     }

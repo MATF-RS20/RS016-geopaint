@@ -94,14 +94,14 @@ void geom_graphics_view::nacrtaj_tacku()
     crtanje::ctacka* nova_tacka = new crtanje::ctacka();
     nova_tacka->setPos(0, 0);
     scene()->addItem(nova_tacka);
-    sve_tacke.push_back(geom::PodTip (0,0));
+    sve_tacke.push_back(geom::Vektor{0, 0});
 }
 
 void geom_graphics_view::nacrtaj_tacku(const geom::tacka& t) {
     crtanje::ctacka* nova_tacka = new crtanje::ctacka(t);
     nova_tacka->setPos(t[0], t[1]);
     scene()->addItem(nova_tacka);
-    sve_tacke.push_back(geom::PodTip (0,0));
+    sve_tacke.push_back(geom::Vektor{t[0], t[1]});
 }
 
 void geom_graphics_view::nacrtaj_liniju (const geom::tacka& pocetak, const geom::tacka& kraj) {

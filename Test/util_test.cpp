@@ -12,7 +12,7 @@ SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
                                          {2, 1},
                                          {2, 2}};
 
-        for (geom::Vel i = 0; i < std::size(v); i++){
+        for (geom::Velicina i = 0; i < std::size(v); i++){
             DYNAMIC_SECTION("Iteracija: " << i){
                 CHECK(v[i] == v[i]);
                 CHECK(v[i] <= v[i]);
@@ -24,7 +24,7 @@ SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
             }
         }
 
-        for (geom::Vel i = std::size(v)-1; i > 1; i--){
+        for (geom::Velicina i = std::size(v)-1; i > 1; i--){
             DYNAMIC_SECTION("Iteracija: " << i){
                 CHECK(v[i] != v[i-1]);
                 CHECK(v[i] > v[i-1]);
@@ -48,13 +48,13 @@ SCENARIO("Moguce je naslediti potpuno uredjenje", "[total]"){
 
 SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
     GIVEN("Popunjene kolekcije"){
-        using Tip = std::vector<std::vector<std::vector<double>>>;
+        using Matrica = std::vector<std::vector<std::vector<double>>>;
 
-        const Tip a{{{1, 2}, {3, 4}},
-                    {{5, 6}, {7, 8}}};
+        const Matrica a{{{1, 2}, {3, 4}},
+                        {{5, 6}, {7, 8}}};
 
-        const Tip b{{{1, 2}, {3, 4}},
-                    {{5, 6}, {7, 8}}};
+        const Matrica b{{{1, 2}, {3, 4}},
+                        {{5, 6}, {7, 8}}};
 
         WHEN("Iste su"){
             CHECK(util::jednakost(a, a));
@@ -62,8 +62,8 @@ SCENARIO("Moguce je porediti kolekcije sa vise nivoa", "[jednakost]"){
             REQUIRE(util::jednakost(b, b));
         }
 
-        const Tip c{{{1, 2}, {3, 4}},
-                    {{5, 6}, {7, 8.000001}}};
+        const Matrica c{{{1, 2}, {3, 4}},
+                        {{5, 6}, {7, 8.000001}}};
 
         WHEN("Samo mala razlika"){
             CHECK_FALSE(util::jednakost(a, c));
@@ -160,19 +160,19 @@ SCENARIO("Moguce je mnoziti matrice", "[mult]"){
     }
 
     GIVEN("Spremni vektori"){
-        using Tip = std::vector<std::vector<double>>;
+        using Matrica = std::vector<std::vector<double>>;
 
-        Tip a{{1, 0, 0, 0},
-              {0, 1, 0, 0},
-              {0, 0, 1, 0},
-              {0, 0, 0, 1}};
+        Matrica a{{1, 0, 0, 0},
+                  {0, 1, 0, 0},
+                  {0, 0, 1, 0},
+                  {0, 0, 0, 1}};
 
         CHECK(util::jednakost(util::mult(a, a), a, tol));
 
-        Tip b{{1, 0, 0, 1},
-              {0, 1, 0, 0},
-              {0, 0, 1, -1},
-              {0, 0, 0, 1}};
+        Matrica b{{1, 0, 0, 1},
+                  {0, 1, 0, 0},
+                  {0, 0, 1, -1},
+                  {0, 0, 0, 1}};
 
         CHECK(util::jednakost(util::mult(a, b), b, tol));
         CHECK(util::jednakost(util::mult(b, a), b, tol));
@@ -251,21 +251,21 @@ SCENARIO("Moguce je primenjivati binarne operacije na tacke", "[primeni]"){
 
         // Testiranje se jos jednom pokazalo kao
         // vazno, jer ovo isprva nije radilo
-        t = geom::PodTip{1, 2};
+        t = geom::Vektor{1, 2};
 
         CHECK(2-t == geom::tacka{1, 0});
         CHECK(t-2 == geom::tacka{-1, 0});
         CHECK((t-=2) == geom::tacka{-1, 0});
         CHECK(t == geom::tacka{-1, 0});
 
-        t = geom::PodTip{1, 2};
+        t = geom::Vektor{1, 2};
 
         CHECK(2*t == geom::tacka{2, 4});
         CHECK(t*2 == geom::tacka{2, 4});
         CHECK((t*=2) == geom::tacka{2, 4});
         CHECK(t == geom::tacka{2, 4});
 
-        t = geom::PodTip{1, 2};
+        t = geom::Vektor{1, 2};
 
         CHECK(2/t == geom::tacka{2, 1});
         CHECK(t/2 == geom::tacka{0.5, 1});

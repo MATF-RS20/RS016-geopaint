@@ -5,12 +5,12 @@
 #include <QPointF>
 
 // Element graficke scene koji nam predstavlja primitivu (duz)
-crtanje::clinija::clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
-                 const geom::Elem x_kraj,    const geom::Elem y_kraj)
+crtanje::clinija::clinija(const geom::Element x_pocetak, const geom::Element y_pocetak,
+                 const geom::Element x_kraj,    const geom::Element y_kraj)
     : pocetak(geom::tacka(x_pocetak, y_pocetak)) , kraj(geom::tacka(x_kraj, y_kraj)), boja(PODRAZUMEVANA_BOJA) {this->setZValue(10);};
 
-crtanje::clinija::clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
-                 const geom::Elem x_kraj,    const geom::Elem y_kraj, QColor boja_)
+crtanje::clinija::clinija(const geom::Element x_pocetak, const geom::Element y_pocetak,
+                 const geom::Element x_kraj,    const geom::Element y_kraj, QColor boja_)
 
  : pocetak(geom::tacka(x_pocetak, y_pocetak)) , kraj(geom::tacka(x_kraj, y_kraj)), boja(boja_) {this->setZValue(10);};
 

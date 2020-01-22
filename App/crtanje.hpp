@@ -18,7 +18,7 @@ class ctacka : public QGraphicsItem
 public:
     ctacka();
     ctacka(const geom::tacka& t);
-    ctacka(const geom::Elem x, const geom::Elem y);
+    ctacka(const geom::Element x, const geom::Element y);
 
     /***** OVO SAMO AKO BAS BUDE VREMENA! *****
      crtanje::ctacka::ctacka(const geom::tacka& , QColor );
@@ -44,11 +44,11 @@ private:
 class clinija : public QGraphicsItem
 {
 public:
-    clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
-            const geom::Elem x_kraj,    const geom::Elem y_kraj);
+    clinija(const geom::Element x_pocetak, const geom::Element y_pocetak,
+            const geom::Element x_kraj,    const geom::Element y_kraj);
 
-    clinija(const geom::Elem x_pocetak, const geom::Elem y_pocetak,
-                const geom::Elem x_kraj,    const geom::Elem y_kraj, QColor boja_);
+    clinija(const geom::Element x_pocetak, const geom::Element y_pocetak,
+                const geom::Element x_kraj,    const geom::Element y_kraj, QColor boja_);
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 

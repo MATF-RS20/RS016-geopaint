@@ -5,7 +5,7 @@
 namespace geom{
 
 // Dohvatac za tacke
-const OTip& oblik::tacke() const
+const NizTacaka& oblik::tacke() const
 {
     return _tacke;
 }
@@ -25,22 +25,22 @@ void oblik::transformisi(const geom& g)
 }
 
 // Konstruktor od l-vektora
-oblik::oblik(const OTip& t)
+oblik::oblik(const NizTacaka& t)
     : _tacke(t)
 {}
 
 // Konstruktor od r-vektora
-oblik::oblik(OTip&& t)
+oblik::oblik(NizTacaka&& t)
     : _tacke(std::move(t))
 {}
 
 // Konstruktor od l-vektora
-poly::poly(const OTip& t)
+poly::poly(const NizTacaka& t)
     : oblik(t)
 {}
 
 // Konstruktor od r-vektora
-poly::poly(OTip&& t)
+poly::poly(NizTacaka&& t)
     : oblik(std::move(t))
 {}
 
@@ -87,7 +87,7 @@ void poly::omot()
 }
 
 // Konstruktor sa centrom i velicinama
-ppoly::ppoly(const tacka& t, const Vel i, const Elem x)
+ppoly::ppoly(const tacka& t, const Velicina i, const Element x)
 {
     // Konstanta pi kao arkuskosinus od -1
     const auto pi = acos(-1);
@@ -112,7 +112,7 @@ ppoly::ppoly(const tacka& t, const Vel i, const Elem x)
 }
 
 // Konstruktor sa centrom i poluprecnicima
-elipsa::elipsa(const tacka& t, const Elem e1, const Elem e2)
+elipsa::elipsa(const tacka& t, const Element e1, const Element e2)
 {
     // Dodavanje centra
     _tacke.push_back(t);
@@ -134,7 +134,7 @@ elipsa::elipsa(const tacka& t1, const tacka& t2, const tacka& t3)
 
 
 // Konstruktor sa centrom i poluprecnikom
-krug::krug(const tacka& t, const Elem e)
+krug::krug(const tacka& t, const Element e)
 {
     // Dodavanje centra
     _tacke.push_back(t);
