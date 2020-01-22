@@ -13,11 +13,15 @@ const OTip& oblik::tacke() const
 // Transformacija oblika
 void oblik::transformisi(const geom& g)
 {
-    std::for_each(std::begin(_tacke),
+    /*std::for_each(std::begin(_tacke),
                   std::end(_tacke),
                   std::bind(&tacka::primeni,
                             std::placeholders::_1,
-                            g));
+                            g));*/
+
+    for (auto& tacka : _tacke){
+        tacka.primeni(g);
+    }
 }
 
 // Konstruktor od l-vektora
