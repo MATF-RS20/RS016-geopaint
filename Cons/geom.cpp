@@ -27,6 +27,13 @@ inline const char* Exc::what() const noexcept
     return poruka.c_str();
 }
 
+// Konstruktor bez argumenata
+geom::geom()
+    : _mat({{1, 0, 0},
+            {0, 1, 0},
+            {0, 0, 1}})
+{}
+
 // Konstruktor od vektora kao l-vrednosti
 geom::geom(const Tip& v)
     : _mat(v)

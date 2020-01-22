@@ -52,10 +52,8 @@ class tacka;
 class geom
 {
 public:
-    // Konstruktor bez argumenata; ne
-    // radi nista jer je podrazumevana
-    // vrednost postavljenja u polju
-    geom() = default;
+    // Konstruktor bez argumenata
+    geom();
 
     // Destruktor; ne radi nista jer
     // klasa nema dinamickih objekata
@@ -173,9 +171,7 @@ protected:
     // homogenom 3x3 matricom, a podrazumevano
     // je u pitanju jedinicna transformacija;
     // nije const zbog pomeranja (move)
-    Tip _mat{{1, 0, 0},
-             {0, 1, 0},
-             {0, 0, 1}};
+    Tip _mat;
 
     // Matrica preslikavanja ravni fiksno
     // je velicine 3, ali slicno nije const
@@ -225,10 +221,8 @@ geom operator*(const double, const geom&);
 class tacka : public util::total_order<tacka>
 {
 public:
-    // Konstruktor bez argumenata; ne
-    // radi nista jer je podrazumevana
-    // vrednost postavljenja u polju
-    tacka() = default;
+    // Konstruktor bez argumenata
+    tacka();
 
     // Destruktor; ne radi nista jer
     // klasa nema dinamickih objekata
@@ -371,7 +365,7 @@ private:
     // vektorom duzine tri, a podrazumevano je
     // u pitanju koordinatni pocetak; nije const
     // zbog mogucnosti pomeranja (move)
-    PodTip _mat{0, 0, 1};
+    PodTip _mat;
 
     // Vektor je fiksne velicine,
     // ali slicno nije const

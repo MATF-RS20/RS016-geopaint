@@ -10,6 +10,11 @@
 namespace geom
 {
 
+// Konstruktor bez argumenata
+tacka::tacka()
+    : _mat({0, 0, 1})
+{}
+
 // Konstruktor od dve vrednosti
 tacka::tacka(Elem x, Elem y)
     : _mat({x, y, 1})
