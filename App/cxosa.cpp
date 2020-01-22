@@ -9,15 +9,10 @@
 // Implementiran je koriscenjem principa UNIKAT obrasca
 // za projektovanje (eng. SINGLETON), jer nema smisla da
 // imamo vise primeraka x-ose.
-crtanje::cxosa* crtanje::cxosa::osa_ = nullptr;
-
 crtanje::cxosa* crtanje::cxosa::osa(){
-    if (osa_ == nullptr){
-        osa_ = new cxosa();
-        osa_->setZValue(50);
-    }
-
-    return osa_;
+    static cxosa* osa = new cxosa();
+    osa->setZValue(-10);
+    return osa;
 }
 
 void crtanje::cxosa::paint(QPainter* painter, const QStyleOptionGraphicsItem*  option, QWidget* widget) {

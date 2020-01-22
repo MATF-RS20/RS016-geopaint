@@ -9,17 +9,12 @@
 // Implementiran je koriscenjem principa UNIKAT obrasca
 // za projektovanje (eng. SINGLETON), jer nema smisla da
 // imamo vise primeraka y-ose.
-crtanje::cyosa* crtanje::cyosa::osa_ = nullptr;
-
 crtanje::cyosa* crtanje::cyosa::osa(){
-    if (osa_ == nullptr){
-        osa_ = new cyosa();
-        osa_->setZValue(50);
-    }
-
-    return osa_;
+    static cyosa* osa = new cyosa();
+    osa->setZValue(-10);
+    return osa;
 }
-//FIXME
+
 void crtanje::cyosa::paint(QPainter* painter, const QStyleOptionGraphicsItem*  option, QWidget* widget) {
     Q_UNUSED(option)
     Q_UNUSED(widget)

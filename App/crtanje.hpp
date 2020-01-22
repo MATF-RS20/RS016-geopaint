@@ -11,8 +11,8 @@
 #include "../Cons/oblik.hpp"
 #include "geom_graphics_view.hpp"
 
+// Imenski prostor za crtacke klase
 namespace crtanje {
-
 
 // Graficki objekat na sceni koji ce nam predstavljati tacku.
 class ctacka : public QGraphicsItem
@@ -72,12 +72,15 @@ private:
                       X_BOUND_GRAPHIC_SCENE + WIDTH_GRAPHIC_SCENE, 0) {}
 
     ~cxosa() override = default;
-    static cxosa* osa_;
+
+    cxosa(const cxosa&) = delete;
+    cxosa& operator=(const cxosa&) = delete;
+    cxosa(cxosa&&) noexcept = delete;
+    cxosa& operator=(cxosa&&) noexcept = delete;
 
 public:
     static cxosa* osa();
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) override;
-
 };
 
 class cyosa : public clinija {
@@ -86,12 +89,15 @@ private:
                       0, Y_BOUND_GRAPHIC_SCENE + HEIGHT_GRAPHIC_SCENE) {}
 
     ~cyosa() override = default;
-    static cyosa* osa_;
+
+    cyosa(const cyosa&) = delete;
+    cyosa& operator=(const cyosa&) = delete;
+    cyosa(cyosa&&) noexcept = delete;
+    cyosa& operator=(cyosa&&) noexcept = delete;
 
 public:
     static cyosa* osa();
     void paint(QPainter* , const QStyleOptionGraphicsItem* , QWidget* ) override;
-
 };
 
 /***** OBLICI *****/
@@ -138,5 +144,7 @@ public:
 
     geom::krug odgovarajuci_krug;
 };
+
 }
+
 #endif // CRTANJE_H
