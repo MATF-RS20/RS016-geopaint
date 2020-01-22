@@ -6,6 +6,11 @@
 #include "geom_graphics_view.hpp"
 #include "crtanje.hpp"
 
+#include <QDir>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -180,4 +185,138 @@ void MainWindow::on_pb_primeni_transformacije_clicked()
             }
         }
     }
+}
+
+void MainWindow::on_actionO_isti_ekran_triggered()
+{
+    on_pb_ocisti_ekran_clicked();
+}
+
+void MainWindow::on_actionU_itaj_scenu_triggered()
+{
+    QString ime = QFileDialog::getOpenFileName(this,
+                                               tr("Učitajte scenu"), "",
+                                               tr("tekstualni fajl (*.txt)"));
+
+    if (ime.isEmpty()) {
+        return;
+    }
+
+    QFile file(ime);
+    if (!file.open(QIODevice::ReadOnly)){
+        QMessageBox::information(this, tr("Nije moguće otvoriti fajl!"),
+                                       file.errorString());
+        return;
+    }
+
+    on_pb_ocisti_ekran_clicked();
+
+    QTextStream in(&file);
+
+    // Deserijalizacija svakog elementa
+    while (!in.atEnd()) {
+        QString linija = in.readLine();
+        QStringList tip_tacke = linija.split(":");
+
+        auto tip = tip_tacke.front();
+        auto tacke = tip_tacke.back().split(";");
+
+        geom::NizTacaka niz;
+        for (auto& tacka: tacke){
+            tacka.remove("[");
+            tacka.remove(", 1.00]");
+
+            auto koordinate = tacka.split(", ");
+            auto x = koordinate[0].toDouble();
+            auto y = koordinate[1].toDouble();
+            niz.emplace_back(x, y);
+        }
+
+        if (tip == "poligon"){
+            auto poligon = geom::poly(niz);
+            poligon.zatvori();
+            ui->graphicsView->nacrtaj_poligon(poligon);
+        } else if (tip == "elipsa"){
+            auto elipsa = geom::elipsa(niz[0], niz[1], niz[2]);
+            ui->graphicsView->nacrtaj_elipsu(elipsa);
+        } else if (tip == "krug"){
+            auto krug = geom::krug(niz[0], niz[1]);
+            ui->graphicsView->nacrtaj_krug(krug);
+        } else {
+            QMessageBox::information(this, tr("Greška!"),
+                                           tr("Nije moguće parsirati fajl!"));
+            return;
+        }
+    }
+}
+
+void MainWindow::on_actionSa_uvaj_scenu_triggered()
+{
+    QString ime = QFileDialog::getSaveFileName(this,
+                                               tr("Sačuvajte scenu"), "",
+                                               tr("tekstualni fajl (*.txt)"));
+
+    if (ime.isEmpty()) {
+        return;
+    }
+
+    QFile file(ime);
+    if (!file.open(QIODevice::WriteOnly)){
+        QMessageBox::information(this, tr("Nije moguće otvoriti fajl!"),
+                                       file.errorString());
+        return;
+    }
+
+    QTextStream out(&file);
+
+    // Serijalizacija svakog elementa
+    for (auto item : ui->graphicsView->scene()->items()) {
+        auto poligon = dynamic_cast<crtanje::cpoligon*>(item);
+        auto elipsa = dynamic_cast<crtanje::celipsa*>(item);
+        auto krug = dynamic_cast<crtanje::ckrug*>(item);
+
+        geom::oblik* o;
+
+        if (poligon != nullptr){
+            out << "poligon:";
+            o = &poligon->odgovarajuci_poligon;
+        } else if (elipsa != nullptr){
+            out << "elipsa:";
+            o = &elipsa->odgovarajuca_elipsa;
+        } else if (krug != nullptr) {
+            out << "krug:";
+            o = &krug->odgovarajuci_krug;
+        } else {
+            continue;
+        }
+
+        auto vel = std::size(o->tacke());
+        for (geom::Velicina i = 0; i < vel; i++){
+            out << QString::fromStdString(o->tacke()[i].str());
+            if (i == vel-1){
+                out << "\n";
+            } else {
+                out << ";";
+            }
+        }
+    }
+}
+
+void MainWindow::on_actionO_programu_triggered()
+{
+    QMessageBox::information(this, tr("O programu"),
+                             tr("Projekat na kursu Razvoj softvera – program za crtanje oblika"
+                                " u dvodimenzionom koordinatnom sistemu i vizuelizaciju geometrijskih"
+                                " transformacija. Korisnik pomoću elemenata grafičkog korisničkog"
+                                " interfejsa zadaje oblike u ravni, nad kojima zatim vrši proizvoljne"
+                                " afine transformacije nad njima.\n\n"
+                                "Autori (tim MATFija):\n"
+                                "Milena Stojić, 96/2016\n"
+                                "Lazar Vasović, 99/2016\n"
+                                "Matematički fakultet, 2020"));
+}
+
+void MainWindow::on_actionNapusti_program_triggered()
+{
+    close();
 }

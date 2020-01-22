@@ -31,6 +31,16 @@ private slots:
 
     void on_pb_primeni_transformacije_clicked();
 
+    void on_actionO_isti_ekran_triggered();
+
+    void on_actionU_itaj_scenu_triggered();
+
+    void on_actionSa_uvaj_scenu_triggered();
+
+    void on_actionO_programu_triggered();
+
+    void on_actionNapusti_program_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
