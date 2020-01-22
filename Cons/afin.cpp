@@ -115,20 +115,20 @@ smic::smic(const tacka& t1, const tacka& t2, const bool inv)
 {}
 
 // Rotacija od ugla sa koordinatama;
-// NAPOMENA: ugao u je u stepenima!!
-rot::rot(double u, const double t1, const double t2, const bool inv)
+// NAPOMENA: ugao u_deg je u stepenima!!
+rot::rot(double u_deg, const double t1, const double t2, const bool inv)
 {
     // Inverzna je aditivni inverz:
     //     |cos(u)  -sin(u)   0|            | cos(u)   sin(u)   0|
     // T = |sin(u)   cos(u)   0|,  inv(T) = |-sin(u)   cos(u)   0|
     //     |  0        0      1|            |   0        0      1|
     if (inv){
-        u = -u;
+        u_deg = -u_deg;
     }
 
     // Koeficijenti rotacije u ravni
-    const auto pom1 = cos(util::deg2rad(u));
-    const auto pom2 = sin(util::deg2rad(u));
+    const auto pom1 = cos(util::deg2rad(u_deg));
+    const auto pom2 = sin(util::deg2rad(u_deg));
 
      // Matrica rotacije u ravni
      _mat = {{pom1, -pom2,  0},
@@ -145,18 +145,17 @@ rot::rot(double u, const tacka& t, const bool inv)
 {}
 
 // Refleksija od ugla sa koordinatama;
-// NAPOMENA: ugao u je u stepenima!!
-refl::refl(double u, const double t1, const double t2, const bool inv)
+// NAPOMENA: ugao u_deg je u stepenima!!
+refl::refl(double u_deg, const double t1, const double t2, const bool)
 {
     // Svaka refleksija je samoj sebi inverzna:
     //     |cos(2u)   sin(2u)   0|
     // T = |sin(2u)  -cos(2u)   0|,  inv(T) = T
     //     |  0         0       1|
-    (void)inv;
 
     // Koeficijenti refleksije u ravni
-    const auto pom1 = cos(util::deg2rad(2*u));
-    const auto pom2 = sin(util::deg2rad(2*u));
+    const auto pom1 = cos(util::deg2rad(2*u_deg));
+    const auto pom2 = sin(util::deg2rad(2*u_deg));
 
     // Matrica refleksije u ravni
     _mat = {{pom1,  pom2,  0},
