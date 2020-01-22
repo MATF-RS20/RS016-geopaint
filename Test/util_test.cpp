@@ -1,6 +1,5 @@
 #include "catch.hpp"
 
-#include "../Cons/geom.hpp"
 #include "../Cons/tacka.hpp"
 
 static const auto tol = 1e-5;

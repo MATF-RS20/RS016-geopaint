@@ -2,7 +2,6 @@
 #include <iterator>
 #include <iomanip>
 
-#include "geom.hpp"
 #include "tacka.hpp"
 
 // Imenski prostor za geometriju;

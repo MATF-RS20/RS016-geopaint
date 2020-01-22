@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "tacka.hpp"
 #include "oblik.hpp"
 
 int main()

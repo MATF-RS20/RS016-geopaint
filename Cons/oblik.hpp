@@ -3,12 +3,10 @@
 
 #include <vector>
 
+#include "tacka.hpp"
+
 // Imenski prostor za geometriju
 namespace geom {
-
-// Neophodne obacavajuce deklaracije
-class geom;
-class tacka;
 
 // Alijas za kolekciju tacaka
 using Matrica = std::vector<std::vector<double>>;

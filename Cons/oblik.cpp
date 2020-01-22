@@ -1,4 +1,3 @@
-#include "tacka.hpp"
 #include "oblik.hpp"
 
 // Imenski prostor za geometriju;

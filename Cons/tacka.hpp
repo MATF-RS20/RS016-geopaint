@@ -1,13 +1,10 @@
 #ifndef TACKA_HPP
 #define TACKA_HPP
 
-#include "util.hpp"
+#include "geom.hpp"
 
 // Imenski prostor za geometriju
 namespace geom {
-
-// Neophodne obacavajuce deklaracije
-class geom;
 
 // Izdvajanje imena tipova,
 // zapravo njihovih alijasa

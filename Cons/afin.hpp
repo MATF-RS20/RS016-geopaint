@@ -1,7 +1,6 @@
 #ifndef AFIN_HPP
 #define AFIN_HPP
 
-#include "geom.hpp"
 #include "tacka.hpp"
 
 // Imenski prostor za geometriju
