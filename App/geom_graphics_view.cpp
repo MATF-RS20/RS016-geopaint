@@ -5,6 +5,9 @@
 #include "../Cons/geom.hpp"
 #include "../Cons/util.hpp"
 
+#include "mainwindow.h"
+#include <sstream>
+
 // geom_graphics_view : Nasa podklasa grafickog pogleda na scenu
 geom_graphics_view::geom_graphics_view(QWidget* parent)
     : QGraphicsView(parent)
@@ -16,8 +19,6 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
                           WIDTH_GRAPHIC_SCENE, HEIGHT_GRAPHIC_SCENE);
 
    setScene(scena);
-
-   setRenderHint(QPainter::Antialiasing);
 
    scale(1, -1);
 
@@ -53,6 +54,40 @@ void geom_graphics_view::drawBackground(QPainter* painter, const QRectF& pozadin
     /*nacrtaj_mrezu();*/
 
 }
+
+void geom_graphics_view::mouseMoveEvent(QMouseEvent* event)
+{
+    QGraphicsView::mouseMoveEvent(event);
+
+    auto sc = mapToScene(event->pos());
+
+    std::ostringstream s;
+    s << "Trenutni položaj miša: (" << sc.rx() << ", " << sc.ry() << ").";
+
+    auto prozor = qobject_cast<MainWindow*>(parentWidget()->parentWidget());
+
+    prozor->posalji_poruku(QString::fromStdString(s.str()));
+}
+
+void geom_graphics_view::wheelEvent(QWheelEvent* event)
+{
+    static auto broj = 0;
+    static const auto faktor = 1.1;
+
+    if (event->delta() > 0){
+        if (broj < 12) {
+            scale(faktor, faktor);
+            broj++;
+        }
+    }
+    else {
+        if (broj > -12){
+            scale(1/faktor, 1/faktor);
+            broj--;
+        }
+    }
+}
+
 
 void geom_graphics_view::nacrtaj_tacku()
 {

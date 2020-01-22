@@ -18,6 +18,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::posalji_poruku(QString s)
+{
+    ui->statusbar->showMessage(s);
+}
+
 // FIXME: NEISPRAVNI ULAZI!!! **********
 void MainWindow::on_pb_poligon_clicked()
 {

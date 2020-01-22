@@ -49,6 +49,9 @@ public:
 
 protected:
     void drawBackground(QPainter *, const QRectF &) override;
+    void mouseMoveEvent(QMouseEvent *) override;
+    void wheelEvent(QWheelEvent *) override;
+
 private:
     std::vector<geom::PodTip> sve_tacke;
     void nacrtaj_mrezu();

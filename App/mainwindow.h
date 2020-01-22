@@ -16,6 +16,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void posalji_poruku(QString);
+
 private slots:
     void on_pb_poligon_clicked();
 
