@@ -27,8 +27,8 @@ public:
     tacka(tacka&&) noexcept = default;
 
     // Konstruktori od brojeva
-    tacka(Element, Element);
-    tacka(Element, Element, Element);
+    tacka(const Element, const Element);
+    tacka(const Element, const Element, const Element);
 
     // Konstruktori od vektora
     tacka(const Matrica&);

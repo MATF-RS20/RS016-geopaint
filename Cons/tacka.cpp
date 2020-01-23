@@ -15,12 +15,12 @@ tacka::tacka()
 {}
 
 // Konstruktor od dve vrednosti
-tacka::tacka(Element x, Element y)
+tacka::tacka(const Element x, const Element y)
     : _mat({x, y, 1})
 {}
 
 // Konstruktor od tri vrednosti
-tacka::tacka(Element x, Element y, Element z)
+tacka::tacka(const Element x, const Element y, const Element z)
     : _mat({x, y, z})
 {
     // Provera korektnosti tacke
