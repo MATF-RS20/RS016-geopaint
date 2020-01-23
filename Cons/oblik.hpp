@@ -8,13 +8,6 @@
 // Imenski prostor za geometriju
 namespace geom {
 
-// Alijas za kolekciju tacaka
-using Matrica = std::vector<std::vector<double>>;
-using Vektor = Matrica::value_type;
-using Element = Vektor::value_type;
-using Velicina = Matrica::size_type;
-using NizTacaka = std::vector<tacka>;
-
 // Maksimalno svedena reprezentacija oblika
 // koje je moguce nacrtati na platnu; mogli
 // bi se implementirati razni metodi po ugledu
@@ -76,7 +69,7 @@ class ppoly : public oblik
 {
 public:
     // Konstruktor sa centrom i velicinama
-    ppoly(const tacka&, const Velicina = 3, const Element = 3);
+    ppoly(const tacka& = {0, 0}, const Velicina = 3, const Element = 3);
 
 };
 
@@ -85,7 +78,7 @@ class elipsa : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnicima
-    elipsa(const tacka&, const Element = 3, const Element = 6);
+    elipsa(const tacka& = {0, 0}, const Element = 3, const Element = 6);
 
     // Konstruktor sa trima glavnim tackama
     elipsa(const tacka&, const tacka&, const tacka&);
@@ -97,7 +90,7 @@ class krug : public oblik
 {
 public:
     // Konstruktor sa centrom i poluprecnikom
-    krug(const tacka&, const Element = 5);
+    krug(const tacka& = {0, 0}, const Element = 5);
 
     // Konstruktor sa dvema glavnim tackama
     krug(const tacka&, const tacka&);

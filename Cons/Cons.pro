@@ -4,15 +4,16 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        afin.cpp \
-        geom.cpp \
-        main.cpp \
-        oblik.cpp \
-        tacka.cpp
+    afin.cpp \
+    geom.cpp \
+    main.cpp \
+    oblik.cpp \
+    tacka.cpp
 
 HEADERS += \
-        afin.hpp \
-        geom.hpp \
-        oblik.hpp \
-        tacka.hpp \
-        util.hpp
+    afin.hpp \
+    alijasi.hpp \
+    geom.hpp \
+    oblik.hpp \
+    tacka.hpp \
+    util.hpp

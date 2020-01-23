@@ -6,9 +6,6 @@
 // Imenski prostor za geometriju
 namespace geom {
 
-// Neophodne obacavajuce deklaracije
-class tacka;
-
 // Translacija u ravni
 class trans : public geom
 {

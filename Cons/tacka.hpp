@@ -6,13 +6,6 @@
 // Imenski prostor za geometriju
 namespace geom {
 
-// Izdvajanje imena tipova,
-// zapravo njihovih alijasa
-using Matrica = std::vector<std::vector<double>>;
-using Vektor = Matrica::value_type;
-using Element = Vektor::value_type;
-using Velicina = Matrica::size_type;
-
 // Tacka afine ravni; dekorisana u smislu
 // da implementira potpuno uredjenje
 class tacka : public util::total_order<tacka>

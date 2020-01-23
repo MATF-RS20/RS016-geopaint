@@ -7,8 +7,7 @@
 // Imenski prostor za geometriju;
 // u ovoj datoteci se nalazi klasa za
 // predstavljanje tacke i povezano
-namespace geom
-{
+namespace geom {
 
 // Konstruktor bez argumenata
 tacka::tacka()

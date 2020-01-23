@@ -36,7 +36,12 @@ HEADERS += \
     crtanje.hpp \
     geom_graphics_view.hpp \
     mainwindow.h \
-    "../Cons/geom.hpp"
+    "../Cons/afin.hpp" \
+    "../Cons/alijasi.hpp" \
+    "../Cons/geom.hpp" \
+    "../Cons/oblik.hpp" \
+    "../Cons/tacka.hpp" \
+    "../Cons/util.hpp"
 
 FORMS += \
     mainwindow.ui

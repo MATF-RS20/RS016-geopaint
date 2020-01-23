@@ -2,7 +2,7 @@
 
 // Imenski prostor za geometriju;
 // u ovoj datoteci su oblici
-namespace geom{
+namespace geom {
 
 // Dohvatac za tacke
 const NizTacaka& oblik::tacke() const

@@ -7,7 +7,7 @@
 // Imenski prostor za geometriju;
 // u ovoj datoteci je osvnovna klasa
 // za preslikavanja kao i izuzetak
-namespace geom{
+namespace geom {
 
 // Konstruktor posebnog izuzetka
 // od C-ovskog niza karaktera

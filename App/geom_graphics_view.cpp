@@ -20,6 +20,7 @@ geom_graphics_view::geom_graphics_view(QWidget* parent)
 
    setScene(scena);
 
+   // Skaliranje kako bi y osa isla nagore
    scale(1, -1);
 
    nacrtaj_koordinatne_ose();
@@ -75,16 +76,13 @@ void geom_graphics_view::wheelEvent(QWheelEvent* event)
     static const auto faktor = 1.1;
 
     if (event->delta() > 0){
-        if (broj < 12) {
+        if (broj < 12){
             scale(faktor, faktor);
             broj++;
         }
-    }
-    else {
-        if (broj > -12){
-            scale(1/faktor, 1/faktor);
-            broj--;
-        }
+    } else if (broj > -12){
+        scale(1/faktor, 1/faktor);
+        broj--;
     }
 }
 

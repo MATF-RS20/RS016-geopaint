@@ -1,21 +1,10 @@
 #ifndef GEOM_HPP
 #define GEOM_HPP
 
-#include <iostream>
-#include <vector>
-
-#include "util.hpp"
+#include "alijasi.hpp"
 
 // Imenski prostor za geometriju
-namespace geom
-{
-
-// Izdvajanje imena tipova,
-// zapravo njihovih alijasa
-using Matrica = std::vector<std::vector<double>>;
-using Vektor = Matrica::value_type;
-using Element = Vektor::value_type;
-using Velicina = Matrica::size_type;
+namespace geom {
 
 // Poseban izuzetak
 class Exc : std::exception

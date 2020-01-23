@@ -3,8 +3,7 @@
 // Imenski prostor za geometriju;
 // u ovoj datoteci su izvedene konkretne
 // afine transformacije i povezano
-namespace geom
-{
+namespace geom {
 
 // Translacija od koordinata
 trans::trans(double x, double y, const bool inv)

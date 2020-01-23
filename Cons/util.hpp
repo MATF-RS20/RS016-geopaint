@@ -1,15 +1,13 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-#include <iostream>
 #include <numeric>
 #include <functional>
 #include <cmath>
 
 // Imenski prostor pomocnih funkcija; namenjem je
 // za implementaciju mahom sablonskih funkcija
-namespace util
-{
+namespace util {
 
 // Struktura koja od == i <, prateci princip potpunog
 // uredjenja (total ordering), implementira preostale
