@@ -54,7 +54,7 @@ protected:
     void wheelEvent(QWheelEvent *) override;
 
 private:
-    geom::Matrica sve_tacke;
+    geom::NizTacaka sve_tacke;
     void nacrtaj_mrezu();
 };
 
