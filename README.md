@@ -11,5 +11,5 @@ Primera radi, ukoliko se želi učitavanje celog projekta, napravljenog pomoću 
 Korišćeni jezik je C++, dok su od biblioteka korišćeni standardni moduli jezika, kao i prikladne Qt biblioteke za [grafičku scenu](https://doc.qt.io/qt-5/qgraphicsscene.html) i ostale delove grafičkog korisničkog interfejsa. Za testove je korišćena header-only biblioteka [Catch2](https://github.com/catchorg/Catch2).
 
 ## Članovi tima :girl::boy:
-* [Milena Stojić](https://github.com/kate-97) – mi16096@alas.matf.bg.ac.rs
-* [Lazar Vasović](https://github.com/matfija) – mi16099@alas.matf.bg.ac.rs
+* [Milena Stojić](https://github.com/kate-97)
+* [Lazar Vasović](https://github.com/matfija)
